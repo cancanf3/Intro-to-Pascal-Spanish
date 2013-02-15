@@ -1,0 +1,355 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>GUÍA DE ESTILO DE PASCAL</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<FONT SIZE=7><P ALIGN="CENTER">Gu&iacute;a de Estilo de PASCAL</Font></P>
+
+<HR>
+
+<Table width=100%>
+<Tr><Td>
+<P ALIGN="LEFT"><IMG SRC="IMGS/Image7.gif" WIDTH=90 HEIGHT=100>
+<B><I>Ingenier&iacute;a Inform&aacute;tica
+</Td><Td>
+<P ALIGN="Right">
+<IMG SRC="IMGS/Image9.gif" WIDTH=175 HEIGHT=16>
+<IMG SRC="IMGS/Image8.gif" WIDTH=101 HEIGHT=100></P>
+</Td></Tr>
+</Table>
+
+</FONT><FONT FACE="Galliard BT"><P ALIGN="Right">
+<B><I>Seminario de Programaci&oacute;n</I><Br>
+Departamento de Inform&aacute;tica</B></P>
+</Font>
+<HR>
+
+<H1 ALIGN="CENTER">GU&Iacute;A DE ESTILO DE PASCAL</H1>
+<I><H2>1. Introducci&oacute;n</H2></I>
+
+<P ALIGN="JUSTIFY">Este documento tiene como finalidad proporcionar un conjunto de reglas que nos ayuden a escribir programas en Pascal con un &quot;buen estilo&quot;. Un c&oacute;digo escrito con buen estilo es aquel que tiene las siguientes propiedades:</P>
+<Ul>
+   <LI>Est&aacute; organizado.
+   <LI>Es f&aacute;cil de leer.
+   <LI>Es f&aacute;cil de mantener.
+   <LI>Es f&aacute;cil detectar errores en &eacute;l.
+   <LI>Es eficiente.
+</UL>
+
+<P ALIGN="JUSTIFY">Hay muchos estilos que cumplen estas caracter&iacute;sticas. En este documento simplemente vamos a dar uno de ellos. Este documento es una versi&oacute;n resumida y adaptada de la gu&iacute;a de estilo para C de Juan Jos&eacute; Moreno Moll (http://bugs/guia/asignatu/EDS/9697/ESTILO/estilo20.html)</P>
+
+<I><H2>2. Lectura y mantenimiento del c&oacute;digo</H2></I>
+<P ALIGN="JUSTIFY">Los principios de esta secci&oacute;n sirven para aumentar la legibilidad del c&oacute;digo y para facilitar su mantenimiento. &Eacute;stos son:</P>
+<Ul>
+   <Li>Organizar programas utilizando t&eacute;cnicas para encapsular y ocultar informaci&oacute;n.
+   <Li>Aumentar la legibilidad usando los espacios y l&iacute;neas en blanco.
+   <Li>A&ntilde;adir comentarios para ayudar a otras personas a entender el programa.
+   <Li>Utilizar identificadores que ayuden a entender el programa.
+</Ul>
+
+<B><H3>2.1. Encapsulaci&oacute;n y ocultaci&oacute;n de informaci&oacute;n</H3></b>
+<P ALIGN="JUSTIFY">La encapsulaci&oacute;n y ocultaci&oacute;n de informaci&oacute;n ayudan a organizar mejor el c&oacute;digo y evitan el acoplamiento entre funciones del c&oacute;digo.</P>
+<P ALIGN="JUSTIFY">La <B>encapsulaci&oacute;n</B> permite agrupar elementos afines del programa. Los subprogramas afines se agrupan en ficheros (unidades), y los datos en grupos l&oacute;gicos (estructuras de datos).</P>
+<B><P ALIGN="JUSTIFY">Ocultaci&oacute;n de informaci&oacute;n</B>: Un subprograma <I>no necesita</I> saber lo siguiente:
+<Ul>
+   <Li>La fuente de los par&aacute;metros que se le pasan como entrada.
+   <Li>Para qu&eacute; servir&aacute;n sus salidas.
+   <Li>Qu&eacute; subprogramas se activaron antes que &eacute;l.
+   <Li>Qu&eacute; subprogramas se activar&aacute;n despu&eacute;s que &eacute;l.
+   <Li>C&oacute;mo est&aacute;n implementados internamente otros subprogramas.
+</Ul>
+
+<P ALIGN="JUSTIFY">Para conseguir esto se deben seguir las siguientes reglas:</P>
+<Ul>
+   <Li>No hacer referencia o modificar variables globales (evitar efectos laterales).
+   <Li>Declarar las variables y tipos como locales a los subprogramas que los utilizan.
+   <Li>Si queremos evitar cambios indeseados en par&aacute;metros, pasarlos por valor.
+   <Li>Un procedimiento s&oacute;lo debe modificar los par&aacute;metros pasados en su llamada.
+</Ul>
+
+<B><H3>2.2. Uso de comentarios</H3></B>
+<P ALIGN="JUSTIFY">Los comentarios dan informaci&oacute;n sobre lo que hace el c&oacute;digo en el caso que no sea f&aacute;cil comprenderlo con una lectura r&aacute;pida. Se usan para <B>a&ntilde;adir informaci&oacute;n</B> o <B>para aclarar secciones de c&oacute;digo</B>. No se usan para describir el programa. Por lo tanto no se deben poner comentarios a una sola instrucci&oacute;n. Los comentarios se a&ntilde;aden en los niveles siguientes:</P>
+<Ul>
+   <LI><B>Comentario a ficheros</B>: Al comienzo de cada fichero se a&ntilde;ade un <I>pr&oacute;logo del fichero </I>que explica el prop&oacute;sito del fichero y da otras informaciones.
+   <Li><B>Comentarios a subprogramas</B>: Al comienzo de cada subprograma se a&ntilde;ade un <I>pr&oacute;logo del subprograma </I>que explica el prop&oacute;sito del subprograma.
+   <LI><B>Comentarios dentro del c&oacute;digo</B>: Estos comentarios se a&ntilde;aden  junto a la definici&oacute;n de algunas variables (las m&aacute;s importantes), para explicar su prop&oacute;sito, y al comienzo de algunas secciones de c&oacute;digo, especialmente complicadas, para explicar que hacen.
+</UL>
+
+<P>Los comentarios se pueden escribir en diferentes estilos dependiendo de su longitud y su prop&oacute;sito. En cualquier caso seguiremos las siguientes <B>reglas generales</B>:</P>
+<UL>
+   <LI>Los <B>comentarios</B> en general se escriben <B>en l&iacute;neas que no contienen c&oacute;digo</B> y antes del c&oacute;digo que queremos clarificar. Esta regla se aplica siempre si el comentario tiene m&aacute;s de una l&iacute;nea.
+   <LI><B>S&oacute;lo</B> en dos casos se permite <B>poner en la misma l&iacute;nea</B> un comentario y una instrucci&oacute;n: <B>comentarios a una definici&oacute;n de variable</B>, que explica la finalidad de esta variable. Y un <B>comentario</B> para indicar <B>final de una estructura del lenguaje</B>.
+</UL>
+
+<P>Aqu&iacute; vamos a describir como hacer <B>comentarios dentro del c&oacute;digo</B>. Dentro de este tipo de comentarios se pueden distinguir:</P>
+<Ul>
+   <Li><U>Comentarios en cajas</U>: Usados para pr&oacute;logos o para separar secciones.
+   <Li><U>Separador de secciones</U>: Son l&iacute;neas que sirven para separar secciones, funciones, etc.
+   <Li><U>Comentarios para bloques grandes</U>: Se usan al comienzo de bloques de c&oacute;digo grandes para describir esa porci&oacute;n de c&oacute;digo.
+   <Li><U>Comentarios cortos</U>: Se usan para describir datos y casi siempre se escriben en la misma l&iacute;nea donde se define el dato. Tambi&eacute;n se usan para indicar el final de una estructura.
+   <Li><U>Comentarios para bloques peque&ntilde;os</U>: Se escriben para comentar bloques de instrucciones peque&ntilde;os. Se colocan antes del bloque que comentan y a la misma altura de sangrado.
+</Ul>
+
+<H4><B>Comentarios en cajas:</B></H4>
+<P ALIGN="JUSTIFY">Ejemplo: comentario tipo pr&oacute;logo en una caja:</P>
+
+<Pre>
+    (*************************************************************)
+    (*      AUTOR: Nombre                                        *)
+    (*                                                           *)
+    (*      PROPOSITO:                                           *)
+    (*                                                           *)
+    (*************************************************************)
+</Pre>
+
+<H4><B>Separador de secciones:</B></H4>
+<P ALIGN="JUSTIFY">Ejemplo: Separador de secciones.</P>
+
+<Pre>
+    (**********************************************************)
+</Pre>
+
+<H4><B>Comentarios para bloques grandes:</B></H4>
+<P ALIGN="JUSTIFY">Ejemplo: comentarios para bloques grandes de c&oacute;digo.</P>
+
+<Pre>
+    (*
+     * Usar para comentarios a mas de un bloque de
+     * sentencias.
+     *)
+</Pre>
+
+<B><H4>Comentarios cortos: </H4></B>
+<P>En caso de utilizar este tipo de comentario, seguir las siguientes reglas:</P>
+<Ul>
+   <Li>Utilizar uno o m&aacute;s tabuladores para separar la instrucci&oacute;n y el comentario.
+   <Li>Si aparece m&aacute;s de un comentario en un bloque de c&oacute;digo o bloque de datos, todos comienzan y terminan  a la misma altura de tabulaci&oacute;n.
+</Ul>
+
+<P ALIGN="JUSTIFY">Ejemplo: Comentarios en un bloque de datos.</P>
+
+<Pre>
+    CONST
+        MaxTeoria = 120; (* Maximo de alumnos por grupo teor&iacute;a *)
+        MaxPracticas = 24; (*Maximo de alumnos por grupo pr&aacute;cticas*)
+</Pre>
+
+<P ALIGN="JUSTIFY">Ejemplo: Comentarios al final de una estructura.</P>
+
+<Pre>
+    FOR I := 1 TO Final DO
+    BEGIN
+        WHILE NOT(Correcto) DO
+        BEGIN
+            Correcto := FALSE;
+            write('Introduce dato:');
+            readln(Dato);
+            IF Dato &lt; 100 THEN
+                Correcto := TRUE
+        END; (* WHILE *)
+        writeln
+    END; (* FOR *)
+</Pre>
+
+<H4><B>Comentarios para bloques peque&ntilde;os: </B></H4>
+<P ALIGN="JUSTIFY">Ejemplo:</P>
+
+<Pre>
+    (* Hallamos la nota media de todos los examenes *)
+    FOR i := 1 TO NumAlumnos DO
+        Suma := Suma + Nota[i];
+    Media := Suma / NumAlumnos;
+</Pre>
+
+<H3>2.3. Uso de espacios y l&iacute;neas en blanco</H3>
+<P Align="Justify">Los espacios en blanco facilitan la lectura y el mantenimiento de los programas. Los espacio en blanco que podemos utilizar son: l&iacute;neas en blanco, car&aacute;cter espacio, sangrado.</P>
+<H4><B>L&iacute;nea en blanco:</B></H4>
+<P Align="Justify">Se utiliza para separar &quot;p&aacute;rrafos&quot; o secciones del c&oacute;digo. Cuando leemos un programa entendemos que un fragmento de c&oacute;digo entre dos l&iacute;neas en blanco forma un conjunto con una cierta relaci&oacute;n l&oacute;gica.</P>
+<P Align="Justify">Veamos como separar secciones o p&aacute;rrafos en el programa:</P>
+
+<Ul>
+   <Li>Las secciones que forman un programa se separan con al menos una l&iacute;nea en blanco (declaraci&oacute;n de variables, declaraci&oacute;n de constantes, programa principal, …).
+   <Li>Dentro de un subprograma se separan con una l&iacute;nea en blanco las secciones de declaraciones y el c&oacute;digo del subprograma.
+   <Li>Dentro de un subprograma se separan con una l&iacute;nea en blanco los fragmentos de instrucciones muy relacionadas entre s&iacute; (por ejemplo, conjunto de instrucciones que realizan una operaci&oacute;n).
+</Ul>
+
+<B><H4>Espacio en blanco:</H4></B>
+<P Align="Justify">Los espacios en blanco sirven para facilitar la lectura de los elementos que forman una expresi&oacute;n. Los espacios en blanco se utilizan en los casos siguientes:</P>
+
+<Ul>
+   <Li>Las variables y los operadores de una expresi&oacute;n deben estar separados por un elemento en blanco.
+   <Li>Las lista de definici&oacute;n de variables, y las listas de par&aacute;metros de una funci&oacute;n se deben separar por un espacio en blanco.
+</Ul>
+
+<P ALIGN="JUSTIFY">Ejemplos:</P>
+
+<P>Espaciado correcto:
+
+<Pre>
+    Media := Suma / Cuenta;
+</Pre>
+
+<P>Espaciado incorrecto:
+
+<Pre>
+    Media:=Suma/Cuenta;
+</Pre>
+
+<P>Espaciado dentro de una lista de par&aacute;metros:
+
+<Pre>
+    concat(s1, s2)
+</Pre>
+
+<B><H4>Sangrado:</H4></B>
+<P Align="Justify">El sangrado se utiliza para mostrar la estructura l&oacute;gica del c&oacute;digo. El sangrado &oacute;ptimo es el formado por <B>cuatro espacios</B>. Es un compromiso entre una estructuraci&oacute;n legible y la posibilidad de que alguna l&iacute;nea (con varios sangrados) del c&oacute;digo supere el ancho de una l&iacute;nea de una hoja de papel o del monitor.</P>
+<H3>2.4. Elecci&oacute;n adecuada de identificadores</H3>
+<P ALIGN="JUSTIFY">Los identificadores que dan nombre a subprogramas, constantes, tipos o variables han de colaborar a la autodocumentaci&oacute;n del programa, aportando informaci&oacute;n sobre el cometido que llevan a cabo. Para elegir nombre se deben seguir las siguientes recomendaciones generales:</P>
+
+<Ul>
+   <Li>Elegir nombres comprensibles y en relaci&oacute;n con la tarea que corresponda al objeto nombrado.
+   <Li>Seguir un criterio uniforme con las abreviaturas de nombres.
+   <Li>Utilizar prefijos y sufijos cuando sea necesario.
+   <Li>Uso del car&aacute;cter ‘_’ o de una letra may&uacute;scula para distinguir las palabras que forman un identificador.
+   <Li>Escribir un mismo identificador siempre de la misma forma, sin cambiar may&uacute;sculas por min&uacute;sculas o viceversa.
+</Ul>
+
+<B><H4>Nombres habituales:</H4></B>
+<P ALIGN="JUSTIFY">Hay algunos nombres cortos que se usan muy habitualmente. El uso de estos nombres (y s&oacute;lo de estos) es aceptable.</P>
+<P ALIGN="JUSTIFY">Ejemplo: nombres cortos aceptables.</P>
+
+<Pre>
+    c, ch   caracteres
+    i, j, k indices
+    n       contadores
+    p, q    punteros
+    s, Cad  cadenas
+</Pre>
+
+<H2>3. Organizaci&oacute;n interna</H2>
+<P ALIGN="JUSTIFY">En este apartado vamos a describir la forma correcta de escribir ciertas estructuras del lenguaje.</P>
+<b><H4>Declaraciones:</H4></b>
+<P ALIGN="JUSTIFY">Las palabras reservadas CONST, TYPE y VAR deben comenzar en la misma columna de la cabecera y los elementos declarados se sangrar&aacute;n a una misma columna. Las declaraciones deben seguir las siguientes reglas:</P>
+
+<Ul>
+   <Li>Alinear los nombres de las variables de forma que la primera letra del nombre de cada variable est&eacute; en la misma columna.
+   <Li>Definir una variable por l&iacute;nea junto con su comentario (si &eacute;ste es necesario).
+</Ul>
+
+<P ALIGN="JUSTIFY">Como excepci&oacute;n a esta regla podemos agrupar en la misma l&iacute;nea variables auxiliares, contadores, etc.</P>
+
+<Ul>
+   <Li>Si un grupo de subprogramas utiliza un par&aacute;metro o una variable interna para una labor semejante llamar con el mismo nombre a esa variables en todas las funciones.
+   <Li>No utilizar nombres para variables internas que sean iguales a nombres de variables globales.
+</Ul>
+
+<B><H4>Pares BEGIN-END:</H4></B>
+<P ALIGN="JUSTIFY">La forma que tiene Pascal de agrupar instrucciones en bloques es utilizar los parentizadores BEGIN-END. Su colocaci&oacute;n se debe hacer en l&iacute;neas reservadas para cada uno de ellos, sin ninguna otra instrucci&oacute;n en esa l&iacute;nea. Ambos deben ir en la misma columna que la instrucci&oacute;n de la que dependen.</P>
+<P ALIGN="JUSTIFY">Ejemplo:</P>
+
+<Pre>
+    FOR i := 1 TO N DO
+    BEGIN
+        Vect[i] := Vect2[i];
+        Suma := Suma + Vect[i]
+    END
+</Pre>
+
+<B><H4>Sentencia IF:</H4></B>
+<P ALIGN="JUSTIFY">La sentencia o sentencias despu&eacute;s de THEN y ELSE van siempre en una nueva l&iacute;nea sangrada:</P>
+
+<TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=576>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+<Pre>
+    IF expresi&oacute;n THEN
+        sentencia
+    ELSE
+        otra_sentencia;
+</Pre>
+</TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<Pre>
+IF expresi&oacute;n THEN
+BEGIN
+    sentencia1;
+    sentencia2
+END
+ELSE
+BEGIN
+    otra_sentencia1;
+    otra_sentencia2
+END;
+</Pre>
+</TD>
+</TR>
+</TABLE>
+
+<B><H4>Sentencia CASE:</H4></B>
+<P ALIGN="JUSTIFY">Los valores asociados a la sentencia CASE ir&aacute;n en l&iacute;nea aparte sangrada. El bloque de sentencias asociado comenzar&aacute; en la misma l&iacute;nea a continuaci&oacute;n del valor. <U>Todos</U> los bloques de sentencias pertenecientes al CASE comenzar&aacute;n en la misma columna.</P>
+
+<Pre>
+    CASE expresi&oacute;n OF
+        1   : BEGIN
+                  sentencia1;
+                  sentencia2
+              END;
+        2, 3: otra_sentencia
+    END;
+</Pre>
+
+<B><H4>Sentencias de repetici&oacute;n:</H4></B>
+<P ALIGN="JUSTIFY">La sentencia o sentencias pertenecientes a la estructura de repetici&oacute;n (sentencias despu&eacute;s del DO o REPEAT) van siempre en una nueva l&iacute;nea sangrada:</P>
+
+<TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=576>
+<TR><TD WIDTH="50%" VALIGN="TOP">
+
+<Pre>
+    WHILE expresi&oacute;n DO
+        sentencia;
+</Pre>
+</TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<Pre>
+WHILE expresi&oacute;n DO
+BEGIN
+    sentencia1;
+    sentencia2
+END;
+</Pre>
+</TD>
+</TR>
+</TABLE>
+
+<H2>4. Portabilidad y eficiencia</H2>
+<P Align="JUSTIFY">Un c&oacute;digo bien escrito debe poder ejecutarse en otras m&aacute;quinas o plataformas haciendo un m&iacute;nimo de cambios. Nuestro c&oacute;digo debe ser lo m&aacute;s portable posible.</P>
+<B><H4>Reglas para mejorar la portabilidad:</H4></B>
+<Ul>
+   <Li>Usar Pascal ISO en la medida de lo posible.
+   <Li>Escribir c&oacute;digo portable en principio. Considerar detalles de optimizaci&oacute;n s&oacute;lo cuando sea necesario. Muchas veces la optimizaci&oacute;n es diferente seg&uacute;n la plataforma o la m&aacute;quina utilizada. En todo caso:
+   <UL>
+   a) documentar estos detalles para poder modificarlos si necesitamos cambiar el c&oacute;digo de plataforma.<Br>
+   b) aislar la optimaci&oacute;n de otras partes del c&oacute;digo.<Br>
+   </Ul>
+   <Li>Algunos subprogramas son no portables de forma inherente (por ejemplo ‘<I>drivers’</I> de dispositivos suelen ser distintos en sistemas operativos distintos). Aislar este c&oacute;digo del resto.
+   <Li>Organizar el c&oacute;digo en ficheros de forma que el c&oacute;digo portable est&eacute; en ficheros distintos del c&oacute;digo no portable.
+   <Li>Computadoras distintas pueden tener un tama&ntilde;o de tipos diferente. Utilizar la funci&oacute;n <I>sizeof()</I> para asegurar la portabilidad en este caso.
+   <Li>Evitar las multiplicaciones y divisiones  hechas con desplazamientos de bits.
+   <Li>No reemplazar los subprogramas est&aacute;ndar con subprogramas realizados por nosotros. Si no nos gusta una implementaci&oacute;n de un subprograma est&aacute;ndar realizar un subprograma semejante pero con otro nombre.
+   <Li>Utilizar las directivas de compilaci&oacute;n condicional para mejorar la portabilidad del c&oacute;digo.
+</Ul>
+
+<H4><B>Reglas para mejorar la eficiencia:</H4></B>
+<Ul>
+   <Li>Recordar que el c&oacute;digo debe ser mantenido.
+   <Li>Si la eficiencia del programa no es cr&iacute;tica sustituir instrucciones r&aacute;pidas por instrucciones comprensibles.
+   <Li>Si la eficiencia es importante (sistemas en tiempo real) y es necesario utilizar expresiones no comprensibles y muy complicadas pero r&aacute;pidas, a&ntilde;adir comentarios que ayuden a comprender el c&oacute;digo.
+   <Li>Reducir al m&iacute;nimo las operaciones de entrada/salida.
+   <Li>Liberar memoria tan pronto como sea posible.
+   <Li>Cuando se pasan estructuras grandes a un subprograma, hacerlo por referencia. Esto evita manipular datos sobre la pila y hace la ejecuci&oacute;n m&aacute;s r&aacute;pida.
+</Ul>
+
+</BODY>
+</HTML>
