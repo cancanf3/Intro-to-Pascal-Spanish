@@ -68,29 +68,42 @@ Var
     i 	    : integer;
 
 
-
-
 Begin 
-    
-    
-    for i := 0 to 5 do
-    Begin
-	Writeln(armasInit[i]);
-    End;
-    
     writeln;
-    
-    for i := 0 to 8 do
+
+    (* Con esta seccion de codigo el usuario selecciona el personaje 
+	que usara en el juego *)
+    writeln('Seleccione un personaje ingresando el numero correspondiente.');
+    For i := 0 to 5 do
     Begin
-	Writeln(habtsInit[i]);
+	Writeln(i+1, '.- ', prjsInit[i]);
     End;
     
-    writeln;
-    
-    for i := 0 to 5 do
+    write('Usuario Selecciona: ');
+    read(i);
+    While (i > 6) or (i < 1) do
     Begin
-	Writeln(prjsInit[i]);
+	writeln('Numero ingresado no valido');
+	write('Usuario Selecciona: ');
+	read(i);
     End;
-    
+    usuario.peon := prjsInit[i-1];
+    writeln('El personaje seleccionado fue: ', usuario.peon);
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    writeln;
 End.
