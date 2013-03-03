@@ -25,8 +25,6 @@ Program CLUE;
     
     (* Funcion que determina las habitaciones alcanzables con el numero
 	obtenido al lanzar el dado *)
-    
-    (*
     Procedure Alcanzable(n : integer);
     Var 
 	i : integer;
@@ -46,7 +44,6 @@ Program CLUE;
 	    End;
 	End;
     End;
-    *)
     
 Type 
  
@@ -269,31 +266,9 @@ Begin
     End;
     
     
-    (* 
-     *	Turno del Usuario 
-     *)
-     
-    (* Emulacion de Dado *)
+    (* Turno del Usuario *)
     n := Aleatorio(1,6);
-    writeln('Al lanzar el dado obtuvo un ', n, '.');
-    writeln;
-    
-    (* Calculo de Habitaciones Alcanzables *)
-    Writeln('Habitaciones Alcanzables');
-    writeln;
-	If n = 1 Then
-	Begin
-	    Writeln('Debe permanecer en su posicion: ', usuario.donde.nombre);
-	    Exit;
-	End;
-	
-	For i := 0 To 8 Do
-	Begin
-	    If VA(Habitacion[i].x - usuario.donde.x) + VA(Habitacion[i].y - usuario.donde.y) <= n Then
-	    Begin
-		writeln(Habitacion[i].nombre, ' es alcanzable');
-	    End;
-	End;
+    Alcanzable(n);
     
     
     
