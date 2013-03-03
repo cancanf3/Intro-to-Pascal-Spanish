@@ -324,11 +324,13 @@ Begin
 			usuario.donde := Habitacion[i].nombre;
 			writeln('Ahora se encuentra en: ', usuario.donde);
 		    End
-		    Else
+		    Else if (moverA = Habitacion[i].nombre) 
+			And Not Habitacion[i].alcanzable Then
 		    Begin
 			writeln('Habitacion no alzanzable se quedara en: ', 
 				    usuario.donde);
 		    End;
+		
 		End;
 		
 	    End; // Del caso 2..6
