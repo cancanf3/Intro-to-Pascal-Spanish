@@ -68,6 +68,7 @@ Type
 		nombre : h;
 		x : integer;
 		y : integer;
+		alcanzable : boolean;
 	    End;
     
     sbr  =  Record
@@ -78,7 +79,9 @@ Type
 		
 
     user =  Record
-		donde : lugar;
+		x : integer;
+		y : integer;
+		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : cartas;  // Lista de cartas
 	    End;
@@ -111,16 +114,19 @@ Var
     i,j,co  : integer; // Variables para Iteracion y contadores
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
     tmp     : integer; // Variable de uso temporal
+    
+    moverA : h;
 
 Begin 
     writeln;
     Randomize();
     
-    (* Inicializo las Habitaciones con sus hubicaciones *)
+    (* Inicializo las Habitaciones con sus ubicaciones *)
     co := 0;
     For i := 6 To 14 Do
     Begin
 	habitacion[co].nombre := phaInit[i];
+	habitacion[co].alcanzable := False;
 	co := co + 1;
     End;
     
@@ -258,20 +264,26 @@ Begin
      *)
     
     (* Inicializo Posiciones, todos comienzan desde el centro*)
-    usuario.donde.x := 2;
-    usuario.donde.y := 2;
-    usuario.donde.nombre := Vestibulo;
+    usuario.x := 2;
+    usuario.y := 2;
+    usuario.donde := Vestibulo;
     For i := 0 To 4 Do
     Begin
-	pc[i].donde.x := 2;
-	pc[i].donde.y := 2;
-	pc[i].donde.nombre := Vestibulo;
+	pc[i].x := 2;
+	pc[i].y := 2;
+	pc[i].donde := Vestibulo;
     End;
-    
+    writeln;
     
     (* 
      *	Turno del Usuario 
      *)
+    writeln('Turno del Usuario');
+    writeln;
+    write('Presione <Enter> para lanzar el dado');
+    read;
+    readln;
+    readln;
      
     (* Emulacion de Dado *)
     n := Aleatorio(1,6);
@@ -281,19 +293,48 @@ Begin
     (* Calculo de Habitaciones Alcanzables *)
     Writeln('Habitaciones Alcanzables');
     writeln;
-	If n = 1 Then
-	Begin
-	    Writeln('Debe permanecer en su posicion: ', usuario.donde.nombre);
-	    Exit;
-	End;
-	
-	For i := 0 To 8 Do
-	Begin
-	    If VA(Habitacion[i].x - usuario.donde.x) + VA(Habitacion[i].y - usuario.donde.y) <= n Then
+    
+    Case n Of
+	1    :  
 	    Begin
-		writeln(Habitacion[i].nombre, ' es alcanzable');
+		Writeln('Debe permanecer en su posicion: ', usuario.donde);
 	    End;
-	End;
+	2..6 :  
+	    Begin
+		For i := 0 To 8 Do
+		Begin
+		    If VA(Habitacion[i].x - usuario.x) + 
+			    VA(Habitacion[i].y - usuario.y) <= n Then
+		    Begin 
+			writeln(Habitacion[i].nombre, ' es alcanzable');
+			Habitacion[i].alcanzable := True;
+		    End;
+		End;
+
+		write('A cual de las posibles habitaciones desea ir: ');
+		
+		read(moverA);
+		For i := 0 To 8 Do
+		Begin
+		    If (moverA = Habitacion[i].nombre) 
+			And Habitacion[i].alcanzable Then
+		    Begin
+			usuario.x := Habitacion[i].x;
+			usuario.y := Habitacion[i].y;
+			usuario.donde := Habitacion[i].nombre;
+			writeln('Ahora se encuentra en: ', usuario.donde);
+		    End
+		    Else if (moverA = Habitacion[i].nombre) 
+			And Not Habitacion[i].alcanzable Then
+		    Begin
+			writeln('Habitacion no alzanzable se quedara en: ', 
+				    usuario.donde);
+		    End;
+		
+		End;
+		
+	    End; // Del caso 2..6
+    End; // Del Case completo
     
     
     
@@ -305,4 +346,5 @@ Begin
   
   
     writeln;
+    readln;
 End.
