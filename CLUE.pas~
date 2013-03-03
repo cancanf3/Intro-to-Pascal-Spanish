@@ -1,6 +1,7 @@
 (* Este es el Proyecto Serio *)
 Program CLUE;
 
+    
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
 	amplitud : integer;
@@ -9,6 +10,7 @@ Program CLUE;
 	Aleatorio := Random(amplitud) + inicio;
     End;
 
+
 Type 
  
     pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
@@ -16,9 +18,12 @@ Type
 	   Estudio, Vestibulo, Salon, Invernadero, SalaDeBaile, SalaDeBillar,
 	   Candelabro, Cuchillo, Cuerda, LlaveInglesa, Revolver, Tubo);
     
+    
     p = SenoraBlanco..CoronelMostaza;
     h = Biblioteca..SalaDeBillar;
     a = Candelabro..Tubo;
+    
+    
     
     cartas= Array[0..20] of pha;
     armas = Array[0..5] of a;
@@ -29,7 +34,9 @@ Type
 		x : integer;
 		y : integer;
 	    End;
-        
+    
+     
+    
     lugar = Record
 		cual  : h;
 		where : ubic;
@@ -56,13 +63,24 @@ Var
     Armas: 15 20 
     *)
     phaInit : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
-			ProfesorCiruela, SenoritaEscarlata, 
-			CoronelMostaza, Biblioteca, Cocina, 
-			Comedor, Estudio, Vestibulo, Salon, 
-			Invernadero, SalaDeBaile, SalaDeBillar,
-			Candelabro, Cuchillo, Cuerda, 
-			LlaveInglesa, Revolver, Tubo);
-
+					ProfesorCiruela, SenoritaEscarlata, 
+					CoronelMostaza, Biblioteca, Cocina, 
+					Comedor, Estudio, Vestibulo, Salon, 
+					Invernadero, SalaDeBaile, SalaDeBillar,
+					Candelabro, Cuchillo, Cuerda, 
+					LlaveInglesa, Revolver, Tubo);
+    (*
+    armasInit : Array[15..20] of a = (Candelabro, Cuchillo, Cuerda, LlaveInglesa, 
+				    Revolver, Tubo);
+				    
+    habtsInit : Array[6..14] of h = (Biblioteca, Cocina, Comedor, Estudio, 
+				    Vestibulo, Salon, Invernadero, SalaDeBaile, 
+				    SalaDeBillar);
+				    
+    prjsInit : Array[0..5] of p  = (SenoraBlanco, SenorVerde, SenoraCeleste, 
+				    ProfesorCiruela, SenoritaEscarlata, 
+				    CoronelMostaza);
+    *)
     repartirPrj: Array[0..5] of integer = (0,1,2,3,4,5);
     repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
 						13,14,15,16,17,18,19,20);
@@ -70,7 +88,6 @@ Var
     
     usuario : user;
     pc : Array[0..4] of user;
-    
     i,j,co  : integer;
     n,x,y,z : integer;
     tmp     : integer;
@@ -162,13 +179,10 @@ Begin
     End;
     writeln;
     
-    (* Loop para verificar Datos *)
     For i := 0 To 20 Do
     Begin
 	writeln(phaInit[repartir[i]], ', ');
     End;
-    
-    
     
     co := 0;
     For i := 0 To 4 Do
@@ -180,7 +194,6 @@ Begin
 	    writeln('pc', i, j, ' ', pc[i].lista[j]);
 	End;
     End;
-    
     
     
       

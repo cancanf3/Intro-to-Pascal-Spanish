@@ -14,7 +14,7 @@ Program Dado;
     var 
 	amplitud : integer;
     Begin
-	amplitud := tope - inicio + 1;
+	amplitud := (tope - inicio) + 1;
 	Aleatorio := Random(amplitud) + inicio;
     End;
   
