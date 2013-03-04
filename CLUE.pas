@@ -1,6 +1,7 @@
 (* Este es el Proyecto Serio *)
 Program CLUE;
 
+    (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
 	amplitud : integer;
@@ -8,7 +9,45 @@ Program CLUE;
 	amplitud := (tope - inicio) + 1;
 	Aleatorio := Random(amplitud) + inicio;
     End;
-
+    
+    (* Funcion que calcula el valor absoluto de un entero dado *)
+    Function VA(n : integer): integer;
+    Begin
+	If n < 0 Then
+	Begin
+	    VA := n * -1;
+	End
+	Else
+	Begin
+	    VA := n;
+	End;
+    End;
+    
+    (* Funcion que determina las habitaciones alcanzables con el numero
+	obtenido al lanzar el dado *)
+    
+    (*
+    Procedure Alcanzable(n : integer);
+    Var 
+	i : integer;
+    Begin
+	Writeln('Habitaciones Alcanzables');
+	If n = 1 Then
+	Begin
+	    Writeln('Debe permanecer en su posicion: ', usuario.donde.nombre);
+	    Exit;
+	End;
+	
+	For i := 0 To 8 Do
+	Begin
+	    If VA(Habitacion[i].x - usuario.donde.x) + VA(Habitacion[i].y - usuario.donde.y) <= n Then
+	    Begin
+		writeln(Habitacion[i].nombre, ' es alcanzable');
+	    End;
+	End;
+    End;
+    *)
+    
 Type 
  
     pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
@@ -25,14 +64,11 @@ Type
     habts = Array[6..14] of h;
     prjs  = Array[15..20] of p;
 	   
-    ubic =  Record 
+    lugar = Record
+		nombre : h;
 		x : integer;
 		y : integer;
-	    End;
-        
-    lugar = Record
-		cual  : h;
-		where : ubic;
+		alcanzable : boolean;
 	    End;
     
     sbr  =  Record
@@ -43,7 +79,9 @@ Type
 		
 
     user =  Record
-		where : ubic; // Ubicacion x y del usuario
+		x : integer;
+		y : integer;
+		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : cartas;  // Lista de cartas
 	    End;
@@ -66,19 +104,54 @@ Var
     repartirPrj: Array[0..5] of integer = (0,1,2,3,4,5);
     repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
 						13,14,15,16,17,18,19,20);
-    sobre   : sbr;
+
+    habitacion : Array[0..8] of lugar;
+    sobre   : sbr; // Variable que contiene los hechos reales
     
-    usuario : user;
-    pc : Array[0..4] of user;
+    usuario : user; // Variable para el Jugador Humano
+    pc : Array[0..4] of user; // Arreglo de Jugadores (Computadoras)
     
-    i,j,co  : integer;
-    n,x,y,z : integer;
-    tmp     : integer;
+    i,j,co  : integer; // Variables para Iteracion y contadores
+    n,x,y,z : integer; // Variables de usos multiples: swap, etc.
+    tmp     : integer; // Variable de uso temporal
+    
+    moverA : h;
 
 Begin 
     writeln;
     Randomize();
-
+    
+    (* Inicializo las Habitaciones con sus ubicaciones *)
+    co := 0;
+    For i := 6 To 14 Do
+    Begin
+	habitacion[co].nombre := phaInit[i];
+	habitacion[co].alcanzable := False;
+	co := co + 1;
+    End;
+    
+    co := 0;
+    x  := 0;
+    For i := 0 To 2 Do
+    Begin
+	y := 0;
+	For j := 0 to 2 Do
+	Begin
+	    habitacion[co].x := x;
+	    habitacion[co].y := y;
+	    y := y + 2;
+	    co := co + 1;
+	End;
+	x := x + 2;
+    End;
+    
+    (* Verificacion de Datos de las Habitaciones *)
+    For i := 0 To 8 Do
+    Begin
+	writeln(habitacion[i].nombre, ' (', habitacion[i].x, ', ', habitacion[i].y, ').');
+    End;
+    writeln;
+    
     (* Con esta seccion de codigo el usuario selecciona el personaje 
 	que usara en el juego *)
     writeln('Seleccione un personaje ingresando el numero correspondiente.');
@@ -162,15 +235,17 @@ Begin
     End;
     writeln;
     
-    (* Loop para verificar Datos *)
-    For i := 0 To 20 Do
-    Begin
-	writeln(phaInit[repartir[i]], ', ');
-    End;
-    
-    
-    
+    (* Aqui asigno las cartas al usuario *)
     co := 0;
+    For i := 0 To 2 Do
+    Begin
+	usuario.lista[i] := phaInit[repartir[co]];
+	co := co + 1;
+	writeln('Usuario', i, ' ', usuario.lista[i]);
+    End;
+    writeln;    
+    
+    (* Aqui asigno las cartas a las computadoras *)
     For i := 0 To 4 Do
     Begin
 	For j := 0 To 2 Do
@@ -182,9 +257,94 @@ Begin
     End;
     
     
+    (*
+     * Aqui comienza el juego
+     * el primer turno es del usuario y luego 
+     * cada una de las computadoras
+     *)
     
-      
+    (* Inicializo Posiciones, todos comienzan desde el centro*)
+    usuario.x := 2;
+    usuario.y := 2;
+    usuario.donde := Vestibulo;
+    For i := 0 To 4 Do
+    Begin
+	pc[i].x := 2;
+	pc[i].y := 2;
+	pc[i].donde := Vestibulo;
+    End;
+    writeln;
+    
+    (* 
+     *	Turno del Usuario 
+     *)
+    writeln('Turno del Usuario');
+    writeln;
+    write('Presione <Enter> para lanzar el dado');
+    read;
+    readln;
+    readln;
+     
+    (* Emulacion de Dado *)
+    n := Aleatorio(1,6);
+    writeln('Al lanzar el dado obtuvo un ', n, '.');
+    writeln;
+    
+    (* Calculo de Habitaciones Alcanzables *)
+    Writeln('Habitaciones Alcanzables');
+    writeln;
+    
+    Case n Of
+	1    :  
+	    Begin
+		Writeln('Debe permanecer en su posicion: ', usuario.donde);
+	    End;
+	2..6 :  
+	    Begin
+		For i := 0 To 8 Do
+		Begin
+		    If VA(Habitacion[i].x - usuario.x) + 
+			    VA(Habitacion[i].y - usuario.y) <= n Then
+		    Begin 
+			writeln(Habitacion[i].nombre, ' es alcanzable');
+			Habitacion[i].alcanzable := True;
+		    End;
+		End;
+
+		write('A cual de las posibles habitaciones desea ir: ');
+		
+		read(moverA);
+		For i := 0 To 8 Do
+		Begin
+		    If (moverA = Habitacion[i].nombre) 
+			And Habitacion[i].alcanzable Then
+		    Begin
+			usuario.x := Habitacion[i].x;
+			usuario.y := Habitacion[i].y;
+			usuario.donde := Habitacion[i].nombre;
+			writeln('Ahora se encuentra en: ', usuario.donde);
+		    End
+		    Else if (moverA = Habitacion[i].nombre) 
+			And Not Habitacion[i].alcanzable Then
+		    Begin
+			writeln('Habitacion no alzanzable se quedara en: ', 
+				    usuario.donde);
+		    End;
+		
+		End;
+		
+	    End; // Del caso 2..6
+    End; // Del Case completo
+    
+    
+    
+    
+    
+    
+    
+    
   
   
     writeln;
+    readln;
 End.
