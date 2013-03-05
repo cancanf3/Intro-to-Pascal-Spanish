@@ -1,7 +1,48 @@
 (* Este es el Proyecto Serio *)
 Program CLUE;
 
-    (* Funcion que hace swap de dos variables *)
+Type 
+ 
+    pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
+	   SenoritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
+	   Estudio, Vestibulo, Salon, Invernadero, SalaDeBaile, SalaDeBillar,
+	   Candelabro, Cuchillo, Cuerda, LlaveInglesa, Revolver, Tubo);
+    
+    p = SenoraBlanco..CoronelMostaza;
+    h = Biblioteca..SalaDeBillar;
+    a = Candelabro..Tubo;
+    
+    cartas= Array[0..20] of pha;
+    armas = Array[0..5] of a;
+    habts = Array[6..14] of h;
+    prjs  = Array[15..20] of p;
+	   
+    lugar = Record
+		nombre : h;
+		x : integer;
+		y : integer;
+		alcanzable : boolean;
+	    End;
+    
+    sbr  =  Record
+		arma : a;
+		habt : h;
+		prj  : p;
+	    End;
+		
+
+    user =  Record
+		x : integer;
+		y : integer;
+		usuario : boolean;
+		donde : h;
+		peon  : p;  // Ficha que usa para jugar
+		lista : cartas;  // Lista de cartas
+	    End;
+   
+   
+   
+   (* Funcion que hace swap de dos variables *)
     Procedure Swap(var n : integer; var m : integer);
     Var
 	tmp : integer;
@@ -38,6 +79,7 @@ Program CLUE;
     Var 
 	YN : char;
     Begin
+	
 	read(YN);
 	SioNo := true;
 	Case YN of
@@ -81,12 +123,14 @@ Program CLUE;
 	End;
     End;
     *)
-  (*  Procedure Acusacion( n : sbr; (*Variable del jugador*));
+    
+    (*
+    
+    Procedure Acusacion( n : sbr);
     Var 
-    acus : sbr; // Variables que almacenaran la acusasion del jugador
+	acus : sbr; // Variables que almacenaran la acusasion del jugador
     Begin
-    	
-    	acus.h := (* Variable que determina el lugar de la acusacion *)
+       	acus.h := Variable que determina el lugar de la acusacion 
     	Writeln('A quien desea acusar: ');
 	Readln(acus.p);
 	Writeln('Que arma se uso para matar a Mr.Black: ');
@@ -95,14 +139,14 @@ Program CLUE;
 	    { pre }  
 	If ( acus.p = sobre.p ) And ( acus.a = sobre.a ) And ( acus.h = sobre.h ) Then
 	Begin
-		Writeln(' El Jugador ',(*Variable que identifica el jugador *),' ha adivinado las cartas del sobre');
+		Writeln(' El Jugador ',Variable que identifica el jugador,' ha adivinado las cartas del sobre');
 		Writeln(' El Juego se da por terminado ');
 		Halt;
 	End
 	Else 
 	Begin
-		(* Variable booleana del Jugador*) := false;
-		If (* jugador = usuario *) Then
+		 Variable booleana del Jugador := false;
+		If  jugador = usuario  Then
 		Begin
 			Writeln(' Has Fallado en tu acusacion ');
 			Writeln(' Has Perdido ');
@@ -112,47 +156,11 @@ Program CLUE;
 		End;
 	End;
     End;	
-*)
-
-
-
-Type 
- 
-    pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
-	   SenoritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
-	   Estudio, Vestibulo, Salon, Invernadero, SalaDeBaile, SalaDeBillar,
-	   Candelabro, Cuchillo, Cuerda, LlaveInglesa, Revolver, Tubo);
     
-    p = SenoraBlanco..CoronelMostaza;
-    h = Biblioteca..SalaDeBillar;
-    a = Candelabro..Tubo;
-    
-    cartas= Array[0..20] of pha;
-    armas = Array[0..5] of a;
-    habts = Array[6..14] of h;
-    prjs  = Array[15..20] of p;
-	   
-    lugar = Record
-		nombre : h;
-		x : integer;
-		y : integer;
-		alcanzable : boolean;
-	    End;
-    
-    sbr  =  Record
-		arma : a;
-		habt : h;
-		prj  : p;
-	    End;
-		
+    *)
 
-    user =  Record
-		x : integer;
-		y : integer;
-		donde : h;
-		peon  : p;  // Ficha que usa para jugar
-		lista : cartas;  // Lista de cartas
-	    End;
+
+
 
 Var
     (* 
@@ -180,12 +188,10 @@ Var
     
     i,j,co  : integer; // Variables para Iteracion y contadores
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
-    tmp     : integer; // Variable de uso temporal
-    
-    
+       
     moverA : h;
     sospecha : sbr; // variable para realizar sospechas
-    YN : char;
+    
 
     sospechaON : boolean;
 
@@ -216,16 +222,7 @@ BEGIN
 	End;
 	x := x + 2;
     End;
-    
-    (* Verificacion de Datos de las Habitaciones *)
-    (*
-    For i := 0 To 8 Do
-    Begin
-	writeln(habitacion[i].nombre, ' (', habitacion[i].x, ', ', habitacion[i].y, ').');
-    End;
-    writeln;
-    *)
-    
+   
     (* Con esta seccion de codigo el usuario selecciona el personaje 
 	que usara en el juego *)
     writeln('Seleccione un personaje ingresando el numero correspondiente.');
@@ -252,7 +249,6 @@ BEGIN
     For i:= 0 To 5 Do
     Begin
 	pc[i+1].peon := phaInit[repartirPrj[i]];
-	//                            writeln('pc', i, ' agarro a: ', pc[i].peon);
     End;
     writeln;
     
@@ -269,7 +265,7 @@ BEGIN
     (* Seleccion del arma con la que se cometio el asesinato *)
     z := Aleatorio(15,20);
     sobre.arma := phaInit[z];
-    
+    writeln;
 
     (* Swapeo las variables a las tres posiciones finales para 
 	no repartir las cartas del sobre *)
@@ -289,7 +285,6 @@ BEGIN
     Begin
 	n := Aleatorio(0,i);
 	Swap(repartir[i], repartir[n]);
-	//                                 write(repartir[i], ' ');
     End;
     writeln;
         
@@ -302,9 +297,9 @@ BEGIN
 	    pc[i].lista[j] := phaInit[repartir[co]];
 	    co := co + 1;
 	    // Esto para explicarle a Pena
-	    //                              writeln('pc', i, j, ' ', pc[i].lista[j]);
 	End;
     End;
+    
     
     (*
      * Aqui comienza el juego
@@ -313,12 +308,13 @@ BEGIN
      *)
     
     (* Inicializo Posiciones, todos comienzan desde el centro*)
-    sospechaON := false;
-    
-    For i := 0 To 5 Do
+    sospechaON := False;
+    pc[0].usuario := True;
+    For i := 0 To 5 Do 
     Begin
 	pc[i].x := 2;
 	pc[i].y := 2;
+	pc[i].usuario := False;
 	pc[i].donde := Vestibulo;
     End;
     writeln;
@@ -326,11 +322,14 @@ BEGIN
     (* 
      *	Turno del Usuario 
      *)
-     
+    
+    readln;
     writeln('Turno del Usuario');
     writeln;
+    
     writeln('Presione <Enter> para lanzar el dado');
-     
+    readln;
+    
     (* Emulacion de Dado *)
     n := Aleatorio(1,6);
     writeln('Al lanzar el dado obtuvo un ', n, '.');
@@ -388,6 +387,7 @@ BEGIN
      *
      *)
     
+    readln;
     write('Desea realizar una sospecha desde, ', pc[0].donde, ' (s/n): ');
             
     If SioNo Then
@@ -450,5 +450,4 @@ BEGIN
   
   
     writeln;
-    readln;
 End.

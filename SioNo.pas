@@ -10,15 +10,15 @@ Program SioNo;
 	Case YN of
 	    's','y' :
 		Begin
-		    permite := true
+		    permite := true;
 		End;
 	    'n' :
 		Begin
-		    permite := false
+		    permite := false;
 		End;
 	    Else
 	    Begin
-		writeln('Opcion no valida, default es (s)');
+		permite := True;
 	    End;
 	End;
     End;
