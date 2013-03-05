@@ -34,6 +34,7 @@ Type
     user =  Record
 		x : integer;
 		y : integer;
+		usuario : boolean;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : cartas;  // Lista de cartas
@@ -122,6 +123,9 @@ Type
 	End;
     End;
     *)
+<<<<<<< HEAD
+ 
+=======
     
     (*
     
@@ -158,6 +162,7 @@ Type
     
     *)
 
+>>>>>>> d64e5cd924b07715e50a9addd631c47137e7fb1b
 
 
 
@@ -221,16 +226,7 @@ BEGIN
 	End;
 	x := x + 2;
     End;
-    
-    (* Verificacion de Datos de las Habitaciones *)
-    
-    For i := 0 To 8 Do
-    Begin
-	writeln(habitacion[i].nombre, ' (', habitacion[i].x, ', ', habitacion[i].y, ').');
-    End;
-    writeln;
-    
-    
+   
     (* Con esta seccion de codigo el usuario selecciona el personaje 
 	que usara en el juego *)
     writeln('Seleccione un personaje ingresando el numero correspondiente.');
@@ -257,7 +253,6 @@ BEGIN
     For i:= 0 To 5 Do
     Begin
 	pc[i+1].peon := phaInit[repartirPrj[i]];
-	                            writeln('pc', i, ' agarro a: ', pc[i].peon);
     End;
     writeln;
     
@@ -294,7 +289,6 @@ BEGIN
     Begin
 	n := Aleatorio(0,i);
 	Swap(repartir[i], repartir[n]);
-							    write(repartir[i], ' ');
     End;
     writeln;
         
@@ -307,9 +301,9 @@ BEGIN
 	    pc[i].lista[j] := phaInit[repartir[co]];
 	    co := co + 1;
 	    // Esto para explicarle a Pena
-	                                 writeln('pc', i, j, ' ', pc[i].lista[j]);
 	End;
     End;
+    
     
     (*
      * Aqui comienza el juego
@@ -319,11 +313,12 @@ BEGIN
     
     (* Inicializo Posiciones, todos comienzan desde el centro*)
     sospechaON := False;
-    
+    pc[0].usuario := True;
     For i := 0 To 5 Do 
     Begin
 	pc[i].x := 2;
 	pc[i].y := 2;
+	pc[i].usuario := False;
 	pc[i].donde := Vestibulo;
     End;
     writeln;
@@ -338,6 +333,7 @@ BEGIN
     
     writeln('Presione <Enter> para lanzar el dado');
     readln;
+    
     (* Emulacion de Dado *)
     n := Aleatorio(1,6);
     writeln('Al lanzar el dado obtuvo un ', n, '.');
