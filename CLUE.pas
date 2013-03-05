@@ -1,6 +1,16 @@
 (* Este es el Proyecto Serio *)
 Program CLUE;
 
+    (* Funcion que hace swap de dos variables *)
+    Procedure Swap(var n : integer; var m : integer);
+    Var
+	tmp : integer;
+    Begin
+	tmp := n;
+	n := m;
+	m := tmp;
+    End;
+    
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
@@ -131,8 +141,8 @@ Var
     habitacion : Array[0..8] of lugar;
     sobre   : sbr; // Variable que contiene los hechos reales
     
-    usuario : user; // Variable para el Jugador Humano
-    pc : Array[0..4] of user; // Arreglo de Jugadores (Computadoras)
+    
+    pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario
     
     i,j,co  : integer; // Variables para Iteracion y contadores
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
@@ -145,7 +155,7 @@ Var
 
     sospechaON : boolean;
 
-Begin 
+BEGIN
     writeln;
     Randomize();
     
@@ -174,11 +184,13 @@ Begin
     End;
     
     (* Verificacion de Datos de las Habitaciones *)
+    (*
     For i := 0 To 8 Do
     Begin
 	writeln(habitacion[i].nombre, ' (', habitacion[i].x, ', ', habitacion[i].y, ').');
     End;
     writeln;
+    *)
     
     (* Con esta seccion de codigo el usuario selecciona el personaje 
 	que usara en el juego *)
@@ -196,20 +208,17 @@ Begin
 	write('Usuario Selecciona: ');
 	read(i);
     End;
-    usuario.peon := phaInit[i-1];
-    writeln('El personaje seleccionado fue: ', usuario.peon);
-  
+    pc[0].peon := phaInit[i-1];
+    writeln('El personaje seleccionado fue: ', pc[0].peon);
     writeln;
     
     (*Codigo que asigna los personajes a las pc's*)
-    tmp := repartirPrj[i-1];
-    repartirPrj[i-1] := repartirPrj[5];
-    repartirPrj[5] := tmp;
-    
-    For i:= 0 To 4 Do
+    Swap(repartirPrj[i-1], repartirPrj[5]);
+
+    For i:= 0 To 5 Do
     Begin
-	pc[i].peon := phaInit[repartirPrj[i]];
-	writeln('pc', i, ' agarro a: ', pc[i].peon);
+	pc[i+1].peon := phaInit[repartirPrj[i]];
+	//                            writeln('pc', i, ' agarro a: ', pc[i].peon);
     End;
     writeln;
     
@@ -217,74 +226,51 @@ Begin
     
     (* Seleccion del Asesino *)
     x := Aleatorio(0,5);
-    writeln(x);
     sobre.prj := phaInit[x];
     
     (* Seleccion de la Habitacion donde se produjo el asesinato *)
     y := Aleatorio(6,14);
-    writeln(y);
     sobre.habt := phaInit[y];
     
     (* Seleccion del arma con la que se cometio el asesinato *)
     z := Aleatorio(15,20);
-    writeln(z);
     sobre.arma := phaInit[z];
     
-    writeln;
-      
+
     (* Swapeo las variables a las tres posiciones finales para 
 	no repartir las cartas del sobre *)
-    tmp := repartir[z];
-    repartir[z] := repartir[20];
-    repartir[20] := tmp;
-    write('El Arma es: ', sobre.arma);
-    writeln;
+    Swap(repartir[z], repartir[20]);
+    writeln('El Arma es: ', sobre.arma);
+    
+    Swap(repartir[y], repartir[19]);
+    writeln('La Habitacion es: ', sobre.habt);
+    
+    Swap(repartir[x], repartir[18]);
+    writeln('El Asesino es: ', sobre.prj);
         
-    tmp := repartir[y];
-    repartir[y] := repartir[19];
-    repartir[19] := tmp;
-    write('La Habitacion es: ', sobre.habt);
-    writeln;
-
-    tmp := repartir[x];
-    repartir[x] := repartir[18];
-    repartir[18] := tmp;
-    write('El Asesino es: ', sobre.prj);
-    writeln;
     
     (* Aqui hago Shuffle del arreglo de todas las cartas 
 	excluyendo las del sobre *)
     For i := 17 Downto 1 Do
     Begin
 	n := Aleatorio(0,i);
-	tmp := repartir[i];
-	repartir[i] := repartir[n];
-	repartir[n] := tmp;
+	Swap(repartir[i], repartir[n]);
+	//                                 write(repartir[i], ' ');
     End;
     writeln;
-    
-    (* Aqui asigno las cartas al usuario *)
+        
+    (* Aqui asigno las cartas *)
     co := 0;
-    For i := 0 To 2 Do
-    Begin
-	usuario.lista[i] := phaInit[repartir[co]];
-	co := co + 1;
-	writeln('Usuario', i, ' ', usuario.lista[i]);
-    End;
-    writeln;    
-    
-    (* Aqui asigno las cartas a las computadoras *)
-    For i := 0 To 4 Do
+    For i := 0 To 5 Do
     Begin
 	For j := 0 To 2 Do
 	Begin
 	    pc[i].lista[j] := phaInit[repartir[co]];
 	    co := co + 1;
 	    // Esto para explicarle a Pena
-	    // writeln('pc', i, j, ' ', pc[i].lista[j]);
+	    //                              writeln('pc', i, j, ' ', pc[i].lista[j]);
 	End;
     End;
-    
     
     (*
      * Aqui comienza el juego
@@ -295,10 +281,7 @@ Begin
     (* Inicializo Posiciones, todos comienzan desde el centro*)
     sospechaON := false;
     
-    usuario.x := 2;
-    usuario.y := 2;
-    usuario.donde := Vestibulo;
-    For i := 0 To 4 Do
+    For i := 0 To 5 Do
     Begin
 	pc[i].x := 2;
 	pc[i].y := 2;
@@ -309,11 +292,10 @@ Begin
     (* 
      *	Turno del Usuario 
      *)
+     
     writeln('Turno del Usuario');
     writeln;
-    write('Presione <Enter> para lanzar el dado');
-    read(YN);
-        
+    writeln('Presione <Enter> para lanzar el dado');
      
     (* Emulacion de Dado *)
     n := Aleatorio(1,6);
@@ -327,14 +309,14 @@ Begin
     Case n Of
 	1    :  
 	    Begin
-		Writeln('Debe permanecer en su posicion: ', usuario.donde);
+		Writeln('Debe permanecer en su posicion: ', pc[0].donde);
 	    End;
 	2..6 :  
 	    Begin
 		For i := 0 To 8 Do
 		Begin
-		    If VA(Habitacion[i].x - usuario.x) + 
-			    VA(Habitacion[i].y - usuario.y) <= n Then
+		    If VA(Habitacion[i].x - pc[0].x) + 
+			    VA(Habitacion[i].y - pc[0].y) <= n Then
 		    Begin 
 			writeln(Habitacion[i].nombre, ' es alcanzable');
 			Habitacion[i].alcanzable := True;
@@ -349,16 +331,16 @@ Begin
 		    If (moverA = Habitacion[i].nombre) 
 			And Habitacion[i].alcanzable Then
 		    Begin
-			usuario.x := Habitacion[i].x;
-			usuario.y := Habitacion[i].y;
-			usuario.donde := Habitacion[i].nombre;
-			writeln('Ahora se encuentra en: ', usuario.donde);
+			pc[0].x := Habitacion[i].x;
+			pc[0].y := Habitacion[i].y;
+			pc[0].donde := Habitacion[i].nombre;
+			writeln('Ahora se encuentra en: ', pc[0].donde);
 		    End
 		    Else If (moverA = Habitacion[i].nombre) 
 			And Not Habitacion[i].alcanzable Then
 		    Begin
 			writeln('Habitacion no alzanzable se quedara en: ', 
-				    usuario.donde);
+				    pc[0].donde);
 		    End;
 		
 		End;
@@ -372,7 +354,7 @@ Begin
      *
      *)
     
-    write('Desea realizar una sospecha desde, ', usuario.donde, ' (s/n): ');
+    write('Desea realizar una sospecha desde, ', pc[0].donde, ' (s/n): ');
             
     If SioNo Then
     Begin
@@ -388,7 +370,7 @@ Begin
 	read(sospecha.prj);
 	writeln;
 	
-	sospecha.habt := usuario.donde;
+	sospecha.habt := pc[0].donde;
 
 	writeln('Con que arma?');
 	For i := 15 To 20 Do
