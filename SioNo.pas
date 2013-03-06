@@ -1,14 +1,14 @@
-Program SioNo;
+Program hola;
     
 
-    Procedure SioNo : boolean;
+    Procedure decision (var SioNo : boolean);
     Var
 	YN : string;
     n : integer;
     Begin
         Repeat
         Begin
-        	read(YN);
+            readln(YN);
             SioNo := true;
             n := 0;
         	Case YN of
@@ -22,14 +22,17 @@ Program SioNo;
         		    SioNo := false;
                     n := 1;
         		End;
-    	    End;
+            End;
         End
         Until ( n = 1 );
     End;
-
+Var
+    SioNo : boolean;
 Begin
+    SioNo := true;
     writeln;
     write('Desea hacer alguna cosa que necesite el proyecto? (s/n): ');
+    decision(SioNo);
     If SioNo then
     Begin
 	writeln('Me permitio Entrar');
