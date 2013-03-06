@@ -1,32 +1,36 @@
 Program SioNo;
     
 
-    Function Permite (): boolean;
+    Procedure SioNo : boolean;
     Var
-	YN : char;
+	YN : string;
+    n : integer;
     Begin
-	read(YN);
-	Permite := true;
-	Case YN of
-	    's','y' :
-		Begin
-		    permite := true;
-		End;
-	    'n' :
-		Begin
-		    permite := false;
-		End;
-	    Else
-	    Begin
-		permite := True;
-	    End;
-	End;
+        Repeat
+        Begin
+        	read(YN);
+            SioNo := true;
+            n := 0;
+        	Case YN of
+        	    's','y','si','yes' :
+        		Begin
+        		    SioNo := true;
+                    n := 1;
+        		End;
+        	    'n','no' :
+        		Begin
+        		    SioNo := false;
+                    n := 1;
+        		End;
+    	    End;
+        End
+        Until ( n = 1 );
     End;
 
 Begin
     writeln;
     write('Desea hacer alguna cosa que necesite el proyecto? (s/n): ');
-    If Permite then
+    If SioNo then
     Begin
 	writeln('Me permitio Entrar');
     End

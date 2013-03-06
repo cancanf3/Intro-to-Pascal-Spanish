@@ -194,7 +194,7 @@ BEGIN
     writeln('Seleccione un personaje ingresando el numero correspondiente.');
     For i := 0 To 5 Do
     Begin
-	Writeln(i+1, '.- ', phaInit[i]);
+	    Writeln(i+1, '.- ', phaInit[i]);
     End;
     
     write('Usuario Selecciona: ');
