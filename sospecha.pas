@@ -1,43 +1,58 @@
 Procedure sospecha( var sospechaON : boolean; var player : user ; 
-                    var pc : array of user);
-Type
-
+                    var pc : array of user; phaInit : cartas );
 Var
-    sospech : string;
-
+    sospech : sbr;
+    n : integer;
+    s : string;
 Begin
 
 If ( player.usuario ) Then
 Begin
     sospech.habt := player.donde;
+
+    (* Elegir arma a sospechar *)
+
     Writeln('Armas no descartadas');
-    For i := 15 to ( 20 - pc.co.arma ) Do
+    For i := 0 to ( 5 - pc.co.arma ) Do
     Begin
-        Writeln(pc[0].lista.arma[i]);
+        Writeln(i,'.- ',pc[0].lista.arma[i]);
     End;
     Writeln('Armas descartadas');
-    For i := (20 - pc.co.arma) to 20 Do
+    For i := (5 - pc.co.arma) to 5 Do
     Begin
         Writeln(pc[0].lista.arma[i]);
     End;
-    Writeln('Arma a sospechar: ');
+   
+    s := 'Arma a sospechar: ';
+   
     Repeat
     Begin
-        Readln(sospech.arma);
+        Writeln(s);
+        Readln(n);
+        s := 'Arma incorrecta, Elegir otra vez';
     End
-    Until (sospech.arma = 'Candelabro') or (sospech.arma = 'Cuchillo')
-          or (sospech.arma = 'Cuerda') or (sospech.arma = 'LlaveInglesa')
-          or (sospech.arma = 'Revolver') or (sospech.arma = 'Tubo');
-   
+    Until (n < 7 ) and ( n > 0 );
 
-    Writeln('Persona a sospechar: ');
-    For i := 15 to ( 20 - pc.co.prj ) Do
+    sospechar.arma := phaInit[n];
+
+    (* Elegir personaje a sospechar *)
+  
+    Writeln('Personajes no descartados');
+    For i := 0 to ( 5 - pc.co.prj ) Do
     Begin
-        Writeln(pc[0].lista.arma[i]);
+        Writeln(i+1,'.- ',pc[0].lista.prj[i]);
     End;
-
-    For i := 15 to 20 Do
+    Writeln('Armas descartadas');
+    For i := (5 - pc.co.prj) to 5 Do
+    Begin
+        Writeln(pc[0].lista.prj[i]);
+    End;
+    
+    s := 'Personaje a sospechar: ';
+    Repeat 
+    Begin
     Readln(sospech.prj);
+    s :=
 
     For i := 1 to 5 Do
     Begin

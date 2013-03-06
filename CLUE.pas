@@ -14,8 +14,8 @@ Type
     
     cartas= Array[0..20] of pha;
     prjs = Array[0..5] of p;
-    habts = Array[6..14] of h;
-    armas  = Array[15..20] of a;
+    habts = Array[0..8] of h;
+    armas  = Array[0..5] of a;
 	   
     lugar = Record
 		nombre : h;
@@ -38,7 +38,7 @@ Type
         arma : armas;
         habt : habts;
         prj  : prjs; 
-   	
+                   End;	
 
     user =  Record
 		x : integer;
@@ -211,7 +211,6 @@ BEGIN
     	pc[i].y := 2;
     	pc[i].usuario := False;
     	pc[i].donde := Vestibulo;
-    End;
     End;
     pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
 

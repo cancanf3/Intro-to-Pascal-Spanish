@@ -13,9 +13,9 @@ Type
     a = Candelabro..Tubo;
     
     cartas= Array[0..20] of pha;
-    armas = Array[0..5] of a;
-    habts = Array[6..14] of h;
-    prjs  = Array[15..20] of p;
+    prjs = Array[0..5] of p;
+    habts = Array[0..8] of h;
+    armas  = Array[0..5] of a;
 	   
     lugar = Record
 		nombre : h;
@@ -35,10 +35,10 @@ Type
         prj  : integer;
                End;
     lista_cartas = Record
-        arma = Array[0..5] of a;
-        habt = Array[6..14] of h;
-        prj  = Array[15..20] of p; 
-   	
+        arma : armas;
+        habt : habts;
+        prj  : prjs; 
+                   End;	
 
     user =  Record
 		x : integer;
@@ -185,18 +185,18 @@ BEGIN
     End;
     
     co := 0;
-    x  := 0;
+    y  := 0;
     For i := 0 To 2 Do
     Begin
-	y := 0;
+	x := 0;
 	For j := 0 to 2 Do
 	Begin
 	    habitacion[co].x := x;
 	    habitacion[co].y := y;
-	    y := y + 2;
+	    x := x + 2;
 	    co := co + 1;
 	End;
-	x := x + 2;
+	y := y + 2;
     End;
     (* Inicializacion de Variables *)
     SioNo := True; // Variable del procedimiento decision
@@ -211,7 +211,6 @@ BEGIN
     	pc[i].y := 2;
     	pc[i].usuario := False;
     	pc[i].donde := Vestibulo;
-    End;
     End;
     pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
 
