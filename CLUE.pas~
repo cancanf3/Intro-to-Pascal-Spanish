@@ -33,7 +33,11 @@ Type
         arma : integer;
         habt : integer;
         prj  : integer;
-               End; 
+               End;
+    lista_cartas = Record
+        arma = Array[0..5] of a;
+        habt = Array[6..14] of h;
+        prj  = Array[15..20] of p; 
    	
 
     user =  Record
@@ -43,8 +47,9 @@ Type
         vida : boolean;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
-		lista : cartas;  // Lista de cartas
+		lista : lista_cartas;  // Lista de cartas
         co    : descarte;
+        
             End;
   
    (* Funcion que hace swap de dos variables *)

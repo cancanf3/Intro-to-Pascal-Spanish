@@ -13,9 +13,9 @@ Type
     a = Candelabro..Tubo;
     
     cartas= Array[0..20] of pha;
-    armas = Array[0..5] of a;
+    prjs = Array[0..5] of p;
     habts = Array[6..14] of h;
-    prjs  = Array[15..20] of p;
+    armas  = Array[15..20] of a;
 	   
     lugar = Record
 		nombre : h;
@@ -33,7 +33,11 @@ Type
         arma : integer;
         habt : integer;
         prj  : integer;
-               End; 
+               End;
+    lista_cartas = Record
+        arma : armas;
+        habt : habts;
+        prj  : prjs; 
    	
 
     user =  Record
@@ -43,8 +47,9 @@ Type
         vida : boolean;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
-		lista : cartas;  // Lista de cartas
+		lista : lista_cartas;  // Lista de cartas
         co    : descarte;
+        
             End;
   
    (* Funcion que hace swap de dos variables *)
@@ -180,18 +185,18 @@ BEGIN
     End;
     
     co := 0;
-    x  := 0;
+    y  := 0;
     For i := 0 To 2 Do
     Begin
-	y := 0;
+	x := 0;
 	For j := 0 to 2 Do
 	Begin
 	    habitacion[co].x := x;
 	    habitacion[co].y := y;
-	    y := y + 2;
+	    x := x + 2;
 	    co := co + 1;
 	End;
-	x := x + 2;
+	y := y + 2;
     End;
     (* Inicializacion de Variables *)
     SioNo := True; // Variable del procedimiento decision
