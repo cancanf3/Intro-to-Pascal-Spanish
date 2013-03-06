@@ -41,7 +41,6 @@ Type
 		y : integer;
 		usuario : boolean;
         vida : boolean;
-        cartas_adivinadas : array[0..2] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : cartas;  // Lista de cartas
