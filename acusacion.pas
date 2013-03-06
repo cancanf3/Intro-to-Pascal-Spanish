@@ -1,25 +1,36 @@
- (*  Procedure Acusacion( n : sbr; (*Variable del jugador*));
-    Var 
+Procedure Acusacion( n : sbr; var player : user; sobre : sbr);
+Var 
     acus : sbr; // Variables que almacenaran la acusasion del jugador
     Begin
     	
-    	acus.h := (* Variable que determina el lugar de la acusacion *)
-    	Writeln('A quien desea acusar: ');
-	Readln(acus.p);
-	Writeln('Que arma se uso para matar a Mr.Black: ');
-	Readln(acus.a);
+        acus.habt := player.donde
+
+        If ( player.usuario = False ) Then
+        Begin
+        (* Algoritmo para acusar en funcion de descarte *)
+
+        End
+        Else
+        Begin
+            Writeln('A quien desea acusar: ');
+	        Readln(acus.prj);
+	        Writeln('Que arma se uso para matar a Mr.Black: ');
+            Readln(acus.arma);
+        End;
 	
 	    { pre }  
-	If ( acus.p = sobre.p ) And ( acus.a = sobre.a ) And ( acus.h = sobre.h ) Then
+
+	If ( acus.prj = sobre.prj ) And ( acus.arma = sobre.arma ) 
+       And ( acus.habt = sobre.habt ) Then
 	Begin
-		Writeln(' El Jugador ',(*Variable que identifica el jugador *),' ha adivinado las cartas del sobre');
+		Writeln(' El Jugador ',player.peon,' ha adivinado las cartas del sobre');
 		Writeln(' El Juego se da por terminado ');
 		Halt;
 	End
 	Else 
 	Begin
-		(* Variable booleana del Jugador*) := false;
-		If (* jugador = usuario *) Then
+		player.vida := false;
+		If ( player.usuario = true ) Then
 		Begin
 			Writeln(' Has Fallado en tu acusacion ');
 			Writeln(' Has Perdido ');
@@ -28,7 +39,5 @@
 			Halt;
 		End;
 	End;
-    End;	
-*)
-
+End;	
 

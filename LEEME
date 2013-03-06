@@ -28,3 +28,10 @@ Comence a realizar el Proceso de acusacion, Hay que cuadrar la parte del codigo
 donde el acusado es movido a la habitacion, junto con el proceso 
 
 Cree una funcion que hace swap de dos variables integer
+
+---> 05 / 03 <---
+Agregue una variable booleana "vida" a el record usuario 
+
+complete parte de la acusacion ( Falta el algoritmo de la computadora para 
+descartar cartas y poder realizar una acusacion )
+

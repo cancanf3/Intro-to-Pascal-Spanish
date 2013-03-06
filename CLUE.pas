@@ -35,6 +35,7 @@ Type
 		x : integer;
 		y : integer;
 		usuario : boolean;
+        vida : boolean;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : cartas;  // Lista de cartas
