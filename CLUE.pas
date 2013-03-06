@@ -36,6 +36,8 @@ Type
 		y : integer;
 		usuario : boolean;
         vida : boolean;
+        sospecha : integer;
+        cartas_adivinadas : array[0..2] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : cartas;  // Lista de cartas
@@ -315,7 +317,7 @@ BEGIN
 		    If VA(Habitacion[i].x - pc[0].x) + 
 			    VA(Habitacion[i].y - pc[0].y) <= n Then
 		    Begin 
-			writeln(Habitacion[i].nombre, ' es alcanzable');
+			Writeln(Habitacion[i].nombre, ' es alcanzable');
 			Habitacion[i].alcanzable := True;
 		    End;
 		End;
