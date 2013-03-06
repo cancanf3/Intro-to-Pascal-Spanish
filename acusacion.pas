@@ -1,4 +1,4 @@
-Procedure Acusacion( n : sbr; var player : user; sobre : sbr);
+Procedure Acusacion( var player : user; sobre : sbr);
 Var 
     acus : sbr; // Variables que almacenaran la acusasion del jugador
     Begin
@@ -35,7 +35,7 @@ Var
 			Writeln(' Has Fallado en tu acusacion ');
 			Writeln(' Has Perdido ');
 			Writeln(' Las cartas del sobre son ');
-			Writeln(' Asesino: ',sobre.p,' Arma: ', sobre.a,' Lugar: ', sobre.h);
+			Writeln(' Asesino: ',sobre.prj,' Arma: ', sobre.arma,' Lugar: ', sobre.habt);
 			Halt;
 		End;
 	End;

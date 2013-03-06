@@ -35,3 +35,12 @@ Agregue una variable booleana "vida" a el record usuario
 complete parte de la acusacion ( Falta el algoritmo de la computadora para 
 descartar cartas y poder realizar una acusacion )
 
+---> 06 / 03 <---
+Agregue una variable sospecha (que almacena cuantas sospechas sin refutar tienes)
+
+Agregue una variable arreglo que guarda las cartas que ya adivinaste 
+( Importante para que la computadora pueda acusar )
+
+Comence a trabajar en el proceso general de turno, el cual esta compuesto
+por los procesos (mover,sospecha,acusacion)
+
