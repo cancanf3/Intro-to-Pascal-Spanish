@@ -43,7 +43,15 @@ Type
 	    VA := n;
 	End;
     End;
-    
+        
+    Function Aleatorio(inicio : integer; tope : integer) : integer;
+    Var 
+	amplitud : integer;
+	
+    Begin
+	amplitud := (tope - inicio) + 1;
+	Aleatorio := Random(amplitud) + inicio;
+    End;
     
     Procedure Mover (var player : user; n: integer; Habitacion : array of lugar);
 						   
@@ -58,9 +66,9 @@ Type
 		    Writeln('Debe permanecer en su posicion: ', player.donde);
 		    Exit;
 		End;
-	    2..6 :
-		If player.usuario then
+	    2..6 : 
 		Begin
+		    If player.usuario then
 		    Begin
 			For i := 0 To 8 Do
 			Begin
@@ -91,35 +99,33 @@ Type
 				writeln('Habitacion no alzanzable se quedara en: ', 
 					    player.donde);
 			    End;
-		End // If del usuario
-		
-		Else
+			End;
+		    End // If del usuario
+		    Else
+		    Begin // Caso computadora
+			For i := 0 To 8 Do
+			Begin
+			    If VA(Habitacion[i].x - player.x) + 
+				    VA(Habitacion[i].y - player.y) <= n Then
+			    Begin 
+				writeln(Habitacion[i].nombre, ' es alcanzable');
+				Habitacion[i].alcanzable := True;
+			    End;
+			End;
 		    
-		
-		
-		
-		Begin // Caso computadora
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		End;
+			i := Aleatorio(0,8);
+			While (Habitacion[i].nombre = player.donde) And Not habitacion[i].alcanzable Do
+			Begin
+			    i := Aleatorio(0,8);
+			End;
+			    player.donde := Habitacion[i].nombre;
 		    
 		    End;
-		End; // Del caso 2..6
+			
+		
+	    End; // Del caso 2..6
 	End; // Del Case completo
-    End;
+    End; // Procedure
 
 Var
     
@@ -131,15 +137,15 @@ Var
 			Candelabro, Cuchillo, Cuerda, 
 			LlaveInglesa, Revolver, Tubo);
     
-    habitacion : Array[0..8] of lugar;
+    Habitacion : Array[0..8] of lugar;
     pc : Array[0..5] of user;
     
     i,j,co  : integer; // Variables para Iteracion y contadores
-    n,x,y,z : integer; // Variables de usos multiples: swap, etc.
+    n,m,x,y,z : integer; // Variables de usos multiples: swap, etc.
     
     
 Begin
-
+    Randomize();
     co := 0;
     For i := 6 To 14 Do
     Begin
@@ -149,21 +155,28 @@ Begin
     End;
     
     co := 0;
-    x  := 0;
+    y  := 0;
     For i := 0 To 2 Do
     Begin
-	y := 0;
+	x := 0;
 	For j := 0 to 2 Do
 	Begin
 	    habitacion[co].x := x;
 	    habitacion[co].y := y;
-	    y := y + 2;
+	    x := x + 2;
 	    co := co + 1;
 	End;
-	x := x + 2;
+	y := y + 2;
     End;
     
-    pc[0].usuario := True;
+    For i := 0 To 8 Do
+    Begin
+	writeln(habitacion[i].nombre, habitacion[i].x, habitacion[i].y);
+    End;
+    
+    
+    
+    
     For i := 0 To 5 Do 
     Begin
 	pc[i].x := 2;
@@ -171,17 +184,35 @@ Begin
 	pc[i].usuario := False;
 	pc[i].donde := Vestibulo;
     End;
+    pc[0].usuario := True;
     writeln;
 
 
 
-    writeln(pc[0].donde);
-    Mover(pc[0], 4, habitacion);
-    writeln(pc[0].donde);
-
+    For i := 0 To 1000 Do
+    Begin
+	n := Aleatorio(1,6);
+	m := Aleatorio(1,5);
+	writeln('Ubicacion Previa: ', pc[m].donde);
+	writeln;
+	writeln('Mover(pc[', m, '], ', n, ', habitacion)');
+	Mover(pc[m], n, habitacion);
+	writeln('Ubicacion Actual: ', pc[m].donde);
+	writeln;
+    End;
     
+    
+    For i := 0 To 5 Do 
+    Begin
+	writeln('pc[', i, '].donde : ', pc[i].donde);
+    End;
+    writeln;
 
-
+    For i := 0 To 8 Do
+    Begin
+	writeln(habitacion[i].nombre, habitacion[i].x, habitacion[i].y);
+	writeln(habitacion[i].alcanzable);
+    End;
 
 
 
