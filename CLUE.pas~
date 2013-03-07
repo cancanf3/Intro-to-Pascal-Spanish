@@ -45,10 +45,12 @@ Type
 		y : integer;
 		usuario : boolean;
         vida : boolean;
+        mano : array[0..2] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : lista_cartas;  // Lista de cartas
-        co    : descarte;
+        conta : descarte;
+     posicion : integer;
         
             End;
   
@@ -204,13 +206,14 @@ BEGIN
 
     For i := 0 to 5 Do // Inicializo a todos los jugadores
     Begin
-        pc[i].co.arma := 0;
-        pc[i].co.habt := 0;
-        pc[i].co.prj  := 0;
+        pc[i].conta.arma := 0;
+        pc[i].conta.habt := 0;
+        pc[i].conta.prj  := 0;
     	pc[i].x := 2;
     	pc[i].y := 2;
     	pc[i].usuario := False;
     	pc[i].donde := Vestibulo;
+        pc[i].posicion := i
     End;
     pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
 
@@ -285,7 +288,7 @@ BEGIN
     Begin
 	For j := 0 To 2 Do
 	Begin
-	    pc[i].lista[j] := phaInit[repartir[co]];
+	    pc[i].mano[j] := phaInit[repartir[co]];
 	    co := co + 1;
 	    // Esto para explicarle a Pena
 	End;
