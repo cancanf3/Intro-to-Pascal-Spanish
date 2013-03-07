@@ -1,4 +1,4 @@
-Procedure Turno ( var player : user; habitacion : Array of lugar );
+Procedure Turno ( var player : user; habitacion : Array of lugar; SioNo : boolean );
 Var
     decision : integer;
     opinion : boolean;
@@ -23,7 +23,8 @@ Begin
         If (player.usuario = true ) Then
         Begin
               Writeln('Tu sospecha no ha sido refutada');
-              Writeln('Deseas realizar una acusacion (s/n): ';
+              Writeln('Deseas realizar una acusacion (s/n): ');
+              decision(SioNo);
         End
         
             If ( SioNo ) Then

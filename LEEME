@@ -36,11 +36,13 @@ complete parte de la acusacion ( Falta el algoritmo de la computadora para
 descartar cartas y poder realizar una acusacion )
 
 ---> 06 / 03 <---
-Agregue una variable sospecha (que almacena cuantas sospechas sin refutar tienes)
-
-Agregue una variable arreglo que guarda las cartas que ya adivinaste 
-( Importante para que la computadora pueda acusar )
-
 Comence a trabajar en el proceso general de turno, el cual esta compuesto
 por los procesos (mover,sospecha,acusacion)
+
+Se agrego una variable contadora( de tipo ) para el descarte de las computadoras
+y para imprimir la lista al webon
+
+Se arreglo los arreglos de armas y personajes
+
+el procedimiento SioNo listo
 

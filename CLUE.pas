@@ -13,38 +13,47 @@ Type
     a = Candelabro..Tubo;
     
     cartas= Array[0..20] of pha;
-    armas = Array[0..5] of a;
-    habts = Array[6..14] of h;
-    prjs  = Array[15..20] of p;
+    prjs = Array[0..5] of p;
+    habts = Array[0..8] of h;
+    armas  = Array[0..5] of a;
 	   
     lugar = Record
 		nombre : h;
 		x : integer;
 		y : integer;
 		alcanzable : boolean;
-	    End;
+	        End;
     
     sbr  =  Record
 		arma : a;
 		habt : h;
 		prj  : p;
-	    End;
-		
+	        End;
+	descarte = Record // Variable contadora de descarte para las pc 
+        arma : integer;
+        habt : integer;
+        prj  : integer;
+               End;
+    lista_cartas = Record
+        arma : armas;
+        habt : habts;
+        prj  : prjs; 
+                   End;	
 
     user =  Record
 		x : integer;
 		y : integer;
 		usuario : boolean;
         vida : boolean;
-        sospecha : integer;
-        cartas_adivinadas : array[0..2] of pha;
+        mano : array[0..2] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
-		lista : cartas;  // Lista de cartas
-	    End;
-   
-   
-   
+		lista : lista_cartas;  // Lista de cartas
+        conta : descarte;
+     posicion : integer;
+        
+            End;
+  
    (* Funcion que hace swap de dos variables *)
     Procedure Swap(var n : integer; var m : integer);
     Var
@@ -78,30 +87,32 @@ Type
     End;
     
     (* Funcion para preguntas del tipo (s/n) al usuario *)
-    Function SioNo (): boolean;
-    Var 
-	YN : char;
+ 
+    Procedure decision (var SioNo : boolean);
+    Var
+	YN : string;
+    n : integer;
     Begin
-	
-	read(YN);
-	SioNo := true;
-	Case YN of
-	    's' :
-		Begin
-		    SioNo := True
-		End;
-	    'n' :
-		Begin
-		    SioNo := False
-		End;
-	    Else
-	    Begin
-		writeln('Opcion no valida, default es (s)');
-	    End;
-	End;
-	writeln;
-    End;
-    
+        Repeat
+        Begin
+            readln(YN);
+            SioNo := true;
+            n := 0;
+        	Case YN of
+        	    's','y','si','yes' :
+        		Begin
+        		    SioNo := true;
+                    n := 1;
+        		End;
+        	    'n','no' :
+        		Begin
+        		    SioNo := false;
+                    n := 1;
+        		End;
+            End;
+        End
+        Until ( n = 1 );
+    End;  
     (* Funcion que determina las habitaciones alcanzables con el numero
 	obtenido al lanzar el dado *)
     
@@ -160,6 +171,7 @@ Var
     
 
     sospechaON : boolean;
+    SioNo : boolean;
 
 BEGIN
     writeln;
@@ -175,20 +187,36 @@ BEGIN
     End;
     
     co := 0;
-    x  := 0;
+    y  := 0;
     For i := 0 To 2 Do
     Begin
-	y := 0;
+	x := 0;
 	For j := 0 to 2 Do
 	Begin
 	    habitacion[co].x := x;
 	    habitacion[co].y := y;
-	    y := y + 2;
+	    x := x + 2;
 	    co := co + 1;
 	End;
-	x := x + 2;
+	y := y + 2;
     End;
-   
+    (* Inicializacion de Variables *)
+    SioNo := True; // Variable del procedimiento decision
+    sospechaON := False;
+
+    For i := 0 to 5 Do // Inicializo a todos los jugadores
+    Begin
+        pc[i].conta.arma := 0;
+        pc[i].conta.habt := 0;
+        pc[i].conta.prj  := 0;
+    	pc[i].x := 2;
+    	pc[i].y := 2;
+    	pc[i].usuario := False;
+    	pc[i].donde := Vestibulo;
+        pc[i].posicion := i
+    End;
+    pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
+
     (* Con esta seccion de codigo el usuario selecciona el personaje 
 	que usara en el juego *)
     writeln('Seleccione un personaje ingresando el numero correspondiente.');
@@ -260,7 +288,7 @@ BEGIN
     Begin
 	For j := 0 To 2 Do
 	Begin
-	    pc[i].lista[j] := phaInit[repartir[co]];
+	    pc[i].mano[j] := phaInit[repartir[co]];
 	    co := co + 1;
 	    // Esto para explicarle a Pena
 	End;
@@ -272,17 +300,7 @@ BEGIN
      * el primer turno es del usuario y luego 
      * cada una de las computadoras
      *)
-    
-    (* Inicializo Posiciones, todos comienzan desde el centro*)
-    sospechaON := False;
-    pc[0].usuario := True;
-    For i := 0 To 5 Do 
-    Begin
-	pc[i].x := 2;
-	pc[i].y := 2;
-	pc[i].usuario := False;
-	pc[i].donde := Vestibulo;
-    End;
+   
     writeln;
     
     (* 
@@ -353,9 +371,10 @@ BEGIN
      *
      *)
     
-    readln;
-    write('Desea realizar una sospecha desde, ', pc[0].donde, ' (s/n): ');
-            
+    Readln;
+    Write('Desea realizar una sospecha desde, ', pc[0].donde, ' (s/n): ');
+    decision(SioNo);
+
     If SioNo Then
     Begin
 	
