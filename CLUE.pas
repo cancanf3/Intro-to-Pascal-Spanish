@@ -54,16 +54,25 @@ Type
         
             End;
   
-   (* Funcion que hace swap de dos variables *)
-    Procedure Swap(var n : integer; var m : integer);
+   (* Funcion que hace swap para descartar de la lista *)
+    Procedure Swap(var player1 : user; var player2 : user);
+    Var
+	tmp : lista_cartas;
+    Begin
+	tmp := player1;
+	player1 := player2;
+	player2 := tmp;
+    End;
+
+
+    Procedure Swap_descarte (var n : integer; var m : integer);
     Var
 	tmp : integer;
     Begin
 	tmp := n;
 	n := m;
 	m := tmp;
-    End;
-    
+    End;   
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
@@ -365,60 +374,6 @@ BEGIN
 	    End; // Del caso 2..6
     End; // Del Case completo
     
-    
-    (*
-     * Codigo para realizar una sospecha
-     *
-     *)
-    
-    Readln;
-    Write('Desea realizar una sospecha desde, ', pc[0].donde, ' (s/n): ');
-    decision(SioNo);
-
-    If SioNo Then
-    Begin
-	
-	sospechaON := true;
-	
-	writeln('A que personaje desea acusar?');
-	For i := 0 To 5 Do
-	Begin
-	    writeln(phaInit[i]);
-	End;
-	write('Usuario sospecha de: ');
-	read(sospecha.prj);
-	writeln;
-	
-	sospecha.habt := pc[0].donde;
-
-	writeln('Con que arma?');
-	For i := 15 To 20 Do
-	Begin
-	    writeln(phaInit[i]);
-	End;
-	write('Con: ');
-	read(sospecha.arma);
-	writeln;
-	
-	writeln('La sospecha realizada es');
-	writeln(sospecha.prj, ', en: ', sospecha.habt, ', con: ', sospecha.arma);
-	
-    End
-    Else
-    Begin
-	writeln('Ok.. no acuses mamahuevo/va');
-    End;
-    writeln;
-	
-    If sospechaON Then
-    Begin
-	i := 0;
-	While sospecha.prj <> pc[i].peon Do
-	Begin
-	    i := i + 1;
-	End;
-	writeln('Moviendo a ', pc[i].peon, ' a ', sospecha.habt);
-	pc[i].donde := sospecha.habt;
     End;
     
     
