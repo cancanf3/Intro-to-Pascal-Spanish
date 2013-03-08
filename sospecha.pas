@@ -53,15 +53,32 @@ Type
         
             End;
  
-    Procedure Swap_descarte(var player1 : user; var player2 : user);
+    Procedure Swap_descarte(var player : user; n : integer; 
+                                m : integer; k : string);
     Var
-	tmp : lista_cartas;
+	tmp : user;
     Begin
-	tmp := player1;
-	player1 := player2;
-	player2 := tmp;
+        Case k of 
+            'arma' :
+            Begin
+	            tmp := player.lista.arma[n];
+	            player.lista.arma[n] := player.lista.arma[m];
+	            player.lista.arma[m] := tmp;
+            End;
+            'habt' :
+            Begin
+	            tmp := player.lista.habt[n];
+	            player.lista.habt[n] := player.lista.habt[m];
+	            player.lista.habt[m] := tmp;
+            End;
+            'prj' :
+            Begin
+	            tmp := player.lista.prj[n];
+	            player.lista.prj[n] := player.lista.prj[m];
+	            player.lista.prj[m] := tmp;
+            End;
+        End;
     End;
-
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 

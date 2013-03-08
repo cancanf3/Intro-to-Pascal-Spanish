@@ -55,7 +55,8 @@ Type
             End;
   
    (* Funcion que hace swap para descartar de la lista *)
-    Procedure Swap_descarte(var player1 : user; var player2 : user);
+    Procedure Swap_descarte(var player1 : lista_cartas; 
+                            var player2 : lista_cartas);
     Var
 	tmp : lista_cartas;
     Begin
