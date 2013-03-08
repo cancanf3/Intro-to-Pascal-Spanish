@@ -3,7 +3,7 @@ Program hola;
 
     Procedure decision (var SioNo : boolean);
     Var
-	YN : string;
+	YN : char;
     n : integer;
     Begin
         Repeat
@@ -12,12 +12,12 @@ Program hola;
             SioNo := true;
             n := 0;
         	Case YN of
-        	    's','y','si','yes' :
+        	    's','y' :
         		Begin
         		    SioNo := true;
                     n := 1;
         		End;
-        	    'n','no' :
+        	    'n'    :
         		Begin
         		    SioNo := false;
                     n := 1;
