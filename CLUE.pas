@@ -243,7 +243,19 @@ BEGIN
     	pc[i].y := 2;
     	pc[i].usuario := False;
     	pc[i].donde := Vestibulo;
-        pc[i].posicion := i
+        pc[i].posicion := i;
+        For j := 0 to 5 Do
+        Begin
+            pc[i].lista.arma[j] := phaInit[j + 15 ];
+        End;
+        For j := 0 to 5 Do
+        Begin
+            pc[i].lista.prj[j] := phaInit[j];
+        End;
+        For j := 0 to 8 Do
+        Begin
+            pc[i].lista.habt[j] := phaInit[j + 6 ];
+        End;
     End;
     pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
 
