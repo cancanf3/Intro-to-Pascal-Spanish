@@ -43,7 +43,8 @@ Type
 	    VA := n;
 	End;
     End;
-        
+    
+    (* Funcion que genera numeros aleatorios en un rango *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
 	amplitud : integer;
@@ -53,14 +54,23 @@ Type
 	Aleatorio := Random(amplitud) + inicio;
     End;
     
-    Procedure Mover (var player : user; n: integer; Habitacion : array of lugar);
-						   
-    Var
-	moverA : h;
-	i : integer;
+    (* Funcion que calcula la distancia ente un usuario y una habitacion *)
+    Function Distancia(player : user ; Habitacion : lugar): integer;
     Begin
-
-	Case n Of
+	Distancia := VA(Habitacion.x - player.x) 
+		     + VA(Habitacion.y - player.y);
+    End;
+       
+    (* Procedimiento que permite mover a los jugadores *)   
+    Procedure Mover (var player : user; // Usurio o Computadora.
+			 n: integer;    // Lo que saco con el dado.
+			 Habitacion : array of lugar);
+    Var
+	eleccion : Array[0..8] of integer; // Ayuda para Habts. Alcanzables.
+	moverA : integer; // Eleccion del Usuario.
+	co, i  : integer; // Contadores.
+    Begin
+	Case n Of // Case de los numeros del Dado (1..6)
 	    1    :  
 		Begin
 		    Writeln('Debe permanecer en su posicion: ', player.donde);
@@ -68,45 +78,42 @@ Type
 		End;
 	    2..6 : 
 		Begin
-		    If player.usuario then
-		    Begin
+		    If player.usuario then // Caso Usuario
+ 		    Begin
+			co := 0;
+			writeln('Habitaciones Alcanzables');
 			For i := 0 To 8 Do
 			Begin
-			    If VA(Habitacion[i].x - player.x) + 
-				    VA(Habitacion[i].y - player.y) <= n Then
+			    If Distancia(player,Habitacion[i]) <= n Then
 			    Begin 
-				writeln(Habitacion[i].nombre, ' es alcanzable');
 				Habitacion[i].alcanzable := True;
+				writeln(co + 1,'.- ', Habitacion[i].nombre, ' es alcanzable.'); 
+				eleccion[co] := i;
+				co := co + 1;
 			    End;
 			End;
-
-			write('A cual de las posibles habitaciones desea ir: ');
 			
-			readln(moverA);
-			For i := 0 To 8 Do
+			write('Ingrese el numero correspondiente: ');
+			read(moverA);
+			(* Verificacion de la Entrada del Usuario *)
+			While (MoverA > co) Or (MoverA < 1) Do
 			Begin
-			    If (moverA = Habitacion[i].nombre) 
-				And Habitacion[i].alcanzable Then
-			    Begin
-				player.x := Habitacion[i].x;
-				player.y := Habitacion[i].y;
-				player.donde := Habitacion[i].nombre;
-				writeln('Ahora se encuentra en: ', player.donde);
-			    End
-			    Else If (moverA = Habitacion[i].nombre) 
-				And Not Habitacion[i].alcanzable Then
-			    Begin
-				writeln('Habitacion no alzanzable se quedara en: ', 
-					    player.donde);
-			    End;
+			    writeln('Numero Ingresado no valido');
+			    write('Intente de nuevo: ');
+			    read(MoverA);
 			End;
-		    End // If del usuario
+			
+			player.x := Habitacion[eleccion[moverA - 1]].x;
+			player.y := Habitacion[eleccion[moverA - 1]].y;
+			player.donde := Habitacion[eleccion[moverA - 1]].nombre;
+			writeln('Ahora se encuentra en: ', player.donde);
+			
+		    End 
 		    Else
 		    Begin // Caso computadora
 			For i := 0 To 8 Do
 			Begin
-			    If VA(Habitacion[i].x - player.x) + 
-				    VA(Habitacion[i].y - player.y) <= n Then
+			    If Distancia(player,Habitacion[i]) <= n Then
 			    Begin 
 				writeln(Habitacion[i].nombre, ' es alcanzable');
 				Habitacion[i].alcanzable := True;
@@ -118,12 +125,18 @@ Type
 			Begin
 			    i := Aleatorio(0,8);
 			End;
-			    player.donde := Habitacion[i].nombre;
-		    
-		    End;
 			
-		
-	    End; // Del caso 2..6
+			player.donde := Habitacion[i].nombre;
+			player.x := Habitacion[i].x;
+			player.y := Habitacion[i].y;
+			writeln('Computadora se movio a: ', player.donde);
+			(* 
+			 * En la linea de Arriba podemos poner algo como
+			 * writeln(player.peon, '(Computadora ', player.posicion, ') ', ' Se movio a: ', player.donde);'
+			 *
+			*)
+		    End;
+		End; // Del caso 2..6
 	End; // Del Case completo
     End; // Procedure
 
@@ -146,6 +159,7 @@ Var
     
 Begin
     Randomize();
+    
     co := 0;
     For i := 6 To 14 Do
     Begin
@@ -174,9 +188,6 @@ Begin
 	writeln(habitacion[i].nombre, habitacion[i].x, habitacion[i].y);
     End;
     
-    
-    
-    
     For i := 0 To 5 Do 
     Begin
 	pc[i].x := 2;
@@ -187,36 +198,19 @@ Begin
     pc[0].usuario := True;
     writeln;
 
-
-
-    For i := 0 To 1000 Do
+    (* Ejemplo de un uso normal de esta funcion *)
+    For i := 0 To 5 Do
     Begin
 	n := Aleatorio(1,6);
-	m := Aleatorio(1,5);
-	writeln('Ubicacion Previa: ', pc[m].donde);
+	m := 0;
+	writeln('Ubicacion Previa: ', pc[m].donde, ' (', pc[m].x,', ', pc[m].y, ').');
 	writeln;
-	writeln('Mover(pc[', m, '], ', n, ', habitacion)');
+	writeln('Llamada de la funcion == Mover(pc[', m, '], ', n, ', habitacion)');
 	Mover(pc[m], n, habitacion);
-	writeln('Ubicacion Actual: ', pc[m].donde);
 	writeln;
     End;
     
     
-    For i := 0 To 5 Do 
-    Begin
-	writeln('pc[', i, '].donde : ', pc[i].donde);
-    End;
-    writeln;
-
-    For i := 0 To 8 Do
-    Begin
-	writeln(habitacion[i].nombre, habitacion[i].x, habitacion[i].y);
-	writeln(habitacion[i].alcanzable);
-    End;
-
-
-
-
 End.
 
 
