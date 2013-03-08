@@ -55,16 +55,32 @@ Type
             End;
   
    (* Funcion que hace swap para descartar de la lista *)
-    Procedure Swap_descarte(var player1 : lista_cartas; 
-                            var player2 : lista_cartas);
+    Procedure Swap_descarte(var player : user; n : integer; 
+                                m : integer; k : string);
     Var
-	tmp : lista_cartas;
+	tmp : user;
     Begin
-	tmp := player1;
-	player1 := player2;
-	player2 := tmp;
+        Case k of 
+            'arma' :
+            Begin
+	            tmp := player.lista.arma[n];
+	            player.lista.arma[n] := player.lista.arma[m];
+	            player.lista.arma[m] := tmp;
+            End;
+            'habt' :
+            Begin
+	            tmp := player.lista.habt[n];
+	            player.lista.habt[n] := player.lista.habt[m];
+	            player.lista.habt[m] := tmp;
+            End;
+            'prj' :
+            Begin
+	            tmp := player.lista.prj[n];
+	            player.lista.prj[n] := player.lista.prj[m];
+	            player.lista.prj[m] := tmp;
+            End;
+        End;
     End;
-
 
     Procedure Swap (var n : integer; var m : integer);
     Var
