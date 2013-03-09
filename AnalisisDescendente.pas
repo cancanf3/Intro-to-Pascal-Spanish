@@ -47,11 +47,8 @@ TYPE
     Begin
 	{Precondicion: True}
 	
-	
 	{Postcondicion: True}
     End;
-
-    
 
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
@@ -83,16 +80,11 @@ TYPE
 			/\ n >= 0 ==> (n = n)}
     End;
     
-
-
-
-    
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
     Function Distancia(player : user ; Habitacion : lugar): integer;
     Begin
 	{Precondicion: True}
-	Distancia := VA(Habitacion.x - player.x) 
-		     + VA(Habitacion.y - player.y);
+
 	{Postcondicion: Distancia = \Habitacion.x - player.x\  
 			+ \Habitacion.y - player.y\}
     End;
@@ -115,96 +107,94 @@ TYPE
     
     (* Proceso para sospechar *)
 
-Procedure sospecha_usuario( var sospechaON : boolean; var player : user ; 
-                    var pc : array of user; phaInit : cartas );
-Var
-    sospech : sbr; // Variable que guarda la sospecha
-    muestro : integer; // Variable que permite determinar que carta mostrar
-    h,n,m,l : integer; // variables que permiten programacion robusta
-    s : string; // Variable que muestra mensajes al usuario
-    k : integer; // determina cuantas cartas son sospechadas por mano
-    carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
-    i,j,co : integer; // Contadores 
-    humano : boolean; // determina si el usuario ha mostrado una carta
-Begin
-    (* Elegir arma a sospechar *)
+    Procedure sospecha_usuario( var sospechaON : boolean; var player : user ; 
+			var pc : array of user; phaInit : cartas );
+    Var
+	sospech : sbr; // Variable que guarda la sospecha
+	muestro : integer; // Variable que permite determinar que carta mostrar
+	h,n,m,l : integer; // variables que permiten programacion robusta
+	s : string; // Variable que muestra mensajes al usuario
+	k : integer; // determina cuantas cartas son sospechadas por mano
+	carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
+	i,j,co : integer; // Contadores 
+	humano : boolean; // determina si el usuario ha mostrado una carta
+    Begin
+	(* Elegir arma a sospechar *)
 
-    (* Elegir personaje a sospechar *)
+	(* Elegir personaje a sospechar *)
 
-    {Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
-  
-    (* Mover el personaje al lugar de la sospecha *)
+	{Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
+    
+	(* Mover el personaje al lugar de la sospecha *)
 
-    (* Match de las cartas *)
+	(* Match de las cartas *)
 
-    {Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
-                    ( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
+	{Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
+			( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
 
-End;
+    End;
 
-Procedure sospecha_computadora( var sospechaON : boolean; var player : user ; 
-                    var pc : array of user; phaInit : cartas );
-Var
-    sospech : sbr; // Variable que guarda la sospecha
-    muestro : integer; // Variable que permite determinar que carta mostrar
-    h,n,m,l : integer; // variables que permiten programacion robusta
-    s : string; // Variable que muestra mensajes al usuario
-    k : integer; // determina cuantas cartas son sospechadas por mano
-    carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
-    i,j,co : integer; // Contadores 
-    humano : boolean; // determina si el usuario ha mostrado una carta
-Begin
+    Procedure sospecha_computadora( var sospechaON : boolean; var player : user ; 
+			var pc : array of user; phaInit : cartas );
+    Var
+	sospech : sbr; // Variable que guarda la sospecha
+	muestro : integer; // Variable que permite determinar que carta mostrar
+	h,n,m,l : integer; // variables que permiten programacion robusta
+	s : string; // Variable que muestra mensajes al usuario
+	k : integer; // determina cuantas cartas son sospechadas por mano
+	carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
+	i,j,co : integer; // Contadores 
+	humano : boolean; // determina si el usuario ha mostrado una carta
+    Begin
 
-    (* Computadora elegira arma a sospechar *)
-    (* Computadora elegira personaje a sospechar *)
+	(* Computadora elegira arma a sospechar *)
+	(* Computadora elegira personaje a sospechar *)
 
-    {Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
+	{Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
 
-    (* Mover el personaje al lugar de la sospecha *)
+	(* Mover el personaje al lugar de la sospecha *)
 
-    (* Match de las cartas *)
-        (* Si el usuario tiene una carta de la sospecha *)
+	(* Match de las cartas *)
+	    (* Si el usuario tiene una carta de la sospecha *)
 
-    {Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
-                    ( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
+	{Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
+			( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
 
-End;
+    End;
 
-    (* Proceso para Acusar *)
+	(* Proceso para Acusar *)
 
-Procedure Acusacion_usuario( var player : user; sobre : sbr);
-Var 
-    acus : sbr; // Variables que almacenaran la acusasion del jugador
-Begin
-    	
-        (* Usuario acusa *)
+    Procedure Acusacion_usuario( var player : user; sobre : sbr);
+    Var 
+	acus : sbr; // Variables que almacenaran la acusasion del jugador
+    Begin
+	    
+	    (* Usuario acusa *)
 
-	    {Precondicion: sospechaON == true }  
-        (* Verificacion de la acusacion *) 
+		{Precondicion: sospechaON == true }  
+	    (* Verificacion de la acusacion *) 
 
-        (* Pierde el jugador o Gana y se Termina el juego *)
-        {Postcondicion: player.vida == ( acus.arma = sobre.arma /\
-                        acus.prj = sobre.prj /\ acus.habt = acus.habt ) }
-End;	
-
-
-Procedure Acusacion_computadora( var player : user; sobre : sbr);
-Var 
-    acus : sbr; // Variables que almacenaran la acusasion del jugador
-Begin
-    	
-        (* Computador acusa *)
- 
-	    {Precondicion: sospechaON == true }  
-        (* Verificacion de la acusacion *) 
+	    (* Pierde el jugador o Gana y se Termina el juego *)
+	    {Postcondicion: player.vida == ( acus.arma = sobre.arma /\
+			    acus.prj = sobre.prj /\ acus.habt = acus.habt ) }
+    End;	
 
 
-        (* Pierde el jugador o Gana y se Termina el juego *)
-        {Postcondicion: player.vida == ( acus.arma = sobre.arma /\
-                        acus.prj = sobre.prj /\ acus.habt = acus.habt ) }
-End;	
+    Procedure Acusacion_computadora( var player : user; sobre : sbr);
+    Var 
+	acus : sbr; // Variables que almacenaran la acusasion del jugador
+    Begin
+	    
+	    (* Computador acusa *)
+    
+		{Precondicion: sospechaON == true }  
+	    (* Verificacion de la acusacion *) 
 
 
+	    (* Pierde el jugador o Gana y se Termina el juego *)
+	    {Postcondicion: player.vida == ( acus.arma = sobre.arma /\
+			    acus.prj = sobre.prj /\ acus.habt = acus.habt ) }
+    End;	
 
 
 
@@ -214,22 +204,24 @@ End;
 
 
 
-Procedure Turno ( var player : user; habitacion : Array of lugar);
-Var
-    decision : integer;
-    opinion : boolean;
-    n : integer;
-Begin
-    {Precondicion: player.vida == true }
 
-    (* Emulacion de Dado *)
-    (* El jugador va a moverse *)
-    (* El jugador realiza una sospecha *)
-    (* El jugador realiza una acusacion *)
-    (* Fin de su turno *) 
 
-    {Post condicion: player.vida == acusacion} 
-End;
+    Procedure Turno ( var player : user; habitacion : Array of lugar);
+    Var
+	decision : integer;
+	opinion : boolean;
+	n : integer;
+    Begin
+	{Precondicion: player.vida == true }
+
+	(* Emulacion de Dado *)
+	(* El jugador va a moverse *)
+	(* El jugador realiza una sospecha *)
+	(* El jugador realiza una acusacion *)
+	(* Fin de su turno *) 
+
+	{Post condicion: player.vida == acusacion} 
+    End;
 
 
 
@@ -261,6 +253,32 @@ VAR
 
 BEGIN
 
+    Inicializa(pc,PhaInit,Habitacion);
+    SeleccionPersonaje(phaInit,pc);
+    
+    REPARTIRCARTAS
+    
+    While True Do
+    Begin
+	For i := 0 To 5 Do
+	Begin
+	    If pc[i].usuario Then // Caso para el usuario
+	    Begin
+		sospecha_usuario( var sospechaON : boolean; var player : user ; 
+			var pc : array of user; phaInit : cartas );
+			Acusacion_usuario( var player : user; sobre : sbr)
+			
+	    End
+	    Else // Caso para las jugadoras
+	    Begin
+		
+	    End;
+	    
+	
+	
+	End;
+    
+    
 
 
 
