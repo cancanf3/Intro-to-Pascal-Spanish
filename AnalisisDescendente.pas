@@ -40,17 +40,19 @@ TYPE
 		posicion : integer; // posicion en la mesa del jugador.
 	    End;
 
-    (* Procedimiento que Intercambia dos variables tipo integer *)
-    Procedure Swap (var n : integer; var m : integer);
-    Var
-	tmp : integer;
+    (* Procedimiento que inicializa las variables necesitadas *)
+    Procedure Inicializa(var player : array of user; 
+			    var phaInit : cartas; 
+			    var Habitacion : array of lugar);
     Begin
 	{Precondicion: True}
 	
 	
 	{Postcondicion: True}
-    End;   
+    End;
+
     
+
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
@@ -68,48 +70,54 @@ TYPE
 	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
     Begin
 	{Precondicion: True}
-	writeln('Seleccione un personaje ingresando el numero correspondiente.');
-	For i := 0 To 5 Do
-	Begin
-	    Writeln(i+1, '.- ', phaInit[i]);
-	End;
-	
-	write('Usuario Selecciona: ');
-	read(i);
-	While (i > 6) Or (i < 1) Do
-	Begin
-	    writeln('Numero ingresado no valido');
-	    write('Usuario Selecciona: ');
-	    read(i);
-	End;
-	player[0].peon := phaInit[i-1];
-	writeln('El personaje seleccionado fue: ', player[0].peon);
-	writeln;
-	
-	(* Asignamos los personajes a las Computadoras *)
-	Swap(repartir[i-1], repartir[5]);
 
-	For i:= 0 To 4 Do
-	Begin
-	    player[i+1].peon := phaInit[repartir[i]];
-	    writeln('Jugador ', i + 2, ' Selecciona a: ', player[i+1].peon);
-	End;
-	{Postcondicion: (%forall pc[i] \ 0 < i <= 5 : (%existis \  
+	{Postcondicion: (%forall i \ 0 < i <= 5 : (%existis j \ 0 <= j <= 5 : pc[i] = phaInit[j]} // ESTO NO SE SI ESTA BIEN ____---____  
+    End;
     
+    (* Funcion que calcula el valor absoluto de un entero dado *)
+    Function VA(n : integer): integer;
+    Begin
+	{Precondicion: True}
+	If n < 0 Then
+	Begin
+	    VA := n * -1;
+	End
+	Else
+	Begin
+	    VA := n;
+	End;
+	{Postcondicion: n < 0 ==> (n = n * -1) 
+			/\ n >= 0 ==> (n = n)}
+    End;
+    
+    
+    (* Funcion que calcula la distancia ente un usuario y una habitacion *)
+    Function Distancia(player : user ; Habitacion : lugar): integer;
+    Begin
+	{Precondicion: True}
+	Distancia := VA(Habitacion.x - player.x) 
+		     + VA(Habitacion.y - player.y);
+	{Postcondicion: Distancia = \Habitacion.x - player.x\  
+			+ \Habitacion.y - player.y\}
+    End;
+    
+    (* Procedimiento que permite mover a los jugadores *)   
+    Procedure Mover (var player : user; // Usurio o Computadora.
+			 n: integer;    // Lo que saco con el dado.
+			 Habitacion : array of lugar);
+    Var
+	eleccion : Array[0..8] of integer; // Ayuda para Habts. Alcanzables.
+	moverA : integer; // Eleccion del Usuario.
+	co, i  : integer; // Contadores.
+    Begin
+	{Precondicion: n >= 1 /\ n <= 6}
+	
+	{Postondicion: (%exits i \ 0 <= i <= 8 : player.x = Habitacion[i].x 
+						/\ player.y = Habitacion[i].y
+						/\ player.donde = Habitacion[i].nombre) }
     End;
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -124,21 +132,13 @@ VAR
      * Personajes: 0 al 5
      * Habitaciones: del 6 al 14
      * Armas: 15 20 
-    *)
-    phaInit : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
-			ProfesorCiruela, SenoritaEscarlata, 
-			CoronelMostaza, Biblioteca, Cocina, 
-			Comedor, Estudio, Vestibulo, Salon, 
-			Invernadero, SalaDeBaile, SalaDeBillar,
-			Candelabro, Cuchillo, Cuerda, 
-			LlaveInglesa, Revolver, Tubo);
-
-    habitacion : Array[0..8] of lugar;
+     *)
+    phaInit : cartas // Arreglo con todas las cartas del juego
+    habitacion : Array[0..8] of lugar; // Arreglo de las habitaciones
     pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario
     
     sobre   : sbr; // Variable que contiene los hechos reales
-    
-    
+       
     i,j,co  : integer; // Variables para Iteracion y contadores.
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
     Turno   : integer; // Contador de los Turnos.
