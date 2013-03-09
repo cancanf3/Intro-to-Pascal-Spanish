@@ -214,7 +214,7 @@ End;
 
 
 
-Procedure Turno ( var player : user; habitacion : Array of lugar; SioNo : boolean );
+Procedure Turno ( var player : user; habitacion : Array of lugar);
 Var
     decision : integer;
     opinion : boolean;
