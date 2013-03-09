@@ -103,6 +103,41 @@ Type
 	Aleatorio := Random(amplitud) + inicio;
     End;
     
+    (* Proceso para Seleccionar Personaje *)
+    Procedure SeleccionPersonaje(phaInit : cartas; var player : Array of user);
+    Var
+	i : integer;
+	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
+    Begin
+	writeln('Seleccione un personaje ingresando el numero correspondiente.');
+	For i := 0 To 5 Do
+	Begin
+	    Writeln(i+1, '.- ', phaInit[i]);
+	End;
+	
+	write('Usuario Selecciona: ');
+	read(i);
+	While (i > 6) Or (i < 1) Do
+	Begin
+	    writeln('Numero ingresado no valido');
+	    write('Usuario Selecciona: ');
+	    read(i);
+	End;
+	player[0].peon := phaInit[i-1];
+	writeln('El personaje seleccionado fue: ', player[0].peon);
+	writeln;
+	
+	(* Asignamos los personajes a las Computadoras *)
+	Swap(repartir[i-1], repartir[5]);
+
+	For i:= 0 To 4 Do
+	Begin
+	    player[i+1].peon := phaInit[repartir[i]];
+	    writeln('Jugador ', i + 2, ' Selecciona a: ', player[i+1].peon);
+	End;
+    End;
+    
+    
     (* Funcion que calcula el valor absoluto de un entero dado *)
     Function VA(n : integer): integer;
     Begin
@@ -143,31 +178,94 @@ Type
         End
         Until ( n = 1 );
     End;  
-    (* Funcion que determina las habitaciones alcanzables con el numero
-	obtenido al lanzar el dado *)
-    
-    (*
-    Procedure Alcanzable(n : integer);
-    Var 
-	i : integer;
-    Begin
-	Writeln('Habitaciones Alcanzables');
-	If n = 1 Then
-	Begin
-	    Writeln('Debe permanecer en su posicion: ', usuario.donde.nombre);
-	    Exit;
-	End;
-	
-	For i := 0 To 8 Do
-	Begin
-	    If VA(Habitacion[i].x - usuario.donde.x) + VA(Habitacion[i].y - usuario.donde.y) <= n Then
-	    Begin
-		writeln(Habitacion[i].nombre, ' es alcanzable');
-	    End;
-	End;
-    End;
-    *)
 
+
+    (* Funcion que calcula la distancia ente un usuario y una habitacion *)
+    Function Distancia(player : user ; Habitacion : lugar): integer;
+    Begin
+	Distancia := VA(Habitacion.x - player.x) 
+		     + VA(Habitacion.y - player.y);
+    End;
+    
+    
+    (* Procedimiento que permite mover a los jugadores *)   
+    Procedure Mover (var player : user; // Usurio o Computadora.
+			 n: integer;    // Lo que saco con el dado.
+			 Habitacion : array of lugar);
+    Var
+	eleccion : Array[0..8] of integer; // Ayuda para Habts. Alcanzables.
+	moverA : integer; // Eleccion del Usuario.
+	co, i  : integer; // Contadores.
+    Begin
+	Case n Of // Case de los numeros del Dado (1..6)
+	    1    :  
+		Begin
+		    Writeln('Debe permanecer en su posicion: ', player.donde);
+		    Exit;
+		End;
+	    2..6 : 
+		Begin
+		    If player.usuario then // Caso Usuario
+ 		    Begin
+			co := 0;
+			writeln('Habitaciones Alcanzables');
+			For i := 0 To 8 Do
+			Begin
+			    If Distancia(player,Habitacion[i]) <= n Then
+			    Begin 
+				Habitacion[i].alcanzable := True;
+				writeln(co + 1,'.- ', Habitacion[i].nombre, ' es alcanzable.'); 
+				eleccion[co] := i;
+				co := co + 1;
+			    End;
+			End;
+			
+			write('Ingrese el numero correspondiente: ');
+			read(moverA);
+			(* Verificacion de la Entrada del Usuario *)
+			While (MoverA > co) Or (MoverA < 1) Do
+			Begin
+			    writeln('Numero Ingresado no valido');
+			    write('Intente de nuevo: ');
+			    read(MoverA);
+			End;
+			
+			player.x := Habitacion[eleccion[moverA - 1]].x;
+			player.y := Habitacion[eleccion[moverA - 1]].y;
+			player.donde := Habitacion[eleccion[moverA - 1]].nombre;
+			writeln('Ahora se encuentra en: ', player.donde);
+			
+		    End 
+		    Else
+		    Begin // Caso computadora
+			For i := 0 To 8 Do
+			Begin
+			    If Distancia(player,Habitacion[i]) <= n Then
+			    Begin 
+				writeln(Habitacion[i].nombre, ' es alcanzable');
+				Habitacion[i].alcanzable := True;
+			    End;
+			End;
+		    
+			i := Aleatorio(0,8);
+			While (Habitacion[i].nombre = player.donde) And Not habitacion[i].alcanzable Do
+			Begin
+			    i := Aleatorio(0,8);
+			End;
+			
+			player.donde := Habitacion[i].nombre;
+			player.x := Habitacion[i].x;
+			player.y := Habitacion[i].y;
+			writeln('Computadora se movio a: ', player.donde);
+			(* 
+			 * En la linea de Arriba podemos poner algo como
+			 * writeln(player.peon, '(Computadora ', player.posicion, ') ', ' Se movio a: ', player.donde);'
+			 *
+			*)
+		    End;
+		End; // Del caso 2..6
+	End; // Del Case completo
+    End; // Procedure
 
 Var
     (* 
@@ -183,7 +281,6 @@ Var
 			Candelabro, Cuchillo, Cuerda, 
 			LlaveInglesa, Revolver, Tubo);
 
-    repartirPrj: Array[0..5] of integer = (0,1,2,3,4,5);
     repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
 						13,14,15,16,17,18,19,20);
 
@@ -193,9 +290,10 @@ Var
     
     pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario
     
-    i,j,co  : integer; // Variables para Iteracion y contadores
+    i,j,co  : integer; // Variables para Iteracion y contadores.
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
-       
+    Turno   : integer; // Contador de los Turnos.
+    
     moverA : h;
     sospecha : sbr; // variable para realizar sospechas
     
@@ -206,6 +304,10 @@ Var
 BEGIN
     writeln;
     Randomize();
+    
+    (*
+     * Inicializacion de Variables 
+     *)
     
     (* Inicializo las Habitaciones con sus ubicaciones *)
     co := 0;
@@ -230,7 +332,7 @@ BEGIN
 	End;
 	y := y + 2;
     End;
-    (* Inicializacion de Variables *)
+    
     SioNo := True; // Variable del procedimiento decision
     sospechaON := False;
 
@@ -259,33 +361,11 @@ BEGIN
     End;
     pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
 
-    (* Con esta seccion de codigo el usuario selecciona el personaje 
-	que usara en el juego *)
-    writeln('Seleccione un personaje ingresando el numero correspondiente.');
-    For i := 0 To 5 Do
-    Begin
-	    Writeln(i+1, '.- ', phaInit[i]);
-    End;
-    
-    write('Usuario Selecciona: ');
-    read(i);
-    While (i > 6) Or (i < 1) Do
-    Begin
-	writeln('Numero ingresado no valido');
-	write('Usuario Selecciona: ');
-	read(i);
-    End;
-    pc[0].peon := phaInit[i-1];
-    writeln('El personaje seleccionado fue: ', pc[0].peon);
-    writeln;
-    
-    (*Codigo que asigna los personajes a las pc's*)
-    Swap(repartirPrj[i-1], repartirPrj[5]);
-
-    For i:= 0 To 5 Do
-    Begin
-	pc[i+1].peon := phaInit[repartirPrj[i]];
-    End;
+    (* 
+     * Con este Procedimiento el usuario selecciona el personaje 
+     * que usara en el juego y se aginan los demas a las computadoras
+     *)
+    SeleccionPersonaje(phaInit, pc);
     writeln;
     
     (* Aqui se seleccionan los hechos reales y se reparten las cartas *)
@@ -324,7 +404,7 @@ BEGIN
     End;
     writeln;
         
-    (* Aqui asigno las cartas *)
+    (* Aqui repatimos las cartas *)
     co := 0;
     For i := 0 To 5 Do
     Begin
@@ -332,94 +412,36 @@ BEGIN
 	Begin
 	    pc[i].mano[j] := phaInit[repartir[co]];
 	    co := co + 1;
-	    // Esto para explicarle a Pena
 	End;
     End;
     
-    
     (*
-     * Aqui comienza el juego
-     * el primer turno es del usuario y luego 
-     * cada una de las computadoras
+     * Ejemplo de la estructura de los turnos
+     *
      *)
-   
+    While True Do
+    Begin
+	For i := 0 to 5
+	Begin
+	    
+	    (*
+	     * Los procedimientos Mover, Sospecha y Acusacion van dentro 
+	     * de Turno, por lo que el programa seria una sola llamada a 
+	     * Turno para cada jugador
+	     *)
+	    	    
+	    (*
+	    Turno(p[i]);
+		
+		n := Aleatorio(1,6);
+		Mover(pc[i], n, habitacion);
+		Sospecha(sospechaON,p[i],pc,phaInit);
+		Acusacion(p[i],sobre);
+	    *)
+	End;
+	Turno := Turno + 1;
+    End;
+     
     writeln;
-    
-    (* 
-     *	Turno del Usuario 
-     *)
-    
-    readln;
-    writeln('Turno del Usuario');
-    writeln;
-    
-    writeln('Presione <Enter> para lanzar el dado');
-    readln;
-    
-    (* Emulacion de Dado *)
-    n := Aleatorio(1,6);
-    writeln('Al lanzar el dado obtuvo un ', n, '.');
-    writeln;
-    
-    (* Calculo de Habitaciones Alcanzables *)
-    Writeln('Habitaciones Alcanzables');
-    writeln;
-    
-    Case n Of
-	1    :  
-	    Begin
-		Writeln('Debe permanecer en su posicion: ', pc[0].donde);
-	    End;
-	2..6 :  
-	    Begin
-		For i := 0 To 8 Do
-		Begin
-		    If VA(Habitacion[i].x - pc[0].x) + 
-			    VA(Habitacion[i].y - pc[0].y) <= n Then
-		    Begin 
-			Writeln(Habitacion[i].nombre, ' es alcanzable');
-			Habitacion[i].alcanzable := True;
-		    End;
-		End;
 
-		write('A cual de las posibles habitaciones desea ir: ');
-		
-		readln(moverA);
-		For i := 0 To 8 Do
-		Begin
-		    If (moverA = Habitacion[i].nombre) 
-			And Habitacion[i].alcanzable Then
-		    Begin
-			pc[0].x := Habitacion[i].x;
-			pc[0].y := Habitacion[i].y;
-			pc[0].donde := Habitacion[i].nombre;
-			writeln('Ahora se encuentra en: ', pc[0].donde);
-		    End
-		    Else If (moverA = Habitacion[i].nombre) 
-			And Not Habitacion[i].alcanzable Then
-		    Begin
-			writeln('Habitacion no alzanzable se quedara en: ', 
-				    pc[0].donde);
-		    End;
-		
-		End;
-		
-	    End; // Del caso 2..6
-    End; // Del Case completo
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-  
-  
-    writeln;
-End.
+END.
