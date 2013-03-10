@@ -151,10 +151,30 @@ TYPE
     
     (* Proceso para sospechar *)
 
-    Procedure sospecha_usuario( var sospechaON : boolean; var player : user ; 
-			var pc : array of user; phaInit : cartas );
+    Procedure sospecha_usuario( var sospech : sbr; var sospechaON : boolean; 
+        var player : user ; var pc : array of user; phaInit : cartas );
+
+                Procedure Refutar ( var player : user; sospech : sbr;
+                                    var muestro : integer ; var k : integer);
+
+                        var carta : Array[0..2] of pha
+
+                        Begin
+                        
+                            {Precondicion: (%existe i : 0 <= i <= 5 :
+                                (%exist j : 0 <= j <= 2 
+                                    : sospech = pc[i].mano[j] )) }
+
+                            {Postcondicion: sospechaON == !( (%exist a :
+                                0 <= a <= 2 : carta[a] = sospech.arma) \/
+                                (%exist b : 0 <= b <= 2 /\ a <> b : 
+                                    carta[b] = sospech.habt ) \/
+                                (%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
+                                    carta[c] = sospech.prj ) ) }
+
+                        End;
+
     Var
-	sospech : sbr; // Variable que guarda la sospecha
 	muestro : integer; // Variable que permite determinar que carta mostrar
 	h,n,m,l : integer; // variables que permiten programacion robusta
 	s : string; // Variable que muestra mensajes al usuario
@@ -178,10 +198,30 @@ TYPE
 
     End;
 
-    Procedure sospecha_computadora( var sospechaON : boolean; var player : user ; 
-			var pc : array of user; phaInit : cartas );
+    Procedure sospecha_computadora( var sospech : sbr ;var sospechaON : boolean; 
+                                    var player : user ; var pc : array of user; 
+                                        phaInit : cartas );
+
+                Procedure Refutar ( var player : user; sospech : sbr;
+                    var muestro : integer ; var k : integer);
+
+                        var carta : Array[0..2] of pha
+
+                        Begin
+                        
+                            {Precondicion: (%existe i : 0 <= i <= 5 :
+                                (%exist j : 0 <= j <= 2 
+                                    : sospech = pc[i].mano[j] )) }
+
+                            {Postcondicion: sospechaON == !( (%exist a :
+                                0 <= a <= 2 : carta[a] = sospech.arma) \/
+                                (%exist b : 0 <= b <= 2 /\ a <> b : 
+                                    carta[b] = sospech.habt ) \/
+                                (%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
+                                    carta[c] = sospech.prj ) ) }
+
+                        End;
     Var
-	sospech : sbr; // Variable que guarda la sospecha
 	muestro : integer; // Variable que permite determinar que carta mostrar
 	h,n,m,l : integer; // variables que permiten programacion robusta
 	s : string; // Variable que muestra mensajes al usuario
@@ -240,7 +280,12 @@ TYPE
 			    acus.prj = sobre.prj /\ acus.habt = acus.habt ) }
     End;	
 
+    (* Mover personaje *)
 
+    Procedure MoverPersonaje (sospech : sbr ; acus : sbr );
+    Begin
+
+    End;
 
 
 
