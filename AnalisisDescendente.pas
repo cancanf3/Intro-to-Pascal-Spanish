@@ -34,15 +34,15 @@ TYPE
 	        End;
 	
     user =  Record
-		        x : integer; // Coordenada x del jugador.
-		        y : integer; // Coordenada y del jugador.
-		        usuario : boolean; // True : El jugador es el usuario.
-		        vida : boolean; //Determina si el jugador esta vivo.
-		        mano : array[0..2] of pha; // Cartas repartidas al Jugador.
-		        donde : h; // Nombre de la habitacion donde se encuentra.
-		        peon  : p;  // Ficha que usa para jugar.
-		        posicion : integer; // posicion en la mesa del jugador.
-	        End;
+		x : integer; // Coordenada x del jugador.
+		y : integer; // Coordenada y del jugador.
+		usuario : boolean; // True : El jugador es el usuario.
+		vida : boolean; //Determina si el jugador esta vivo.
+		mano : array[0..2] of pha; // Cartas repartidas al Jugador.
+		donde : h; // Nombre de la habitacion donde se encuentra.
+		peon  : p;  // Ficha que usa para jugar.
+		posicion : integer; // posicion en la mesa del jugador.
+	    End;
 
     (* Procedimiento que inicializa las variables necesitadas *)
     Procedure Inicializa(var player : array of user; 
@@ -53,15 +53,6 @@ TYPE
 	
 	    {Postcondicion: True}
     End;
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     (* Procedimiento que da la bienvenida y explica las reglas *)
     Procedure Introduccion( phaInit : cartas; 
@@ -81,13 +72,6 @@ TYPE
 	{Postcondicion: True}
     End;
     
-    Procedure RepartirCartas(
-    
-    
-    
-    
-    
-
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
@@ -98,19 +82,25 @@ TYPE
 	    {Postcondicion: Aleatorio >= inicio /\ Aleatorio <= tope} 
     End;
     
+    (* Funcion emula un dado *)
+    Function Dado(): integer;
+    Begin
+	    {Precondicion: True}
+	
+	    {Postcondicion: Dado >= 0 /\ Dado <= 6} 
+    End;
+    
     (* Asignacion de las cartes *) 
-
     Procedure AsignaCartas (phaInit : cartas; var sobre : sbr);
 
         Procedure RepatirCartas (x : integer; 
                                  y : integer; 
-                                 z : integer
+                                 z : integer;
                                  Var pc : Array of user;
                                  phaInit  : cartas );
         Var 
-        repartir : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10
-                                              11,12,13,14,15,16,17,18
-                                              ,19,20);
+        repartir : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,
+                                              11,12,13,14,15,16,17,18,19,20);
         i,j : integer; // Variable de iteracion
         Begin
             {precondicion: x <= 5 /\ x >= 0 /\
@@ -139,7 +129,7 @@ TYPE
                          (%exist q: 6 <= q <= 14 : sobre.habt = phaInit[q] ) /\
                          (%forall w: 6 <= w <= 14 /\ w <> q 
                              : sobre.habt <> phaInit[w] ) /\
-                         (%exist q: 15 <= q <= 20 : sobre.arma = phaInit[q] ) /\
+                         (%exist q: 15 <= q <= 20 : sobre.arma = phaInit[q] )/\
                          (%forall w: 15 <= w <= 20 /\ w <> q 
                              : sobre.arma <> phaInit[w] ) }
 
@@ -152,20 +142,20 @@ TYPE
 	i : integer; // Variable de teracion
 	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
     Begin
-	    {Precondicion: True}
+	{Precondicion: True}
 
-	    {Postcondicion: (%forall i \ 0 < i <= 5 : 
-                        (%existis j \ 0 <= j <= 5 : pc[i] = phaInit[j])) }
+	{Postcondicion: (%forall i \ 0 < i <= 5 : 
+		    (%existis j \ 0 <= j <= 5 : pc[i] = phaInit[j])) }
     End;
     
     (* Funcion que calcula el valor absoluto de un entero dado *)
 
     Function VA(n : integer): integer;
     Begin
-	    {Precondicion: True}
+	{Precondicion: True}
 
-	    {Postcondicion: n < 0 ==> (n = n * -1) 
-			    /\ n >= 0 ==> (n = n)}
+	{Postcondicion: n < 0 ==> (n = n * -1) 
+			/\ n >= 0 ==> (n = n)}
     End;
     
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
@@ -188,46 +178,46 @@ TYPE
 	moverA : integer; // Eleccion del Usuario.
 	co, i  : integer; // Contadores.
     Begin
-	    {Precondicion: n >= 1 /\ n <= 6}
+	    {Pre: n >= 1 /\ n <= 6}
 	
-	    {Postondicion: (%exits i \ 0 <= i <= 8 : player.x = Habitacion[i].x 
-						    /\ player.y = Habitacion[i].y
-						    /\ player.donde = Habitacion[i].nombre) }
+	    {Post: (%exits i \ 0 <= i <= 8 : player.x = Habitacion[i].x 
+				    /\ player.y = Habitacion[i].y
+				    /\ player.donde = Habitacion[i].nombre)}
     End;
     
     (* Proceso para sospechar *)
 
     Procedure sospecha_usuario( var sospech : sbr; var sospechaON : boolean; 
-        var player : user ; var pc : array of user; phaInit : cartas );
+				var player : user ; 
+				var pc : array of user; phaInit : cartas );
 
-                Procedure Refutar ( var player : user; sospech : sbr;
-                                    var muestro : integer ; var k : integer);
+	Procedure Refutar ( var player : user; sospech : sbr;
+			    var muestro : integer ; var k : integer);
 
-                        var carta : Array[0..2] of pha
+	Var 
+	    carta : Array[0..2] of pha;
+	Begin
+	
+	    {Precondicion: (%existe i : 0 <= i <= 5 :
+		(%exist j : 0 <= j <= 2 
+		    : sospech = pc[i].mano[j] )) }
 
-                        Begin
-                        
-                            {Precondicion: (%existe i : 0 <= i <= 5 :
-                                (%exist j : 0 <= j <= 2 
-                                    : sospech = pc[i].mano[j] )) }
-
-                            {Postcondicion: sospechaON == !( (%exist a :
-                                0 <= a <= 2 : carta[a] = sospech.arma) \/
-                                (%exist b : 0 <= b <= 2 /\ a <> b : 
-                                    carta[b] = sospech.habt ) \/
-                                (%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
-                                    carta[c] = sospech.prj ) ) }
-
-                        End;
+	    {Postcondicion: sospechaON == !( (%exist a :
+		0 <= a <= 2 : carta[a] = sospech.arma) \/
+		(%exist b : 0 <= b <= 2 /\ a <> b : 
+		    carta[b] = sospech.habt ) \/
+		(%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
+		    carta[c] = sospech.prj ) ) }
+	End;
 
     Var
 	muestro : integer; // Variable que permite determinar que carta mostrar
 	h,n,m,l : integer; // variables que permiten programacion robusta
-	s : string; // Variable que muestra mensajes al usuario
-	k : integer; // determina cuantas cartas son sospechadas por mano
-	carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
-	i,j,co : integer; // Contadores 
-	humano : boolean; // determina si el usuario ha mostrado una carta
+	s 	: string;  // Variable que muestra mensajes al usuario
+	k 	: integer; // determina cuantas cartas son sospechadas por mano
+	i,j,co  : integer; // Contadores 
+	humano  : boolean; // determina si el usuario ha mostrado una carta
+	carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
     Begin
 	(* Elegir arma a sospechar *)
 
@@ -248,33 +238,32 @@ TYPE
                                     var player : user ; var pc : array of user; 
                                         phaInit : cartas );
 
-                Procedure Refutar ( var player : user; sospech : sbr;
-                    var muestro : integer ; var k : integer);
+	Procedure Refutar ( var player : user; sospech : sbr;
+			    var muestro : integer ; var k : integer);
+	Var 
+	    carta : Array[0..2] of pha;
+	Begin
+		
+	    {Precondicion: (%existe i : 0 <= i <= 5 :
+		(%exist j : 0 <= j <= 2 
+		    : sospech = pc[i].mano[j] )) }
 
-                        var carta : Array[0..2] of pha
+	    {Postcondicion: sospechaON == !( (%exist a :
+		0 <= a <= 2 : carta[a] = sospech.arma) \/
+		(%exist b : 0 <= b <= 2 /\ a <> b : 
+		    carta[b] = sospech.habt ) \/
+		(%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
+		    carta[c] = sospech.prj ) ) }
+	End;
 
-                        Begin
-                        
-                            {Precondicion: (%existe i : 0 <= i <= 5 :
-                                (%exist j : 0 <= j <= 2 
-                                    : sospech = pc[i].mano[j] )) }
-
-                            {Postcondicion: sospechaON == !( (%exist a :
-                                0 <= a <= 2 : carta[a] = sospech.arma) \/
-                                (%exist b : 0 <= b <= 2 /\ a <> b : 
-                                    carta[b] = sospech.habt ) \/
-                                (%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
-                                    carta[c] = sospech.prj ) ) }
-
-                        End;
     Var
 	muestro : integer; // Variable que permite determinar que carta mostrar
 	h,n,m,l : integer; // variables que permiten programacion robusta
-	s : string; // Variable que muestra mensajes al usuario
-	k : integer; // determina cuantas cartas son sospechadas por mano
-	carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
-	i,j,co : integer; // Contadores 
-	humano : boolean; // determina si el usuario ha mostrado una carta
+	s 	: string;  // Variable que muestra mensajes al usuario
+	k 	: integer; // determina cuantas cartas son sospechadas por mano
+	i,j,co  : integer; // Contadores 
+	humano  : boolean; // determina si el usuario ha mostrado una carta
+	carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
     Begin
 
 	(* Computadora elegira arma a sospechar *)
@@ -292,7 +281,7 @@ TYPE
 
     End;
 
-	(* Proceso para Acusar *)
+    (* Proceso para Acusar *)
 
     Procedure Acusacion_usuario( var player : user; sobre : sbr);
     Var 
@@ -311,8 +300,6 @@ TYPE
 
 
     Procedure Acusacion_computadora( var player : user; sobre : sbr);
-    Var 
-	acus : sbr; // Variables que almacenaran la acusasion del jugador
     Begin
 	    
 	    (* Computador acusa *)
@@ -356,7 +343,6 @@ TYPE
     
     (* Proceso que verifica y finaliza el juego *)
 
-
     Procedure Fin ( pc : Array of user; juegoON : boolean);
     Var
         i : integer; // Variable de iteracion.
@@ -372,9 +358,9 @@ TYPE
 
     (* Procedimiento que del turno *)
 
-    Procedure Turno ( var player : user; habitacion : Array of lugar
-                      var pc : Array of user; var turno : integer
-                      var sospech : sbr; var acus : sbr);
+    Procedure Turno ( var player : user; habitacion : Array of lugar;
+                      phaInit : cartas; var pc : Array of user; 
+                      var sospech : sbr; var acus : sbr; juegoON : boolean);
     Var
 	opinion : boolean; // Decide si el usuario desea realizar una accion
     Begin
@@ -390,39 +376,34 @@ TYPE
                     ( acus.prj = sobre.prj ) /\ ( acus.habt = sobre.habt ) )} 
     End;
 
-
-
-
-
-
-
-
 VAR
     (* 
      * Personajes: 0 al 5
      * Habitaciones: del 6 al 14
      * Armas: 15 20 
      *)
-    phaInit : cartas // Arreglo con todas las cartas del juego.
-    habitacion : Array[0..8] of lugar; // Arreglo de las habitaciones.
-    pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario.
     
-    sobre   : sbr; // Variable que contiene los hechos reales.
+    habitacion : Array[0..8] of lugar; 	// Arreglo de las habitaciones.
+    pc         : Array[0..5] of user; 	// Arreglo de Jugadores pc[0]:Usuario.
+    
+    
+    phaInit : cartas; 	// Arreglo con todas las cartas del juego.
+    sobre   : sbr; 	// Variable que contiene los hechos reales.
        
-    i,j,co  : integer; // Variables para Iteracion y contadores.
+    i	    : integer; // Variables para Iteracion y contadores.
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
-    Turno   : integer; // Contador de los Turnos.
+    Turn    : integer; // Contador de los Turnos.
     
-    sospecha : sbr; // variable para realizar sospechas.
+    juegoON : boolean; // Booleano para terminar el juego.
     
-    sospechaON : boolean; // determina si la sospecha fue refutada.
+    sospecha   : sbr; 		// Variable para realizar sospechas.
+    acus       : sbr; 		// Variable para realizar acusaciones.
     
-
 BEGIN
 
-    Introduccion;
+    Introduccion(PhaInit,habitacion);
 
-    Inicializa(pc,PhaInit,Habitacion);
+    Inicializa(pc,PhaInit,habitacion);
 
     SeleccionPersonaje(phaInit,pc);
     
@@ -432,12 +413,10 @@ BEGIN
     Begin
 	    For i := 0 To 5 Do
 	    Begin
-	        turno(pc[i],pc,phaInit,habitacion);
+	        Turno(pc[i],habitacion,phaInit,pc,sospecha,acus,juegoON);
 	    End;
     End;
     
-    Despedida;
-
-
+    Despedida(Turn);
 
 END.
