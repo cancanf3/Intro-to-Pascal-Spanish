@@ -49,6 +49,40 @@ TYPE
 	
 	{Postcondicion: True}
     End;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    (* Procedimiento que da la bienvenida y explica las reglas *)
+    Procedure Introduccion( phaInit : cartas; 
+			   Habitacion : array of lugar);
+    Begin
+	{Precondicion: True}
+	
+	{Postcondicion: True}
+    End;
+    
+    (* Procedimiento que informa en que turno se consiguieron los hechos 
+	    y agradece al usuario por jugar *)
+    Procedure Despedida(Turno : integer);
+    Begin
+	{Precondicion: True}
+	
+	{Postcondicion: True}
+    End;
+    
+    Procedure RepartirCartas(
+    
+    
+    
+    
+    
 
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
@@ -59,6 +93,11 @@ TYPE
 	
 	{Postcondicion: Aleatorio >= inicio /\ Aleatorio <= tope} 
     End;
+    
+    
+    
+    
+    
     
     (* Proceso para eleccion de personajes *)
     Procedure SeleccionPersonaje(phaInit : cartas; var player : Array of user);
