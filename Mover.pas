@@ -199,10 +199,10 @@ Begin
     writeln;
 
     (* Ejemplo de un uso normal de esta funcion *)
-    For i := 0 To 5 Do
+    For i := 0 To 100 Do
     Begin
 	n := Aleatorio(1,6);
-	m := 0;
+	m := Aleatorio(1,5);
 	writeln('Ubicacion Previa: ', pc[m].donde, ' (', pc[m].x,', ', pc[m].y, ').');
 	writeln;
 	writeln('Llamada de la funcion == Mover(pc[', m, '], ', n, ', habitacion)');

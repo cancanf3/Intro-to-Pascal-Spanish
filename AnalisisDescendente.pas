@@ -211,7 +211,7 @@ TYPE
 	End;
 
     Var
-    	muestro : integer; // Variable que permite determinar que carta mostrar
+	    muestro : integer; // Variable que permite determinar que carta mostrar
 	    h,n,m,l : integer; // variables que permiten programacion robusta
 	    s 	: string;  // Variable que muestra mensajes al usuario
 	    k 	: integer; // determina cuantas cartas son sospechadas por mano
@@ -234,7 +234,7 @@ TYPE
 
     End;
 
-    Procedure sospecha_computadora( var sospech : sbr ;var sospechaON : boolean; 
+    Procedure Sospecha_computadora( var sospech : sbr ;var sospechaON : boolean; 
                                     var player : user ; var pc : array of user; 
                                         phaInit : cartas );
 
