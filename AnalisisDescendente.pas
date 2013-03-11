@@ -1,3 +1,20 @@
+(*
+ *
+ * AnalisisDescendente.pas
+ *
+ * Este es el esqueleto de lo que seria un juego de Clue.
+ * Contiene los tipos de datos, funciones con sus 
+ * especificaciones y esquema general del juego.
+ *
+ * Autores:
+ * 	Jose Pena
+ *	Jose Pascarella
+ *
+ * Ultima Modificacion: 
+ *	11 / 03 2013
+ *
+ *)
+
 PROGRAM AnalisisDescendente;
 
 TYPE 
