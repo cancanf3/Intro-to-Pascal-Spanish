@@ -64,7 +64,8 @@ TYPE
     (* Procedimiento que inicializa las variables necesitadas *)
     Procedure Inicializa(var player : array of user; 
 			    var phaInit : cartas; 
-			    var Habitacion : array of lugar);
+			    var Habitacion : array of lugar
+			    var ultimoJ : integer);
     Begin
 	    {Precondicion: True}
 	
@@ -242,11 +243,11 @@ TYPE
 		    : sospech = pc[i].mano[j] )) }
 
 	    {Postcondicion: sospechaON == !( (%exist a :
-		0 <= a <= 2 : carta[a] = sospech.arma) \/
+		0 <= a <= 2 : pc[0].mano.[a] = sospech.arma) \/
 		(%exist b : 0 <= b <= 2 /\ a <> b : 
-		    carta[b] = sospech.habt ) \/
+		    pc[0].mano[b] = sospech.habt ) \/
 		(%exist c : 0 <= c <= 2 /\ c <> a /\ b <> c :
-		    carta[c] = sospech.prj ) ) }
+		    pc[0].mano[c] = sospech.prj ) ) }
 	End;
 
     Begin
