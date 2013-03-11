@@ -91,8 +91,6 @@ TYPE
     
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
-    Var 
-	    amplitud : integer;
     Begin
 	    {Precondicion: True}
 	
@@ -108,30 +106,28 @@ TYPE
     End;
     
     (* Asignacion de las cartes *) 
-    Procedure AsignaCartas (phaInit : cartas; var sobre : sbr);
+    Procedure AsignaCartas (phaInit : cartas; var sobre : sbr; var pc : Array of user; ultimoJ : integer;)
 
         Procedure RepatirCartas (x : integer; 
                                  y : integer; 
                                  z : integer;
                                  Var pc : Array of user;
                                  phaInit  : cartas );
-        Var 
-        repartir : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,
-                                              11,12,13,14,15,16,17,18,19,20);
-        i,j : integer; // Variable de iteracion
         Begin
             {precondicion: x <= 5 /\ x >= 0 /\
                            y <= 14 /\ y >= 6 /\
                            z <= 20 /\ z >= 15 }
 
 
-            {Postcondicion: (%forall a : 0 <= a <= 5 : 
+            {Postcondicion: (%forall a : 0 <= a <= ultimoJ : 
                             (%forall b : 0 <= b <= 2 :
-                            (%forall c : 0 <= c <= 17 : 
-                            pc[a].mano[b] = phaInit[repatir[c]] ))) }
+                            (%forall c : 0 <= c <= ( ultimoJ * 3 ) : 
+                            pc[a].mano[b] = phaInit[c] ))) 
+			    /\ (%forall g : 0 <= g <= ( 17 - ultimoJ*3 ) : 
+			    (%forall h : 2 <= h <= ( 17 - ultimoj*3 ) : pc[0].mano[h] = phaInit[g] ))
+				}
         End;
-    Var
-        x,y,z : integer; // Variables que permite eleccion aleatorio
+   
     Begin
     
         {Precondicion: True }
@@ -154,14 +150,11 @@ TYPE
 
     (* Proceso para eleccion de personajes *)
 
-    Procedure SeleccionPersonaje(phaInit : cartas; var player : Array of user);
-    Var
-	i : integer; // Variable de teracion
-	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
+    Procedure SeleccionPersonaje(phaInit : cartas; var pc : Array of user; var ultimoJ : integer);
     Begin
 	    {Precondicion: True}
 
-	    {Postcondicion: (%forall i \ 0 < i <= 5 : 
+	    {Postcondicion: (%forall i \ 0 < i <= ultimoJ :
 		        (%existis j \ 0 <= j <= 5 : pc[i] = phaInit[j])) }
     End;
     
@@ -190,10 +183,6 @@ TYPE
     Procedure Mover (var player : user; // Usurio o Computadora.
 			 n: integer;    // Lo que saco con el dado.
 			 Habitacion : array of lugar);
-    Var
-	eleccion : Array[0..8] of integer; // Ayuda para Habts. Alcanzables.
-	moverA : integer; // Eleccion del Usuario.
-	co, i  : integer; // Contadores.
     Begin
 	    {Pre: n >= 1 /\ n <= 6}
 	
@@ -210,9 +199,6 @@ TYPE
 
 	Procedure Refutar ( var player : user; sospech : sbr;
 			    var muestro : integer ; var k : integer);
-
-	Var 
-	    carta : Array[0..2] of pha;
 	Begin
 	
 	    {Precondicion: (%existe i : 0 <= i <= 5 :
@@ -227,14 +213,6 @@ TYPE
 		    carta[c] = sospech.prj ) ) }
 	End;
 
-    Var
-	    muestro : integer; // Variable que permite determinar que carta mostrar
-	    h,n,m,l : integer; // variables que permiten programacion robusta
-	    s 	: string;  // Variable que muestra mensajes al usuario
-	    k 	: integer; // determina cuantas cartas son sospechadas por mano
-	    i,j,co  : integer; // Contadores 
-	    humano  : boolean; // determina si el usuario ha mostrado una carta
-	    carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
     Begin
 	(* Elegir arma a sospechar *)
 
@@ -257,8 +235,6 @@ TYPE
 
 	Procedure Refutar ( var player : user; sospech : sbr;
 			    var muestro : integer ; var k : integer);
-	Var 
-	    carta : Array[0..2] of pha;
 	Begin
 		
 	    {Precondicion: (%existe i : 0 <= i <= 5 :
@@ -273,14 +249,6 @@ TYPE
 		    carta[c] = sospech.prj ) ) }
 	End;
 
-    Var
-	    muestro : integer; // Variable que permite determinar que carta mostrar
-	    h,n,m,l : integer; // variables que permiten programacion robusta
-	    s 	: string;  // Variable que muestra mensajes al usuario
-	    k 	: integer; // determina cuantas cartas son sospechadas por mano
-	    i,j,co  : integer; // Contadores 
-	    humano  : boolean; // determina si el usuario ha mostrado una carta
-	    carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
     Begin
 
 	(* Computadora elegira arma a sospechar *)
@@ -334,8 +302,7 @@ TYPE
 
     Procedure MoverSospechoso (sospech : sbr ; var pc : Array of user ; 
                                acus : sbr );
-    Var
-        i : integer; // Variable de iteracion.
+
     Begin
         {Precondicion: True }
 
@@ -347,8 +314,7 @@ TYPE
     (* Procedimiento que elimina un personaje si falla la acusacion *)
 
     Procedure Eliminar ( var player : user; acus : sbr; sobre : sbr);
-    Var
-        i : integer; // Variable de iteracion
+ 
     Begin
         {Precondicion: True }
 
@@ -361,8 +327,6 @@ TYPE
     (* Proceso que verifica y finaliza el juego *)
 
     Procedure Fin ( pc : Array of user; juegoON : boolean);
-    Var
-        i : integer; // Variable de iteracion.
     Begin
         {Precondicion: True }
 
@@ -378,8 +342,6 @@ TYPE
     Procedure Turno ( var player : user; habitacion : Array of lugar;
                       phaInit : cartas; var pc : Array of user; 
                       var sospech : sbr; var acus : sbr; juegoON : boolean);
-    Var
-	    opinion : boolean; // Decide si el usuario desea realizar una accion
     Begin
 	    {Precondicion: player.vida == true }
 
@@ -410,6 +372,7 @@ Var
     
     sospecha   : sbr; 		// Variable para realizar sospechas.
     acus       : sbr; 		// Variable para realizar acusaciones.
+    ultimoJ    : integer;       // Variable que determina el numero de jugadores.
     
 Begin
 
