@@ -58,18 +58,18 @@ TYPE
     Procedure Introduccion( phaInit : cartas; 
 			   Habitacion : array of lugar);
     Begin
-	{Precondicion: True}
+	    {Precondicion: True}
 	
-	{Postcondicion: True}
+	    {Postcondicion: True}
     End;
     
     (* Procedimiento que informa en que turno se consiguieron los hechos 
 	    y agradece al usuario por jugar *)
     Procedure Despedida(Turno : integer);
     Begin
-	{Precondicion: True}
+	    {Precondicion: True}
 	
-	{Postcondicion: True}
+	    {Postcondicion: True}
     End;
     
     (* Funcion que genera numeros aleatorios en un rango dado *)
@@ -142,20 +142,20 @@ TYPE
 	i : integer; // Variable de teracion
 	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
     Begin
-	{Precondicion: True}
+	    {Precondicion: True}
 
-	{Postcondicion: (%forall i \ 0 < i <= 5 : 
-		    (%existis j \ 0 <= j <= 5 : pc[i] = phaInit[j])) }
+	    {Postcondicion: (%forall i \ 0 < i <= 5 : 
+		        (%existis j \ 0 <= j <= 5 : pc[i] = phaInit[j])) }
     End;
     
     (* Funcion que calcula el valor absoluto de un entero dado *)
 
     Function VA(n : integer): integer;
     Begin
-	{Precondicion: True}
+	    {Precondicion: True}
 
-	{Postcondicion: n < 0 ==> (n = n * -1) 
-			/\ n >= 0 ==> (n = n)}
+	    {Postcondicion: n < 0 ==> (n = n * -1) 
+			    /\ n >= 0 ==> (n = n)}
     End;
     
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
@@ -211,26 +211,26 @@ TYPE
 	End;
 
     Var
-	muestro : integer; // Variable que permite determinar que carta mostrar
-	h,n,m,l : integer; // variables que permiten programacion robusta
-	s 	: string;  // Variable que muestra mensajes al usuario
-	k 	: integer; // determina cuantas cartas son sospechadas por mano
-	i,j,co  : integer; // Contadores 
-	humano  : boolean; // determina si el usuario ha mostrado una carta
-	carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
+    	muestro : integer; // Variable que permite determinar que carta mostrar
+	    h,n,m,l : integer; // variables que permiten programacion robusta
+	    s 	: string;  // Variable que muestra mensajes al usuario
+	    k 	: integer; // determina cuantas cartas son sospechadas por mano
+	    i,j,co  : integer; // Contadores 
+	    humano  : boolean; // determina si el usuario ha mostrado una carta
+	    carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
     Begin
 	(* Elegir arma a sospechar *)
 
 	(* Elegir personaje a sospechar *)
 
-	{Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
+    	{Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
     
 	(* Mover el personaje al lugar de la sospecha *)
 
 	(* Match de las cartas *)
 
-	{Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
-			( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
+	    {Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
+			    ( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
 
     End;
 
@@ -257,27 +257,27 @@ TYPE
 	End;
 
     Var
-	muestro : integer; // Variable que permite determinar que carta mostrar
-	h,n,m,l : integer; // variables que permiten programacion robusta
-	s 	: string;  // Variable que muestra mensajes al usuario
-	k 	: integer; // determina cuantas cartas son sospechadas por mano
-	i,j,co  : integer; // Contadores 
-	humano  : boolean; // determina si el usuario ha mostrado una carta
-	carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
+	    muestro : integer; // Variable que permite determinar que carta mostrar
+	    h,n,m,l : integer; // variables que permiten programacion robusta
+	    s 	: string;  // Variable que muestra mensajes al usuario
+	    k 	: integer; // determina cuantas cartas son sospechadas por mano
+	    i,j,co  : integer; // Contadores 
+	    humano  : boolean; // determina si el usuario ha mostrado una carta
+	    carta   : Array[0..2] of pha; // Arreglo con las cartas sospechadas
     Begin
 
 	(* Computadora elegira arma a sospechar *)
 	(* Computadora elegira personaje a sospechar *)
 
-	{Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
+	    {Precondicion: player == ( % exist x : 0 <= x <= 5 : pc[x] }
 
 	(* Mover el personaje al lugar de la sospecha *)
 
 	(* Match de las cartas *)
 	    (* Si el usuario tiene una carta de la sospecha *)
 
-	{Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
-			( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
+	    {Postcondicion: sospechaON == !( % Exist x : 0 <= x <= 5 : 
+			    ( % exist y : 0 <= y <= 2 : sospech = pc[x].mano[y] ))}
 
     End;
 
@@ -362,7 +362,7 @@ TYPE
                       phaInit : cartas; var pc : Array of user; 
                       var sospech : sbr; var acus : sbr; juegoON : boolean);
     Var
-	opinion : boolean; // Decide si el usuario desea realizar una accion
+	    opinion : boolean; // Decide si el usuario desea realizar una accion
     Begin
 	    {Precondicion: player.vida == true }
 
@@ -376,12 +376,7 @@ TYPE
                     ( acus.prj = sobre.prj ) /\ ( acus.habt = sobre.habt ) )} 
     End;
 
-VAR
-    (* 
-     * Personajes: 0 al 5
-     * Habitaciones: del 6 al 14
-     * Armas: 15 20 
-     *)
+Var
     
     habitacion : Array[0..8] of lugar; 	// Arreglo de las habitaciones.
     pc         : Array[0..5] of user; 	// Arreglo de Jugadores pc[0]:Usuario.
@@ -399,7 +394,7 @@ VAR
     sospecha   : sbr; 		// Variable para realizar sospechas.
     acus       : sbr; 		// Variable para realizar acusaciones.
     
-BEGIN
+Begin
 
     Introduccion(PhaInit,habitacion);
 
@@ -419,4 +414,4 @@ BEGIN
     
     Despedida(Turn);
 
-END.
+End.
