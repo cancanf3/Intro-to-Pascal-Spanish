@@ -1,6 +1,7 @@
-Program EscribirPartida;
+Program Repartir;
 
-TYPE
+Type
+
     pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
 	   SenoritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
 	   Estudio, Vestibulo, Salon, Invernadero, SalaDeBaile, SalaDeBillar,
@@ -27,13 +28,11 @@ TYPE
 		habt : h;
 		prj  : p;
 	        End;
-	
-    descarte = Record // Variable contadora de descarte para las pc 
+	descarte = Record // Variable contadora de descarte para las pc 
         arma : integer;
         habt : integer;
         prj  : integer;
                End;
-
     lista_cartas = Record
         arma : armas;
         habt : habts;
@@ -54,12 +53,15 @@ TYPE
         
             End;
 
-
 VAR
-    
- 
-    
-     phaInit : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
+
+    Var
+    (* 
+     * Personajes: 0 al 5
+     * Habitaciones: del 6 al 14
+     * Armas: 15 20 
+    *)
+    phaInicio : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
 			ProfesorCiruela, SenoritaEscarlata, 
 			CoronelMostaza, Biblioteca, Cocina, 
 			Comedor, Estudio, Vestibulo, Salon, 
@@ -67,71 +69,80 @@ VAR
 			Candelabro, Cuchillo, Cuerda, 
 			LlaveInglesa, Revolver, Tubo);
 
+    repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
+						13,14,15,16,17,18,19,20);
+
     habitacion : Array[0..8] of lugar;
     sobre   : sbr; // Variable que contiene los hechos reales
     
-    ultimoJ : integer;
     
     pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario
-    partida : Text;
-    i,j : integer;
-    turnoActual : integer;
+    
+    i,j,co  : integer; // Variables para Iteracion y contadores.
+    n,x,y,z : integer; // Variables de usos multiples: swap, etc.
+    Turno   : integer; // Contador de los Turnos.
+    
+    moverA : h;
+    sospecha : sbr; // variable para realizar sospechas
+    
 
-BEGIN
+    sospechaON : boolean;
+    SioNo : boolean;
 
-    Assign(partida,'Partida.txt');
-    Rewrite(partida);
 
-    writeln(partida, ultimoJ);
-    writeln(partida);
-    writeln(partida, sobre.prj, ' ', sobre.arma, ' ', sobre.habt);
-    writeln(partida);
-
-    For i := 0 To ultimoJ Do
+    Procedure Repartir (var jugador : array of user; phaInicio : cartas);
+    Var 
+	co1 : integer;
+	co2 : integer;
     Begin
-	
-	writeln(partida, pc[i].posicion, pc[i].peon, pc[i].vida, pc[i].posicion);
-	
-	write(partida, pc[i].conta.prj);
-	write(partida, pc[i].conta.arma);
-	write(partida, pc[i].conta.habt);
-	writeln(partida);
-	(* Personajes Sin Descartar *)
-	For j := 0 To 5 - pc[i].conta.prj Do
+    
+	co1 := 0;
+	co2 := 0;
+	While (co1 < 18) Do
 	Begin
-	    write(partida, pc[i].lista.prj[j], ' ');
-	End;
-	(* Armas Sin Descartar *)
-	For j := 0 To 5 - pc[i].conta.arma Do
-	Begin 	  	 	 	 	 	
-	    write(partida, pc[i].lista.arma[j], ' ');
-	End;
-	(* Habitaciones Sin Descartar *)
-	For j := 0 To 8 - pc[i].conta.habt Do
-	Begin
-	    write(partida, pc[i].lista.habt[j], ' ');
-	End;
-	writeln(partida);
-
-    	(* Personajes Descartados *)
-	For  j := (5 - pc[i].conta.prj) To 5  Do
-	Begin
-	    write(partida, pc[i].lista.prj[j], ' ');
-	End;
-	(* Armas Descartadas *)
-	For j := (5 - pc[i].conta.arma)  To 5 Do
-	Begin
-	    write(partida, pc[i].lista.arma[j], ' ');
-	End;
-	(* Habitaciones Descartadas *)
-	For j := (8 - pc[i].conta.habt) To 8 Do
-	Begin
-	    write(partida, pc[i].lista.habt[j], ' ');
+	    For i := 0 To ultimoJ Do
+	    Begin
+		jugador[i].mano[co2] := phaInicio[repartir[co1]];
+		co1 := co1 + 1;
+	    End;
+	    co2 := co2 + 1;
 	End;
 
     End;
-    writeln(partida);
-    writeln(partida, turnoActual); 
+    
+    
+    
+    
+BEGIN
 
-    Close(partida);
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 END.
+
+
+
+
+
+
+
+
+
