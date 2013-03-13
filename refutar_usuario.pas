@@ -7,7 +7,7 @@ Begin
         ' cartas que se sospechan, cual quieres mostrar?');
     For i := 0 to 2 Do
     Begin
-    Writeln(co + 1,'.- ',carta[co]);
+    Writeln(i + 1,'.- ',carta[i]);
     End;
     s := 'elige el numero de la carta a mostrar';
     Repeat
