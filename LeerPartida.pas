@@ -1,6 +1,8 @@
-Program EscribirPartida;
+PROGRAM LeerPartida;
+
 
 TYPE
+    
     pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
 	   SenoritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
 	   Estudio, Vestibulo, Salon, Invernadero, SalaDeBaile, SalaDeBillar,
@@ -54,6 +56,17 @@ TYPE
         
             End;
 
+    Procedure leerPalabra(var archivo : text; var palabra : string);
+    Var
+	    caracter	: char;
+    Begin
+	    palabra := '';
+	    read(archivo,caracter);
+	    while caracter <> ' ' do begin
+		    palabra := palabra + caracter;
+		    read(archivo,caracter);
+	    end;
+    End;
 
 VAR
     
@@ -80,58 +93,55 @@ VAR
 BEGIN
 
     Assign(partida,'Partida.txt');
-    Rewrite(partida);
+    Reset(partida);
 
-    writeln(partida, ultimoJ);
-    writeln(partida);
-    writeln(partida, sobre.prj, ' ', sobre.arma, ' ', sobre.habt);
-    writeln(partida);
+
+    read(partida, ultimoJ);
+    
 
     For i := 0 To ultimoJ Do
     Begin
-	
-	writeln(partida, pc[i].posicion, pc[i].peon, pc[i].vida, pc[i].posicion);
-	
-	write(partida, pc[i].conta.prj);
-	write(partida, pc[i].conta.arma);
-	write(partida, pc[i].conta.habt);
-	writeln(partida);
-	(* Personajes Sin Descartar *)
+				   (* aqui no se si leer palabra *)
+	readln(partida, pc[i].posicion, pc[i].peon, pc[i].vida, pc[i].posicion);
+	readln(partida, pc[i].conta.prj, pc[i].conta.arma, pc[i].conta.habt);
+	    
 	For j := 0 To 5 - pc[i].conta.prj Do
 	Begin
-	    write(partida, pc[i].lista.prj[j], ' ');
+	    LeerPalabra(partida, pc[i].lista.prj[j]);
 	End;
 	(* Armas Sin Descartar *)
 	For j := 0 To 5 - pc[i].conta.arma Do
 	Begin 	  	 	 	 	 	
-	    write(partida, pc[i].lista.arma[j], ' ');
+	    LeerPalabra(partida, pc[i].lista.arma[j]);
 	End;
 	(* Habitaciones Sin Descartar *)
 	For j := 0 To 8 - pc[i].conta.habt Do
 	Begin
-	    write(partida, pc[i].lista.habt[j], ' ');
+	    LeerPalabra(partida, pc[i].lista.habt[j]);
 	End;
-	writeln(partida);
+	readln(partida);
 
     	(* Personajes Descartados *)
 	For  j := (5 - pc[i].conta.prj) To 5  Do
 	Begin
-	    write(partida, pc[i].lista.prj[j], ' ');
+	    LeerPalabra(partida, pc[i].lista.prj[j]);
 	End;
 	(* Armas Descartadas *)
 	For j := (5 - pc[i].conta.arma)  To 5 Do
 	Begin
-	    write(partida, pc[i].lista.arma[j], ' ');
+	    LeerPalabra(partida, pc[i].lista.arma[j]);
 	End;
 	(* Habitaciones Descartadas *)
 	For j := (8 - pc[i].conta.habt) To 8 Do
 	Begin
-	    write(partida, pc[i].lista.habt[j], ' ');
+	    LeerPalabra(partida, pc[i].lista.habt[j]);
 	End;
 
     End;
-    writeln(partida);
-    writeln(partida, turnoActual); 
+    
+    readln(partida);
+    readln(partida, turnoActual); 
 
     Close(partida);
+    
 END.
