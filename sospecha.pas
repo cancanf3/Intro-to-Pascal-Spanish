@@ -28,7 +28,7 @@ Type
 		habt : h;
 		prj  : p;
 	        End;
-	descarte = Record // Variable contadora de descarte para las pc 
+	descarte = Record // Variable contadora de descarte para las jugadores 
         arma : integer;
         habt : integer;
         prj  : integer;
@@ -39,7 +39,7 @@ Type
         prj  : prjs; 
                    End;	
 
-    user =  Record
+    usuario =  Record
 		x : integer;
 		y : integer;
 		usuario : boolean;
@@ -53,7 +53,7 @@ Type
         
             End;
  
-    Procedure Swap_descarte(var player : user; n : integer; 
+    Procedure Swap_descarte(var jugadorTurno : usuario; n : integer; 
                                 m : integer; k : string);
     Var
 	tmp1 : a;
@@ -63,21 +63,21 @@ Type
         Case k of 
             'arma' :
             Begin
-	            tmp1 := player.lista.arma[n];
-	            player.lista.arma[n] := player.lista.arma[m];
-	            player.lista.arma[m] := tmp1;
+	            tmp1 := jugadorTurno.lista.arma[n];
+	            jugadorTurno.lista.arma[n] := jugadorTurno.lista.arma[m];
+	            jugadorTurno.lista.arma[m] := tmp1;
             End;
             'habt' :
             Begin
-	            tmp2 := player.lista.habt[n];
-	            player.lista.habt[n] := player.lista.habt[m];
-	            player.lista.habt[m] := tmp2;
+	            tmp2 := jugadorTurno.lista.habt[n];
+	            jugadorTurno.lista.habt[n] := jugadorTurno.lista.habt[m];
+	            jugadorTurno.lista.habt[m] := tmp2;
             End;
             'prj' :
             Begin
-	            tmp3 := player.lista.prj[n];
-	            player.lista.prj[n] := player.lista.prj[m];
-	            player.lista.prj[m] := tmp3;
+	            tmp3 := jugadorTurno.lista.prj[n];
+	            jugadorTurno.lista.prj[n] := jugadorTurno.lista.prj[m];
+	            jugadorTurno.lista.prj[m] := tmp3;
             End;
         End;
     End;
@@ -90,28 +90,27 @@ Type
 	Aleatorio := Random(amplitud) + inicio;
     End;
 
-Procedure sospecha( var sospechaON : boolean; var player : user ; 
-                    var pc : array of user; phaInit : cartas );
+Procedure sospecha( var sospechaON : boolean; var jugadorTurno : usuario ; 
+                    var jugadores : array of usuario; phaInicio : cartas; 
+                        sospech : sbr; ultimoJ : integer);
 Var
-    sospech : sbr; // Variable que guarda la sospecha
-    muestro : integer; // Variable que permite determinar que carta mostrar
     h,n,m,l : integer; // variables que permiten programacion robusta
-    s : string; // Variable que muestra mensajer al usuario
+    s : string; // Variable que muestra mensaje al usuario
     k : integer; // determina cuantas cartas son sospechadas por mano
     carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
     i,j,co : integer; // Contadores 
     humano : boolean; // determina si el usuario ha mostrado una carta
+    quien  : integer; // Determina que jugador hizo match de las cartas
 Begin
 
 sospechaON := True;
 humano := false;
-If ( player.usuario ) Then
-Begin
-    sospech.habt := player.donde;
+
+    sospech.habt := jugadorTurno.donde;
 
     For i := 0 to 8 Do
     Begin
-        If (sospech.habt = player.lista.habt[i] ) Then
+        If (sospech.habt = jugadorTurno.lista.habt[i] ) Then
         Begin
             h := i;
         End;
@@ -122,16 +121,18 @@ Begin
     Writeln('Armas para sospechar');
     For i := 0 to 5 Do
     Begin
-        Writeln(i+1,'.- ',pc[0].lista.arma[i]);
+        Writeln(i+1,'.- ',jugadores[0].lista.arma[i]);
     End;
     Writeln('Armas descartadas');
-    For i := (5 - player.conta.arma) to 5 Do
+    For i := (5 - jugadorTurno.conta.arma) to 5 Do
     Begin
-        Writeln(pc[0].lista.arma[i]);
+        Writeln(jugadores[0].lista.arma[i]);
     End;
    
     s := 'Arma a sospechar';
+
     (* Lectura Robusta del arma a sospechar *) 
+    
     Repeat
     Begin
         Writeln(s);
@@ -140,23 +141,25 @@ Begin
     End
     Until (m < 7 ) and ( m > 0 );
 
-    sospech.arma := phaInit[ m + 14 ];
+    sospech.arma := phaInicio[ m + 14 ];
 
     (* Elegir personaje a sospechar *)
   
     Writeln('Personajes no descartados');
     For i := 0 to 5 Do
     Begin
-        Writeln(i+1,'.- ',player.lista.prj[i]);
+        Writeln(i+1,'.- ',jugadorTurno.lista.prj[i]);
     End;
     Writeln('Armas descartadas');
-    For i := (5 - player.conta.prj) to 5 Do
+    For i := (5 - jugadorTurno.conta.prj) to 5 Do
     Begin
-        Writeln(player.lista.prj[i]);
+        Writeln(jugadorTurno.lista.prj[i]);
     End;
     
     s := 'Personaje a sospechar: ';
+
     (* Lectura Robusta del personaje a sospechar *)
+
     Repeat 
     Begin
         Writeln(s);
@@ -165,329 +168,189 @@ Begin
     End
     Until ( n < 7 ) and ( n > 0);
     
-    sospech.prj := phaInit [ n - 1];
+    sospech.prj := phaInicio [ n - 1];
 
     (* Mover el personaje al lugar de la sospecha *)
 
     For i := 1 to 5 Do
     Begin
-        If ( sospech.prj = pc[i].peon ) Then
+        If ( sospech.prj = jugadores[i].peon ) Then
         Begin
-            pc[i].donde := sospech.habt;
+            jugadores[i].donde := sospech.habt;
         End;
     End;
 
     (* Match de las cartas *)
    
     k := 0;
-    For i := ( player.posicion + 1 ) to 5 Do
+    quien := 0;
+    For i := ( jugadorTurno.posicion + 1 ) to 5 Do
     Begin
         If ( sospechaON ) Then
         Begin
-            For j := 0 to 2 Do
+            For j := 0 to (* Variable cantidad de cartas por player *) Do
             Begin
-                If ( pc[i].mano[j] = sospech.arma ) Then
+                If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
                     carta[j] := sospech.arma;
                     sospechaON := false;
                     k := k + 1;
+                    quien := i;
                 End
                 Else 
                 Begin    
-                    If ( pc[i].mano[j] = sospech.prj ) Then
+                    If ( jugadores[i].mano[j] = sospech.prj ) Then
                     Begin
                         carta[j] := sospech.prj;
                         sospechaON := false;
                         k := k + 1;
+                        quien := i;
                     End
                     Else
                     Begin
                         carta[j] := sospech.habt;
                         sospechaON := false;
                         k := k + 1;
-                    End;
-                End;
-            End;
-            muestro := Aleatorio(0,k-1);
-            Case muestro of
-                0 :
-                Begin
-                    Writeln(' Computadora',pc[i].posicion,' te muestra '
-                            ,carta[0]);
-                    If ( carta[0] = sospech.arma ) 
-                    and ( m-1 <= 5 - player.conta.arma) Then
-                    Begin
-                        Swap_descarte(player,5-player.conta.arma,m-1,'arma');
-                        player.conta.arma := player.conta.arma + 1;
-                    End;
-                    If ( carta[0] = sospech.prj ) 
-                    and ( n-1 <= 5 - player.conta.prj) Then
-                    Begin 
-                        Swap_descarte(player,5-player.conta.prj,n-1,'prj');
-                        player.conta.prj := player.conta.prj + 1;
-                    End;
-                    If ( carta[0] = sospech.habt ) 
-                    and ( h <= 8 - player.conta.habt ) Then
-                    Begin 
-                        Swap_descarte(player,8-player.conta.habt,h,'habt');
-                        player.conta.prj := player.conta.habt + 1;
-                    End;
-                End;
-                1 :
-                Begin
-                    Writeln(' Computadora',pc[i].posicion,' te muestra '
-                            ,carta[1]);
-                    If ( carta[1] = sospech.arma ) 
-                    and ( m - 1 <= 5 - player.conta.arma) Then
-                    Begin
-                        Swap_descarte(player,5-player.conta.arma,m-1,'arma');
-                        player.conta.arma := player.conta.arma + 1;
-                    End;
-                    If ( carta[1] = sospech.prj ) 
-                    and ( n - 1 <= 5 - player.conta.prj ) Then
-                    Begin 
-                        Swap_descarte(player,5-player.conta.prj,n-1,'prj');
-                        player.conta.prj := player.conta.prj + 1;
-                    End;
-                    If ( carta[1] = sospech.habt ) 
-                    and ( h <= 8 - player.conta.habt ) Then
-                    Begin 
-                        Swap_descarte(player,8-player.conta.habt,h,'habt');
-                        player.conta.prj := player.conta.habt + 1;
-                    End;
-                End;
-                2 :
-                Begin
-                    Writeln(' Computadora',pc[i].posicion,' te muestra '
-                            ,carta[2]);
-                    If ( carta[2] = sospech.arma ) 
-                    and ( m - 1 <= 5 - player.conta.arma ) Then
-                    Begin
-                        Swap_descarte(player,5-player.conta.arma,m-1,'arma');
-                        player.conta.arma := player.conta.arma + 1;
-                    End;
-                    If ( carta[2] = sospech.prj ) 
-                    and ( n - 1 <= 5 - player.conta.prj ) Then
-                    Begin 
-                        Swap_descarte(player,5-player.conta.prj,n-1,'prj');
-                        player.conta.prj := player.conta.prj + 1;
-                    End;
-                    If ( carta[2] = sospech.habt ) 
-                    and ( h <= 8 - player.conta.habt ) Then
-                    Begin 
-                        Swap_descarte(player,8-player.conta.habt,h,'habt');
-                        player.conta.prj := player.conta.habt + 1;
+                        quien := i;
                     End;
                 End;
             End;
         End;
     End;
-End
-Else
-Begin
-    sospech.habt := player.donde;
+    Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h);
+End;
+
+Procedure sospecha_computadora ( var sospechaON : boolean; var jugadorTurno : usuario ; 
+                    var jugadores : array of usuario; phaInicio : cartas; 
+                        sospech : sbr; ultimoJ : integer);
+Var
+    h,n,m,l : integer; // variables que permiten programacion robusta
+    s : string; // Variable que muestra mensaje al usuario
+    k : integer; // determina cuantas cartas son sospechadas por mano
+    carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
+    i,j,co : integer; // Contadores 
+    humano : boolean; // determina si el usuario ha mostrado una carta
+    Begin
+    
+    
+    sospechaON := True;
+    humano := false;
+
+    sospech.habt := jugadorTurno.donde;
     For i := 0 to 8 Do
     Begin
-        If (sospech.habt = player.lista.habt[i] ) Then
+        If (sospech.habt = jugadorTurno.lista.habt[i] ) Then
         Begin
             h := i;
         End;
     End;
     (* Computadora elegira arma a sospechar *)
 
-    n := Aleatorio(0,5-player.conta.arma);
-    sospech.arma := player.lista.arma[n];
-    Writeln('La computadora',player.posicion,
+    n := Aleatorio(0,5-jugadorTurno.conta.arma);
+    sospech.arma := jugadorTurno.lista.arma[n];
+    Writeln('La computadora',jugadorTurno.posicion,
         ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
     (* Computadora elegira personaje a sospechar *)
-    m := Aleatorio(0,5-player.conta.prj);
-    sospech.prj := player.lista.arma[m];   
-    Writeln('La computadora',player.posicion,
+    m := Aleatorio(0,5-jugadorTurno.conta.prj);
+    sospech.prj := jugadorTurno.lista.arma[m];   
+    Writeln('La computadora',jugadorTurno.posicion,
         'sospecha quien mato a Mr.Black fue: ',sospech.prj);
     (* Mover el personaje al lugar de la sospecha *)
 
     For i := 1 to 5 Do
     Begin
-        If ( sospech.prj = pc[i].peon ) Then
+        If ( sospech.prj = jugadores[i].peon ) Then
         Begin
-            pc[i].donde := sospech.habt;
+            jugadores[i].donde := sospech.habt;
         End;
     End;
 
     (* Match de las cartas *)
     k := 0; 
-    For i := ( player.posicion + 1 ) to 5 Do
+    For i := ( jugadorTurno.posicion + 1 ) to 5 Do
     Begin
         If ( sospechaON ) Then
         Begin
             For j := 0 to 2 Do
             Begin
-                If ( pc[i].mano[j] = sospech.arma ) Then
+                If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
                     carta[j] := sospech.arma;
                     sospechaON := false;
                     k := k + 1;
+                    quien := i;
                 End
                 Else 
                 Begin    
-                    If ( pc[i].mano[j] = sospech.prj ) Then
+                    If ( jugadores[i].mano[j] = sospech.prj ) Then
                     Begin
                         carta[j] := sospech.prj;
                         sospechaON := false;
                         k := k + 1;
+                        quien := i;
                     End
                     Else
                     Begin
                         carta[j] := sospech.habt;
                         sospechaON := false;
                         k := k + 1;
+                        quien := i;
                     End;
                 End;
             End;
         End;
-            If not ( sospechaON ) Then
-            Begin
-                Writeln(' La computadora',pc[i].posicion,
-                    ' Le muestra una carta a la computadora',player.posicion);
-            End;
     End;      
             
-    For i := 0 to ( player.posicion - 1 ) Do
+    For i := 0 to ( jugadorTurno.posicion - 1 ) Do
     Begin
         If ( sospechaON ) Then
         Begin
             For j := 0 to 2 Do
             Begin
-                If ( pc[i].mano[j] = sospech.arma ) Then
+                If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
                     carta[j] := sospech.arma;
                     sospechaON := false;
                     k := k + 1;
+                    quien := i;
                 End
                 Else 
                 Begin    
-                    If ( pc[i].mano[j] = sospech.prj ) Then
+                    If ( jugadores[i].mano[j] = sospech.prj ) Then
                     Begin
                         carta[j] := sospech.prj;
                         sospechaON := false;
                         k := k + 1;
+                        quien := i;
                     End
                     Else
                     Begin
                         carta[j] := sospech.habt;
                         sospechaON := false;
                         k := k + 1;
+                        quien := i;
                     End;
+                End;
+                If ( sospechaON = false ) and ( jugadores[i].usuario ) Then
+                Begin
+                    humano := True
                 End;
             End;
         End;
         (* Si el usuario tiene una carta de la sospecha *)
 
-        If ( pc[i].usuario ) and (sospechaON <> true ) Then
+        If ( jugadores[i].usuario ) and (sospechaON <> true ) Then
         Begin
-            humano := true;
-            Writeln('En tu mano hay ',k,
-                ' cartas que se sospechan, cual quieres mostrar?');
-            For co := 0 to 2 Do
-            Begin
-            Writeln(co + 1,'.- ',carta[co]);
-            End;
-            s := 'elige el numero de la carta a mostrar';
-            Repeat
-            Begin
-                Writeln(s);
-                Read(l);
-                S := ' te equivocaste, elige otra vez';
-            End
-            Until ( n > 0 ) and ( n < 4 );
-
-            If ( carta[l-1] = sospech.arma ) Then
-            Begin
-                Swap_descarte(player,5-player.conta.arma,m,'arma');
-                player.conta.arma := player.conta.arma + 1;
-            End;
-            If ( carta[l-1] = sospech.prj ) Then
-            Begin 
-                Swap_descarte(player,5-player.conta.prj,n,'prj');
-                player.conta.prj := player.conta.prj + 1;
-            End;
-            If ( carta[l-1] = sospech.habt ) Then
-            Begin 
-                Swap_descarte(player,8-player.conta.habt,h,'habt');
-                player.conta.prj := player.conta.habt + 1;
-            End;
+            Refuta_Usuario(carta,jugadorTurno,k,m,n,h);
         End
         Else
-        Begin
-            If not ( sospechaON ) Then
+        Begin    
+            If ( sospechaON = false ) and ( humano = false ) Then
             Begin
-                Writeln(' La computadora',pc[i].posicion,
-                    ' Le muestra una carta a la computadora',player.posicion);
+                Refuta_computadora (carta,jugadorTurno,k,quien,m,n,h);
             End;
         End;
     End;
-    If ( sospechaON = false ) and ( humano = false ) Then
-    Begin
-
-        muestro := Aleatorio(0,k-1);
-        Case muestro of
-            0 :
-            Begin
-                If ( carta[0] = sospech.arma ) Then
-                Begin
-                    Swap_descarte(player,5-player.conta.arma,m,'arma');
-                    player.conta.arma := player.conta.arma + 1;
-                End;
-                If ( carta[0] = sospech.prj ) Then
-                Begin 
-                    Swap_descarte(player,5-player.conta.prj,n,'prj');
-                    player.conta.prj := player.conta.prj + 1;
-                End;
-                If ( carta[0] = sospech.habt ) Then
-                Begin 
-                    Swap_descarte(player,8-player.conta.habt,h,'habt');
-                    player.conta.prj := player.conta.habt + 1;
-                End;
-            End;
-            1 :
-            Begin
-                If ( carta[1] = sospech.arma ) Then
-                Begin
-                    Swap_descarte(player,5-player.conta.arma,m,'arma');
-                    player.conta.arma := player.conta.arma + 1;
-                End;
-                If ( carta[1] = sospech.prj ) Then
-                Begin 
-                    Swap_descarte(player,5-player.conta.prj,n,'prj');
-                    player.conta.prj := player.conta.prj + 1;
-                End;
-                If ( carta[1] = sospech.habt ) Then
-                Begin 
-                    Swap_descarte(player,8-player.conta.habt,h,'habt');
-                    player.conta.prj := player.conta.habt + 1;
-                End;
-            End;
-            2 :
-            Begin
-                If ( carta[2] = sospech.arma ) Then
-                Begin
-                    Swap_descarte(player,5-player.conta.arma,m,'arma');
-                    player.conta.arma := player.conta.arma + 1;
-                End;
-                If ( carta[2] = sospech.prj ) Then
-                Begin 
-                    Swap_descarte(player,5-player.conta.prj,n,'prj');
-                    player.conta.prj := player.conta.prj + 1;
-                End;
-                If ( carta[2] = sospech.habt ) Then
-                Begin 
-                    Swap_descarte(player,8-player.conta.habt,h,'habt');
-                    player.conta.prj := player.conta.habt + 1;
-                End;
-            End;
-        End;
-    End;
-End;
 End;
 
 Var
@@ -496,7 +359,7 @@ Var
      * Habitaciones: del 6 al 14
      * Armas: 15 20 
     *)
-    phaInit : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
+    phaInicio : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
 			ProfesorCiruela, SenoritaEscarlata, 
 			CoronelMostaza, Biblioteca, Cocina, 
 			Comedor, Estudio, Vestibulo, Salon, 
@@ -512,7 +375,7 @@ Var
     sobre   : sbr; // Variable que contiene los hechos reales
     
     
-    pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario
+    jugadores : Array[0..5] of usuario; // Arreglo de Jugadores jugadores[0]:Usuario
     i,j,co  : integer; // Variables para Iteracion y contadores
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
        
@@ -524,25 +387,25 @@ Var
 Begin
     For i := 0 to 5 Do // Inicializo a todos los jugadores
     Begin
-        pc[i].conta.arma := 0;
-        pc[i].conta.habt := 0;
-        pc[i].conta.prj  := 0;
-    	pc[i].x := 2;
-    	pc[i].y := 2;
-    	pc[i].usuario := False;
-    	pc[i].donde := Vestibulo;
-        pc[i].posicion := i;
+        jugadores[i].conta.arma := 0;
+        jugadores[i].conta.habt := 0;
+        jugadores[i].conta.prj  := 0;
+    	jugadores[i].x := 2;
+    	jugadores[i].y := 2;
+    	jugadores[i].usuario := False;
+    	jugadores[i].donde := Vestibulo;
+        jugadores[i].posicion := i;
         For j := 0 to 5 Do
         Begin
-            pc[i].lista.arma[j] := phaInit[j + 15 ];
+            jugadores[i].lista.arma[j] := phaInicio[j + 15 ];
         End;
         For j := 0 to 5 Do
         Begin
-            pc[i].lista.prj[j] := phaInit[j];
+            jugadores[i].lista.prj[j] := phaInicio[j];
         End;
         For j := 0 to 8 Do
         Begin
-            pc[i].lista.habt[j] := phaInit[j + 6 ];
+            jugadores[i].lista.habt[j] := phaInicio[j + 6 ];
         End;
     End;
 

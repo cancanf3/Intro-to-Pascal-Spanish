@@ -44,7 +44,7 @@ Type
 		y : integer;
 		usuario : boolean;
         vida : boolean;
-        mano : array[0..2] of pha;
+        mano : array[0..8] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : lista_cartas;  // Lista de cartas
