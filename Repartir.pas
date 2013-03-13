@@ -119,6 +119,7 @@ VAR
 	    While (i < ultimoJ + 1) And (co < 18) Do
 	    Begin
 		jugador[i].mano[j] := phaInicio[repartir[co]];
+		co := co + 1;
 		i := i + 1;
 	    End;
 	    j := j + 1;
