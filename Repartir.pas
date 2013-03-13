@@ -1,4 +1,4 @@
-Program Repartir;
+Program ReparteCartas;
 
 Type
 
@@ -55,7 +55,7 @@ Type
 
 VAR
 
-    Var
+    
     (* 
      * Personajes: 0 al 5
      * Habitaciones: del 6 al 14
@@ -85,27 +85,43 @@ VAR
     moverA : h;
     sospecha : sbr; // variable para realizar sospechas
     
-
+    ultimoJ : integer;
     sospechaON : boolean;
     SioNo : boolean;
 
-
-    Procedure Repartir (var jugador : array of user; phaInicio : cartas);
+    Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
-	co1 : integer;
-	co2 : integer;
+	amplitud : integer;
+    Begin
+	amplitud := (tope - inicio) + 1;
+	Aleatorio := Random(amplitud) + inicio;
+    End;
+    
+    Procedure Swap (var n : integer; var m : integer);
+    Var
+	tmp : integer;
+    Begin
+	tmp := n;
+	n := m;
+	m := tmp;
+    End;   
+    Procedure RepartirCartas (var jugador : array of user; phaInicio : cartas; ultimoJ: integer);
+    Var 
+	co : integer;
+	i,j : integer;
     Begin
     
-	co1 := 0;
-	co2 := 0;
-	While (co1 < 18) Do
+	co := 0;
+	j := 0;
+	While (co < 18) Do
 	Begin
-	    For i := 0 To ultimoJ Do
+	    i := 0;
+	    While (i < ultimoJ + 1) And (co < 18) Do
 	    Begin
-		jugador[i].mano[co2] := phaInicio[repartir[co1]];
-		co1 := co1 + 1;
+		jugador[i].mano[j] := phaInicio[repartir[co]];
+		i := i + 1;
 	    End;
-	    co2 := co2 + 1;
+	    j := j + 1;
 	End;
 
     End;
@@ -115,9 +131,14 @@ VAR
     
 BEGIN
 
-
+    For i := 17 Downto 1 Do
+    Begin
+	n := Aleatorio(0,i);
+	Swap(repartir[i], repartir[n]);
+    End;
+    writeln;
     
-    
+    RepartirCartas(pc,phaInicio,ultimoJ);
     
     
     
