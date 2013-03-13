@@ -1,43 +1,35 @@
-Procedure Acusacion( var player : user; sobre : sbr);
+Procedure Acusacion( var jugadorTurno : usuario; sobre : sbr;
+                        phaInicio : cartas);
 Var 
-    acus : sbr; // Variables que almacenaran la acusasion del jugador
+    acus : sbr; // Variables que almacenaran la acusasion del jugador.
+    i : integer; // Variable de iteracion.
+    n : integer; // Variable que permite lectura robusta
+Begin
+
+    (* Acusacion del Personaje *)
+    Writeln(' Quien Mato a Mr.Black? ');
+
+    Writeln('Personajes descartados'); 
+    For i := 0 to ( 5 - jugadorTurno.conta.prj ) Do
     Begin
-    	
-        acus.habt := player.donde
+        Writeln(jugadorTurno.lista.prj[i]);
+    End;
+    Writeln('Personajes Para Acusar ');
+    For i := 0  to 5 Do
+    Begin
+        Writeln(i+1,'.- ',phaInicio[i]);
+    End;
+    Repeat
+    Begin
+        Readln(n);
+    End
+    Until ( n < 7 ) and ( n > 0 );
 
-        If ( player.usuario = False ) Then
-        Begin
-        (* Algoritmo para acusar en funcion de descarte *)
+    acus.prj := phaInicio[n-1];
 
-        End
-        Else
-        Begin
-            Writeln('A quien desea acusar: ');
-	        Readln(acus.prj);
-	        Writeln('Que arma se uso para matar a Mr.Black: ');
-            Readln(acus.arma);
-        End;
-	
-	    { pre }  
+    (* Acusacion del arma *)
 
-	If ( acus.prj = sobre.prj ) And ( acus.arma = sobre.arma ) 
-       And ( acus.habt = sobre.habt ) Then
-	Begin
-		Writeln(' El Jugador ',player.peon,' ha adivinado las cartas del sobre');
-		Writeln(' El Juego se da por terminado ');
-		Halt;
-	End
-	Else 
-	Begin
-		player.vida := false;
-		If ( player.usuario = true ) Then
-		Begin
-			Writeln(' Has Fallado en tu acusacion ');
-			Writeln(' Has Perdido ');
-			Writeln(' Las cartas del sobre son ');
-			Writeln(' Asesino: ',sobre.prj,' Arma: ', sobre.arma,' Lugar: ', sobre.habt);
-			Halt;
-		End;
-	End;
-End;	
+    Writeln('
 
+
+End;
