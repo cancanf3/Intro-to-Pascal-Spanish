@@ -69,8 +69,7 @@ VAR
 			Candelabro, Cuchillo, Cuerda, 
 			LlaveInglesa, Revolver, Tubo);
 
-    repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
-						13,14,15,16,17,18,19,20);
+    
 
     habitacion : Array[0..8] of lugar;
     sobre   : sbr; // Variable que contiene los hechos reales
@@ -132,20 +131,52 @@ VAR
     
 BEGIN
 
-    For i := 17 Downto 1 Do
+    
+    
+    Procedure AsignarCartas (var jugador : array of user; var sobre : sbr; phaInicio : cartas; ultimoJ : integer);
+    Var 
+    
+    repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
+						13,14,15,16,17,18,19,20);
+    x,y,z : integer;
+    i : integer;
     Begin
-	n := Aleatorio(0,i);
-	Swap(repartir[i], repartir[n]);
+    
+	(* Seleccion del Asesino *)
+	x := Aleatorio(0,5);
+	sobre.prj := phaInicio[x];
+
+	(* Seleccion de la Habitacion donde se produjo el asesinato *)
+	y := Aleatorio(6,14);
+	sobre.habt := phaInicio[y];
+
+	(* Seleccion del arma con la que se cometio el asesinato *)
+	z := Aleatorio(15,20);
+	sobre.arma := phaInicio[z];
+	writeln;
+
+	(* Swapeo las variables a las tres posiciones finales para 
+	    no repartir las cartas del sobre *)
+	Swap(repartir[z], repartir[20]);
+	writeln('El Arma es: ', sobre.arma);
+
+	Swap(repartir[y], repartir[19]);
+	writeln('La Habitacion es: ', sobre.habt);
+
+	Swap(repartir[x], repartir[18]);
+	writeln('El Asesino es: ', sobre.prj);
+	    
+
+	(* Aqui hago Shuffle del arreglo de todas las cartas 
+	    excluyendo las del sobre *)
+	For i := 17 Downto 1 Do
+	Begin
+	    n := Aleatorio(0,i);
+	    Swap(repartir[i], repartir[n]);
+	End;
+	writeln;
+    
     End;
-    writeln;
-    
-    RepartirCartas(pc,phaInicio,ultimoJ);
-    
-    
-    
-    
-    
-    
     
     
     

@@ -104,7 +104,9 @@ Type
     End;
     
     (* Proceso para Seleccionar Personaje *)
-    Procedure SeleccionPersonaje(phaInit : cartas; var player : Array of user);
+    Procedure SeleccionPersonaje(phaInit : cartas; 
+				 var player : Array of user;
+				 ultimoJ : integer);
     Var
 	i : integer;
 	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
@@ -130,7 +132,7 @@ Type
 	(* Asignamos los personajes a las Computadoras *)
 	Swap(repartir[i-1], repartir[5]);
 
-	For i:= 0 To 4 Do
+	For i:= 0 To ultimoJ Do
 	Begin
 	    player[i+1].peon := phaInit[repartir[i]];
 	    writeln('Jugador ', i + 2, ' Selecciona a: ', player[i+1].peon);
@@ -292,11 +294,12 @@ Var
     
     i,j,co  : integer; // Variables para Iteracion y contadores.
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
-    Turno   : integer; // Contador de los Turnos.
+    Turn   : integer; // Contador de los Turnos.
+    
     
     moverA : h;
     sospecha : sbr; // variable para realizar sospechas
-    
+    ultimoJ : integer;
 
     sospechaON : boolean;
     SioNo : boolean;
@@ -365,7 +368,7 @@ BEGIN
      * Con este Procedimiento el usuario selecciona el personaje 
      * que usara en el juego y se aginan los demas a las computadoras
      *)
-    SeleccionPersonaje(phaInit, pc);
+    SeleccionPersonaje(phaInit, pc,ultimoJ);
     writeln;
     
     (* Aqui se seleccionan los hechos reales y se reparten las cartas *)
