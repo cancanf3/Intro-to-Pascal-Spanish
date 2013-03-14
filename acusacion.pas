@@ -88,7 +88,7 @@ Begin
 End;
 
 Procedure Acusacion_Computadora( var jugadorTurno : usuario; sobre : sbr;
-                        phaInicio : cartas);
+                                phaInicio : cartas; sospech : sbr);
 Var 
     acus : sbr; // Variables que almacenaran la acusasion del jugador.
     i : integer; // Variable de iteracion.
@@ -98,34 +98,43 @@ Begin
 
     (* Formulacion de la Acusacion *)
 
-    Repeat
+    If sospechaON Then
+    Begin
+        acus.arma := sospech.arma;
+        acus.prj := sospech.prj;
+        acus.habt := acus.habt;
+    End
+    Else
     Begin
 
-        p := Aleatorio(0,5 - jugadorTurno.conta.prj );
-        a := Aleatorio(0,5 - jugadorTurno.conta.arma );
-        h := Aleatorio(0,8 - JugadorTurno.conta.habt);
-        
-        acus.prj := jugadorTurno.lista.prj[p];
-        acus.arma := jugadorTurno.lista.arma[a];
-        acus.habt := jugadorTurno.lista.habt[h];
-
-        For i := 0 to jugadorTurno.conta.sospecha Do
+        Repeat
         Begin
-            If ( acus.arma = jugadorTurno.sospecha[i].arma ) and
-               ( acus.habt = jugadorTurno.sospecha[i].habt ) and
-               (  acus.prj = jugadorTurno.sospecha[i].prj  ) Then
+
+            p := Aleatorio(0,5 - jugadorTurno.conta.prj );
+            a := Aleatorio(0,5 - jugadorTurno.conta.arma );
+            h := Aleatorio(0,8 - JugadorTurno.conta.habt);
+            
+            acus.prj := jugadorTurno.lista.prj[p];
+            acus.arma := jugadorTurno.lista.arma[a];
+            acus.habt := jugadorTurno.lista.habt[h];
+
+            For i := 0 to jugadorTurno.conta.sospecha Do
             Begin
-                procede := true;
+                If ( acus.arma = jugadorTurno.sospecha[i].arma ) and
+                   ( acus.habt = jugadorTurno.sospecha[i].habt ) and
+                   (  acus.prj = jugadorTurno.sospecha[i].prj  ) Then
+                Begin
+                    procede := true;
+                End;
             End;
-        End;
-    End
-    Until ( Procede = true );
+        End
+        Until ( Procede = true );
 
-    Writeln('Jugador',jugadorTurno.posicion,' ha realizado una acusacion');
-    Writeln('Arma elegida: ',acus.arma);
-    Writeln('Personaje elegido: ',acus.prj);
-    Writeln('Haitacion elegida: ',acus.habt);
-
+        Writeln('Jugador',jugadorTurno.posicion,' ha realizado una acusacion');
+        Writeln('Arma elegida: ',acus.arma);
+        Writeln('Personaje elegido: ',acus.prj);
+        Writeln('Haitacion elegida: ',acus.habt);
+    End;
 
     (* Verificacion de la acusacion *)
 
