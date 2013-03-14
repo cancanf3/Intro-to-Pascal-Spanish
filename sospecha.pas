@@ -53,34 +53,6 @@ Type
         
             End;
  
-    Procedure Swap_descarte(var jugadorTurno : usuario; n : integer; 
-                                m : integer; k : string);
-    Var
-	tmp1 : a;
-    tmp2 : h;
-    tmp3 : p;
-    Begin
-        Case k of 
-            'arma' :
-            Begin
-	            tmp1 := jugadorTurno.lista.arma[n];
-	            jugadorTurno.lista.arma[n] := jugadorTurno.lista.arma[m];
-	            jugadorTurno.lista.arma[m] := tmp1;
-            End;
-            'habt' :
-            Begin
-	            tmp2 := jugadorTurno.lista.habt[n];
-	            jugadorTurno.lista.habt[n] := jugadorTurno.lista.habt[m];
-	            jugadorTurno.lista.habt[m] := tmp2;
-            End;
-            'prj' :
-            Begin
-	            tmp3 := jugadorTurno.lista.prj[n];
-	            jugadorTurno.lista.prj[n] := jugadorTurno.lista.prj[m];
-	            jugadorTurno.lista.prj[m] := tmp3;
-            End;
-        End;
-    End;
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
@@ -218,6 +190,22 @@ humano := false;
         End;
     End;
     Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h);
+    If sospechaON Then
+    Begin
+        For i := 1 to 5 Then
+        Begin
+            jugadores[i].sospecha[jugadores[i].conta.sospecha].arma 
+            := sospech.arma;
+
+            jugadores[i].sospecha[jugadores[i].conta.sospecha].prj 
+            := sospech.prj;
+
+            jugadores[i].sospecha[jugadores[i].conta.sospecha].habt 
+            := sospech.habt;
+
+            jugadores[i].conta.sospecha := jugadores[i].conta.sospecha + 1;
+        End;
+    End;
 End;
 
 Procedure sospecha_computadora ( var sospechaON : boolean; var jugadorTurno : usuario ; 
@@ -339,7 +327,7 @@ Var
         End;
         (* Si el usuario tiene una carta de la sospecha *)
 
-        If ( jugadores[i].usuario ) and (sospechaON <> true ) Then
+        If ( jugadores[i].usuario ) and (sospechaON = false ) Then
         Begin
             Refuta_Usuario(carta,jugadorTurno,k,m,n,h);
         End
@@ -349,6 +337,23 @@ Var
             Begin
                 Refuta_computadora (carta,jugadorTurno,k,quien,m,n,h);
             End;
+        End;
+    End;
+
+    If sospechaON Then
+    Begin
+        For i := 1 to 5 Then
+        Begin
+            jugadores[i].sospecha[jugadores[i].conta.sospecha].arma 
+            := sospech.arma;
+
+            jugadores[i].sospecha[jugadores[i].conta.sospecha].prj 
+            := sospech.prj;
+
+            jugadores[i].sospecha[jugadores[i].conta.sospecha].habt 
+            := sospech.habt;
+
+            jugadores[i].conta.sospecha := jugadores[i].conta.sospecha + 1;
         End;
     End;
 End;
