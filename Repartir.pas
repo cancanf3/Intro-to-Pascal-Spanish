@@ -117,7 +117,8 @@ VAR
 	    i := 0;
 	    While (i < ultimoJ + 1) And (co < 18) Do
 	    Begin
-		jugador[i].mano[j] := phaInicio[repartir[co]];
+		jugadores[i].mano[j] := phaInicio[repartir[co]];
+        jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		co := co + 1;
 		i := i + 1;
 	    End;

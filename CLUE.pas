@@ -51,7 +51,7 @@ Type
 		y : integer;
 		usuario : boolean;
         vida : boolean;
-        mano : Array[0..2] of pha;
+        mano : Array[0..8] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : lista_cartas;  // Lista de cartas
@@ -351,6 +351,8 @@ BEGIN
         pc[i].conta.arma := 0;
         pc[i].conta.habt := 0;
         pc[i].conta.prj  := 0;
+        pc[i].conta.cartas := 0;
+        pc[i].conta.sospecha := 0;
     	pc[i].x := 2;
     	pc[i].y := 2;
     	pc[i].usuario := False;
