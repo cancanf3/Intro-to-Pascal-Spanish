@@ -124,7 +124,9 @@ VAR
 	    End;
 	    j := j + 1;
 	End;
-
+    For i := 0 to 5 Do
+    Begin
+        jugadores[i].conta.artas := jugadores[i].conta.cartas - 1;
     End;
     
     
