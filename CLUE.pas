@@ -29,54 +29,61 @@ Type
 		habt : h;
 		prj  : p;
 	        End;
-	descarte = Record // Variable contadora de descarte para las pc 
+	contadores = Record // Variable contadora de descarte para las pc 
         arma : integer;
         habt : integer;
         prj  : integer;
+      cartas : integer;
+    sospecha : integer;
                End;
     lista_cartas = Record
         arma : armas;
         habt : habts;
         prj  : prjs; 
-                   End;	
+                   End;
+    {ordinales = Record // Guarda los ordinales de las sospechas de computadoras
+        arma : integer;
+        habt : integer;
+        prj  : integer;}
 
     user =  Record
 		x : integer;
 		y : integer;
 		usuario : boolean;
         vida : boolean;
-        mano : array[0..2] of pha;
+        mano : Array[0..2] of pha;
 		donde : h;
 		peon  : p;  // Ficha que usa para jugar
 		lista : lista_cartas;  // Lista de cartas
-        conta : descarte;
+        conta : contadores;
      posicion : integer;
+     sospecha : Array[0..323] of sbr; 
         
             End;
   
    (* Funcion que hace swap para descartar de la lista *)
 
     Procedure Swap_descarte(var player : user; n : integer; 
-                                m : integer; k : string);
+                                m : integer; k : integer);
     Var
 	tmp1 : a;
     tmp2 : h;
     tmp3 : p;
     Begin
         Case k of 
-            'arma' :
+            0 :
             Begin
 	            tmp1 := player.lista.arma[n];
 	            player.lista.arma[n] := player.lista.arma[m];
 	            player.lista.arma[m] := tmp1;
             End;
-            'habt' :
+            2 :
             Begin
 	            tmp2 := player.lista.habt[n];
 	            player.lista.habt[n] := player.lista.habt[m];
 	            player.lista.habt[m] := tmp2;
             End;
-            'prj' :
+            1 :
             Begin
 	            tmp3 := player.lista.prj[n];
 	            player.lista.prj[n] := player.lista.prj[m];

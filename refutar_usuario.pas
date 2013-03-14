@@ -20,17 +20,17 @@ Begin
 
     If ( carta[l-1] = sospech.arma ) Then
     Begin
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m,'arma');
+        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m,0);
         jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
     End;
     If ( carta[l-1] = sospech.prj ) Then
     Begin 
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n,'prj');
+        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n,1);
         jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
     End;
     If ( carta[l-1] = sospech.habt ) Then
     Begin 
-        Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+        Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
         jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
     End;
 End;

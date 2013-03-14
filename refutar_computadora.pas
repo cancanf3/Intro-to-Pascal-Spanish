@@ -23,19 +23,19 @@ Case muestro of
         If ( carta[0] = sospech.arma ) 
         and ( m-1 <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[0] = sospech.prj ) 
         and ( n-1 <= 5 - jugadorTurno.conta.prj) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[0] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -53,19 +53,19 @@ Case muestro of
         If ( carta[1] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[1] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[1] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -83,19 +83,19 @@ Case muestro of
         If ( carta[2] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma ) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[2] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[2] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End; 
@@ -113,19 +113,19 @@ Case muestro of
         If ( carta[3] = sospech.arma ) 
         and ( m-1 <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[3] = sospech.prj ) 
         and ( n-1 <= 5 - jugadorTurno.conta.prj) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[3] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -143,19 +143,19 @@ Case muestro of
         If ( carta[4] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[4] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[4] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -173,19 +173,19 @@ Case muestro of
         If ( carta[5] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma ) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[5] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[5] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -203,19 +203,19 @@ Case muestro of
         If ( carta[6] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[6] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[6] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -233,19 +233,19 @@ Case muestro of
         If ( carta[7] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma ) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[7] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[7] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
@@ -263,19 +263,19 @@ Case muestro of
         If ( carta[8] = sospech.arma ) 
         and ( m - 1 <= 5 - jugadorTurno.conta.arma ) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,'arma');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
         End;
         If ( carta[8] = sospech.prj ) 
         and ( n - 1 <= 5 - jugadorTurno.conta.prj ) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,'prj');
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
         End;
         If ( carta[8] = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,'habt');
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.prj := jugadorTurno.conta.habt + 1;
         End;
     End;
