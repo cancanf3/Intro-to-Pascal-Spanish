@@ -160,7 +160,7 @@ humano := false;
     Begin
         If ( sospechaON ) Then
         Begin
-            For j := 0 to (* Variable cantidad de cartas por player *) Do
+            For j := 0 to jugadores[i].conta.cartas Do
             Begin
                 If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
@@ -259,7 +259,7 @@ Var
     Begin
         If ( sospechaON ) Then
         Begin
-            For j := 0 to 2 Do
+            For j := 0 to jugadores[i].cnta.cartas Do
             Begin
                 If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
@@ -293,7 +293,7 @@ Var
     Begin
         If ( sospechaON ) Then
         Begin
-            For j := 0 to 2 Do
+            For j := 0 to jugadores[i].conta.cartas Do
             Begin
                 If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
