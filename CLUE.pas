@@ -1,7 +1,7 @@
 (* Este es el Proyecto Serio *)
-Program CLUE;
+PROGRAM CLUE;
 
-Type 
+TYPE 
  
     pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
 	   SenoritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
@@ -29,7 +29,7 @@ Type
 		habt : h;
 		prj  : p;
 	        End;
-	contadores = Record // Variable contadora de descarte para las pc 
+	contadores = Record // Variable contadora de descarte para las jugadores 
         arma : integer;
         habt : integer;
         prj  : integer;
@@ -61,33 +61,135 @@ Type
         
             End;
   
+    
+    (* Permite ingresar el numero de Computadoras *)
+    Procedure NComputadoras(var ultimoJ : integer);
+    Begin
+	write('Ingrese el numero de jugadoras contra las que desea jugar (2-5): ');
+	read(ultimoJ);
+	While (ultimoJ < 2) Or (ultimoJ > 5) Do
+	Begin
+	    writeln('Numero ingresado no valido, Puede elejir entre 2 y 5 computadoras');
+	    write('Intente de nuevo: ');
+	    read(ultimoJ);
+	End;
+    End;
+    
+    
+    (* Inicializacion de variables *)
+    Procedure Inicializa (var phaInicio : cartas;
+			    ultimoJ : integer;
+			    var habitacion : array of lugar;
+			    var jugadores : Array of user;
+			    var Turn : integer;
+			    var SioNo : boolean;
+			    var juegoActivo : boolean);
+    Var 
+    
+	i, j : integer;
+	x, y : integer;
+	co : integer;
+        
+    Begin
+	(* Habitaciones *)
+	co := 0;
+	For i := 6 To 14 Do
+	Begin
+	    habitacion[co].nombre := phaInicio[i];
+	    habitacion[co].alcanzable := False;
+	    co := co + 1;
+	End;
+	
+	co := 0;
+	y  := 0;
+	For i := 0 To 2 Do
+	Begin
+	    x := 0;
+	    For j := 0 to 2 Do
+	    Begin
+		habitacion[co].x := x;
+		habitacion[co].y := y;
+		x := x + 2;
+		co := co + 1;
+	    End;
+	    y := y + 2;
+	End;
+	
+	juegoActivo := True;
+	SioNo := True; // Variable del procedimiento decision
+	Turn := 0;
+	
+	
+	For i := 0 to ultimoJ Do // Inicializo a todos los jugadores
+	Begin
+	    jugadores[i].conta.arma := 0;
+	    jugadores[i].conta.habt := 0;
+	    jugadores[i].conta.prj  := 0;
+	    jugadores[i].conta.cartas := 0;
+	    jugadores[i].conta.sospecha := 0;
+	    jugadores[i].x := 2;
+	    jugadores[i].y := 2;
+	    jugadores[i].usuario := False;
+	    jugadores[i].donde := Vestibulo;
+	    jugadores[i].posicion := i;
+	    jugadores[i].vida := True;
+	    For j := 0 To 5 Do
+	    Begin
+		jugadores[i].lista.arma[j] := phaInicio[j + 15 ];
+	    End;
+	    For j := 0 To 5 Do
+	    Begin
+		jugadores[i].lista.prj[j] := phaInicio[j];
+	    End;
+	    For j := 0 To 8 Do
+	    Begin
+		jugadores[i].lista.habt[j] := phaInicio[j + 6 ];
+	    End;
+	End;
+	
+	For i := ultimoJ + 1 To 5 Do // Descarto las computadoras que no juegan
+	Begin
+	    jugadores[i].vida := False;
+	End;
+	
+	
+	jugadores[0].usuario := True; // Determinar que el jugador jugadores[0] es el Usuario
+    
+    End;
+   
+   
+   
+   
+   
+   
+   
    (* Funcion que hace swap para descartar de la lista *)
 
-    Procedure Swap_descarte(var player : user; n : integer; 
+    Procedure Swap_descarte(var jugador : user; n : integer; 
                                 m : integer; k : integer);
     Var
 	tmp1 : a;
-    tmp2 : h;
-    tmp3 : p;
+	tmp2 : h;
+	tmp3 : p;
     Begin
         Case k of 
             0 :
             Begin
-	            tmp1 := player.lista.arma[n];
-	            player.lista.arma[n] := player.lista.arma[m];
-	            player.lista.arma[m] := tmp1;
+	            tmp1 := jugador.lista.arma[n];
+	            jugador.lista.arma[n] := jugador.lista.arma[m];
+	            jugador.lista.arma[m] := tmp1;
             End;
             2 :
             Begin
-	            tmp2 := player.lista.habt[n];
-	            player.lista.habt[n] := player.lista.habt[m];
-	            player.lista.habt[m] := tmp2;
+	            tmp2 := jugador.lista.habt[n];
+	            jugador.lista.habt[n] := jugador.lista.habt[m];
+	            jugador.lista.habt[m] := tmp2;
             End;
             1 :
             Begin
-	            tmp3 := player.lista.prj[n];
-	            player.lista.prj[n] := player.lista.prj[m];
-	            player.lista.prj[m] := tmp3;
+	            tmp3 := jugador.lista.prj[n];
+	            jugador.lista.prj[n] := jugador.lista.prj[m];
+	            jugador.lista.prj[m] := tmp3;
             End;
         End;
     End;
@@ -101,6 +203,9 @@ Type
 	n := m;
 	m := tmp;
     End;   
+    
+    
+    
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
     Var 
@@ -110,9 +215,14 @@ Type
 	Aleatorio := Random(amplitud) + inicio;
     End;
     
+    
+    
+    
+    
+    
     (* Proceso para Seleccionar Personaje *)
-    Procedure SeleccionPersonaje(phaInit : cartas; 
-				 var player : Array of user;
+    Procedure SeleccionPersonaje(phaInicio : cartas; 
+				 var jugadores : Array of user;
 				 ultimoJ : integer);
     Var
 	i : integer;
@@ -121,7 +231,7 @@ Type
 	writeln('Seleccione un personaje ingresando el numero correspondiente.');
 	For i := 0 To 5 Do
 	Begin
-	    Writeln(i+1, '.- ', phaInit[i]);
+	    Writeln(i+1, '.- ', phaInicio[i]);
 	End;
 	
 	write('Usuario Selecciona: ');
@@ -132,19 +242,82 @@ Type
 	    write('Usuario Selecciona: ');
 	    read(i);
 	End;
-	player[0].peon := phaInit[i-1];
-	writeln('El personaje seleccionado fue: ', player[0].peon);
+	jugadores[0].peon := phaInicio[i-1];
+	writeln('El personaje seleccionado fue: ', jugadores[0].peon);
 	writeln;
 	
 	(* Asignamos los personajes a las Computadoras *)
 	Swap(repartir[i-1], repartir[5]);
 
-	For i:= 0 To ultimoJ Do
+	For i:= 1 To ultimoJ Do
 	Begin
-	    player[i+1].peon := phaInit[repartir[i]];
-	    writeln('Jugador ', i + 2, ' Selecciona a: ', player[i+1].peon);
+	    jugadores[i+1].peon := phaInicio[repartir[i]];
+	    writeln('Jugador ', i + 1, ' Selecciona a: ', jugadores[i].peon);
 	End;
     End;
+    
+    
+    
+    (* Proceso que elije las cartas del sobre y reparte las demas *)
+    Procedure AsignarCartas (var jugadores : array of user; 
+			      var sobre : sbr; 
+			      phaInicio : cartas; 
+			      ultimoJ : integer);
+    Var 
+    	repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
+						    13,14,15,16,17,18,19,20);
+	n,x,y,z : integer;
+	i,j : integer;
+	co : integer;
+    Begin
+    	(* Se seleccionan los hechos reales *)
+	x := Aleatorio(0,5);
+	sobre.prj := phaInicio[x];
+	y := Aleatorio(6,14);
+	sobre.habt := phaInicio[y];
+	z := Aleatorio(15,20);
+	sobre.arma := phaInicio[z];
+	
+	(* Muevo las variables a las tres posiciones finales para 
+	    no repartir las cartas del sobre *)
+	Swap(repartir[z], repartir[20]);
+	Swap(repartir[y], repartir[19]);
+	Swap(repartir[x], repartir[18]);
+	
+	(* Aqui hago Shuffle del arreglo de todas las cartas 
+	    excluyendo las del sobre *)
+	For i := 17 Downto 1 Do
+	Begin
+	    n := Aleatorio(0,i);
+	    Swap(repartir[i], repartir[n]);
+	End;
+	writeln;
+    
+	(* Reparto las cartas dependiendo del numero de jugadores *)
+	co := 0;
+	j := 0;
+	While (co < 18) Do
+	Begin
+	    i := 0;
+	    While (i < ultimoJ + 1) And (co < 18) Do
+	    Begin
+		jugadores[i].mano[j] := phaInicio[repartir[co]];
+//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+//		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		co := co + 1;
+		i := i + 1;
+	    End;
+	    j := j + 1;
+	End;
+//     For i := 0 to 5 Do
+//     Begin
+//         jugadores[i].conta.artas := jugadores[i].conta.cartas - 1;
+//     End;
+    End;
+    
+    
+    
+    
     
     
     (* Funcion que calcula el valor absoluto de un entero dado *)
@@ -162,7 +335,7 @@ Type
     
     (* Funcion para preguntas del tipo (s/n) al usuario *)
  
-    Procedure decision (var SioNo : boolean);
+    Procedure Decision (var SioNo : boolean);
     Var
 	YN : char;
     n : integer;
@@ -190,15 +363,15 @@ Type
 
 
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
-    Function Distancia(player : user ; Habitacion : lugar): integer;
+    Function Distancia(jugador : user ; Habitacion : lugar): integer;
     Begin
-	Distancia := VA(Habitacion.x - player.x) 
-		     + VA(Habitacion.y - player.y);
+	Distancia := VA(Habitacion.x - jugador.x) 
+		     + VA(Habitacion.y - jugador.y);
     End;
     
     
     (* Procedimiento que permite mover a los jugadores *)   
-    Procedure Mover (var player : user; // Usurio o Computadora.
+    Procedure Mover (var jugador : user; // Usurio o Computadora.
 			 n: integer;    // Lo que saco con el dado.
 			 Habitacion : array of lugar);
     Var
@@ -209,18 +382,18 @@ Type
 	Case n Of // Case de los numeros del Dado (1..6)
 	    1    :  
 		Begin
-		    Writeln('Debe permanecer en su posicion: ', player.donde);
+		    Writeln('Debe permanecer en su posicion: ', jugador.donde);
 		    Exit;
 		End;
 	    2..6 : 
 		Begin
-		    If player.usuario then // Caso Usuario
+		    If jugador.usuario then // Caso Usuario
  		    Begin
 			co := 0;
 			writeln('Habitaciones Alcanzables');
 			For i := 0 To 8 Do
 			Begin
-			    If Distancia(player,Habitacion[i]) <= n Then
+			    If Distancia(jugador,Habitacion[i]) <= n Then
 			    Begin 
 				Habitacion[i].alcanzable := True;
 				writeln(co + 1,'.- ', Habitacion[i].nombre, ' es alcanzable.'); 
@@ -239,17 +412,17 @@ Type
 			    read(MoverA);
 			End;
 			
-			player.x := Habitacion[eleccion[moverA - 1]].x;
-			player.y := Habitacion[eleccion[moverA - 1]].y;
-			player.donde := Habitacion[eleccion[moverA - 1]].nombre;
-			writeln('Ahora se encuentra en: ', player.donde);
+			jugador.x := Habitacion[eleccion[moverA - 1]].x;
+			jugador.y := Habitacion[eleccion[moverA - 1]].y;
+			jugador.donde := Habitacion[eleccion[moverA - 1]].nombre;
+			writeln('Ahora se encuentra en: ', jugador.donde);
 			
 		    End 
 		    Else
 		    Begin // Caso computadora
 			For i := 0 To 8 Do
 			Begin
-			    If Distancia(player,Habitacion[i]) <= n Then
+			    If Distancia(jugador,Habitacion[i]) <= n Then
 			    Begin 
 				writeln(Habitacion[i].nombre, ' es alcanzable');
 				Habitacion[i].alcanzable := True;
@@ -257,18 +430,18 @@ Type
 			End;
 		    
 			i := Aleatorio(0,8);
-			While (Habitacion[i].nombre = player.donde) And Not habitacion[i].alcanzable Do
+			While (Habitacion[i].nombre = jugador.donde) And Not habitacion[i].alcanzable Do
 			Begin
 			    i := Aleatorio(0,8);
 			End;
 			
-			player.donde := Habitacion[i].nombre;
-			player.x := Habitacion[i].x;
-			player.y := Habitacion[i].y;
-			writeln('Computadora se movio a: ', player.donde);
+			jugador.donde := Habitacion[i].nombre;
+			jugador.x := Habitacion[i].x;
+			jugador.y := Habitacion[i].y;
+			writeln('Computadora se movio a: ', jugador.donde);
 			(* 
 			 * En la linea de Arriba podemos poner algo como
-			 * writeln(player.peon, '(Computadora ', player.posicion, ') ', ' Se movio a: ', player.donde);'
+			 * writeln(jugador.peon, '(Computadora ', jugador.posicion, ') ', ' Se movio a: ', jugador.donde);'
 			 *
 			*)
 		    End;
@@ -276,13 +449,48 @@ Type
 	End; // Del Case completo
     End; // Procedure
 
-Var
+    
+    Procedure Fin(jugadores : array of user;
+		   acusacion, sobre : sbr;
+		   var juegoActivo : boolean);
+    Var
+	i : integer;
+    Begin
+	
+	(* Chequeo si alguna computadora sigue viva *)
+	juegoActivo := False;
+	i := 1;
+	While (i < 6) And (juegoActivo = False) Do
+	Begin
+	    juegoActivo := jugadores[i].vida;
+	    i := i + 1;
+	End;
+	
+	(* Chequeo si el usuario realizo una sospecha *)
+	If Not jugadores[0].vida Then
+	Begin
+	    juegoActivo := False;
+	End;
+
+	(* Chequeo si se realizo una acusacion correcta *)
+	If (acusacion.prj = sobre.prj) 
+	    And (acusacion.habt = sobre.habt) 
+	    And (acusacion.arma = sobre.arma) Then
+	Begin
+	    juegoActivo := False;
+	End;
+	
+    End;
+    
+    
+    
+VAR
     (* 
      * Personajes: 0 al 5
      * Habitaciones: del 6 al 14
      * Armas: 15 20 
     *)
-    phaInit : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
+    phaInicio : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
 			ProfesorCiruela, SenoritaEscarlata, 
 			CoronelMostaza, Biblioteca, Cocina, 
 			Comedor, Estudio, Vestibulo, Salon, 
@@ -290,151 +498,59 @@ Var
 			Candelabro, Cuchillo, Cuerda, 
 			LlaveInglesa, Revolver, Tubo);
 
-    repartir   : Array[0..20] of integer = (0,1,2,3,4,5,6,7,8,9,10,11,12,
-						13,14,15,16,17,18,19,20);
-
     habitacion : Array[0..8] of lugar;
     sobre   : sbr; // Variable que contiene los hechos reales
     
     
-    pc : Array[0..5] of user; // Arreglo de Jugadores pc[0]:Usuario
+    jugadores : Array[0..5] of user; // Arreglo de jugadores Jugador[0]:Usuario
     
     i,j,co  : integer; // Variables para Iteracion y contadores.
     n,x,y,z : integer; // Variables de usos multiples: swap, etc.
     Turn   : integer; // Contador de los Turnos.
     
-    
-    moverA : h;
-    sospecha : sbr; // variable para realizar sospechas
+    sospecha  : sbr; // variable para realizar sospechas
+    acusacion : sbr; // variable para realizar acusaciones
     ultimoJ : integer;
-
-    sospechaON : boolean;
+   
     SioNo : boolean;
-
+    juegoActivo : boolean;
 BEGIN
     writeln;
     Randomize();
     
-    (*
-     * Inicializacion de Variables 
-     *)
+    (* Ingresa el Numero de Computadoras *)
+    NComputadoras(ultimoJ);
     
-    (* Inicializo las Habitaciones con sus ubicaciones *)
-    co := 0;
-    For i := 6 To 14 Do
-    Begin
-	habitacion[co].nombre := phaInit[i];
-	habitacion[co].alcanzable := False;
-	co := co + 1;
-    End;
+    Inicializa(phaInicio, ultimoJ, habitacion, jugadores, Turn, SioNo, juegoActivo);
     
-    co := 0;
-    y  := 0;
-    For i := 0 To 2 Do
-    Begin
-	x := 0;
-	For j := 0 to 2 Do
-	Begin
-	    habitacion[co].x := x;
-	    habitacion[co].y := y;
-	    x := x + 2;
-	    co := co + 1;
-	End;
-	y := y + 2;
-    End;
-    
-    SioNo := True; // Variable del procedimiento decision
-    sospechaON := False;
-
-    For i := 0 to 5 Do // Inicializo a todos los jugadores
-    Begin
-        pc[i].conta.arma := 0;
-        pc[i].conta.habt := 0;
-        pc[i].conta.prj  := 0;
-        pc[i].conta.cartas := 0;
-        pc[i].conta.sospecha := 0;
-    	pc[i].x := 2;
-    	pc[i].y := 2;
-    	pc[i].usuario := False;
-    	pc[i].donde := Vestibulo;
-        pc[i].posicion := i;
-        For j := 0 to 5 Do
-        Begin
-            pc[i].lista.arma[j] := phaInit[j + 15 ];
-        End;
-        For j := 0 to 5 Do
-        Begin
-            pc[i].lista.prj[j] := phaInit[j];
-        End;
-        For j := 0 to 8 Do
-        Begin
-            pc[i].lista.habt[j] := phaInit[j + 6 ];
-        End;
-    End;
-    pc[0].usuario := True; // Determinar que el jugador pc[0] es el Usuario
-
     (* 
      * Con este Procedimiento el usuario selecciona el personaje 
      * que usara en el juego y se aginan los demas a las computadoras
      *)
-    SeleccionPersonaje(phaInit, pc,ultimoJ);
+    
+    SeleccionPersonaje(phaInicio, jugadores,ultimoJ);
     writeln;
     
-    (* Aqui se seleccionan los hechos reales y se reparten las cartas *)
-    
-    (* Seleccion del Asesino *)
-    x := Aleatorio(0,5);
-    sobre.prj := phaInit[x];
-    
-    (* Seleccion de la Habitacion donde se produjo el asesinato *)
-    y := Aleatorio(6,14);
-    sobre.habt := phaInit[y];
-    
-    (* Seleccion del arma con la que se cometio el asesinato *)
-    z := Aleatorio(15,20);
-    sobre.arma := phaInit[z];
+    (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
+    AsignarCartas(jugadores, sobre, phaInicio, ultimoJ);
     writeln;
-
-    (* Swapeo las variables a las tres posiciones finales para 
-	no repartir las cartas del sobre *)
-    Swap(repartir[z], repartir[20]);
-    writeln('El Arma es: ', sobre.arma);
     
-    Swap(repartir[y], repartir[19]);
-    writeln('La Habitacion es: ', sobre.habt);
     
-    Swap(repartir[x], repartir[18]);
-    writeln('El Asesino es: ', sobre.prj);
-        
     
-    (* Aqui hago Shuffle del arreglo de todas las cartas 
-	excluyendo las del sobre *)
-    For i := 17 Downto 1 Do
-    Begin
-	n := Aleatorio(0,i);
-	Swap(repartir[i], repartir[n]);
-    End;
-    writeln;
-        
-    (* Aqui repatimos las cartas *)
-    co := 0;
-    For i := 0 To 5 Do
-    Begin
-	For j := 0 To 2 Do
-	Begin
-	    pc[i].mano[j] := phaInit[repartir[co]];
-	    co := co + 1;
-	End;
-    End;
+    
+    
+    
+    
+    
     
     (*
      * Ejemplo de la estructura de los turnos
      *
      *)
-    While True Do
-    Begin
-	For i := 0 to 5
-	Begin
+//     While juegoActivo Do
+//     Begin
+// 	For i := 0 to 5
+// 	Begin
 	    
 	    (*
 	     * Los procedimientos Mover, Sospecha y Acusacion van dentro 
@@ -446,14 +562,14 @@ BEGIN
 	    Turno(p[i]);
 		
 		n := Aleatorio(1,6);
-		Mover(pc[i], n, habitacion);
-		Sospecha(sospechaON,p[i],pc,phaInit);
+		Mover(jugadores[i], n, habitacion);
+		Sospecha(sospechaON,p[i],jugadores,phaInicio);
 		Acusacion(p[i],sobre);
 	    *)
-	End;
-	Turno := Turno + 1;
-    End;
-     
-    writeln;
+// 	End;
+// 	Turno := Turno + 1;
+//     End;
+//      
+//     writeln;
 
 END.
