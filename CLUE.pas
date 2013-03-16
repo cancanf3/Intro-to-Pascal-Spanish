@@ -216,6 +216,12 @@ TYPE
     End;
     
     
+    (* Funcion que emula un dado *)
+    Function Dado () : integer;
+    Begin
+	Dado := Aleatorio(1,6);
+    End;
+    
     
     
     
@@ -248,7 +254,7 @@ TYPE
 	
 	(* Asignamos los personajes a las Computadoras *)
 	Swap(repartir[i-1], repartir[5]);
-
+	
 	For i:= 1 To ultimoJ Do
 	Begin
 	    jugadores[i+1].peon := phaInicio[repartir[i]];
