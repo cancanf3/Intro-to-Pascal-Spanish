@@ -454,6 +454,43 @@ TYPE
     End; // Procedure
 
     
+    
+    (* Procedimiento que mueve a un sospechoso/acusado *)
+    Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
+				ultimoJ : integer; // Numero de Computadoras
+				jugador : user; // Jugador que Sopecho/Acuso 
+				var jugadores : array of user);
+    Var
+	i : integer;
+    Begin
+	
+	For i := 0 To ultimoJ Do
+	Begin
+	    If (jugadores[i].peon = sospeAcu.prj) 
+		And jugadores[i].vida 
+		And (i <> jugador.posicion) Then
+	    Begin
+		writeln('Posicion del que realiza la sospecha: ', jugador.donde);
+		writeln('Posicion previa del sospechoso: ', jugadores[i].donde);
+		jugadores[i].x := jugador.x;
+		jugadores[i].y := jugador.y;
+		jugadores[i].donde := jugador.donde;
+		writeln('Movi al jugador(', i + 1, ') a la posicion del jugador(', jugador.posicion + 1,'): ', jugadores[i].donde);
+	    End;
+	
+	    If (jugadores[i].peon = sospeAcu.prj) 
+		And (i = jugador.posicion) Then
+	    Begin
+		writeln('Jugador(', jugador.posicion + 1, ') se acusa a si mismo! :0');
+	    End;
+	End;
+    End;
+
+    
+    
+    
+    
+    
     (* Procedimiento que elimina jugadores segun sus acusaciones *)
     Procedure Eliminar(var jugador : user;
 			acusacion : sbr;
@@ -559,11 +596,13 @@ BEGIN
     writeln;
     
     (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
-    AsignarCartas(jugadores, sobre, phaInicio, ultimoJ);
+    AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
     writeln;
     
-    
-    
+    (*
+     * Ejemplo de como llamar a Mover sospechoso 
+     *)
+    // MoverSospechoso(sospecha,ultimoJ,jugadores[i],jugadores);
     
     
     
