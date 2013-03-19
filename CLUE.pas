@@ -34,7 +34,6 @@ TYPE
         habt : integer;
         prj  : integer;
       cartas : integer;
-    sospecha : integer;
                End;
     lista_cartas = Record
         arma : armas;
@@ -56,8 +55,7 @@ TYPE
 		peon  : p;  // Ficha que usa para jugar
 		lista : lista_cartas;  // Lista de cartas
         conta : contadores;
-     posicion : integer;
-     sospecha : Array[0..323] of sbr; 
+     posicion : integer; 
         
             End;
   
@@ -571,6 +569,8 @@ VAR
     sospecha  : sbr; // variable para realizar sospechas
     acusacion : sbr; // variable para realizar acusaciones
     ultimoJ : integer;
+    sospecha_lista : Array[0..323] of sbr;
+    sospecha.conta : integer;
    
     SioNo : boolean;
     juegoActivo : boolean;
