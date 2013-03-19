@@ -39,11 +39,7 @@ TYPE
         arma : armas;
         habt : habts;
         prj  : prjs; 
-                   End;
-    {ordinales = Record // Guarda los ordinales de las sospechas de computadoras
-        arma : integer;
-        habt : integer;
-        prj  : integer;}
+             End;
 
     user =  Record
 		x : integer;

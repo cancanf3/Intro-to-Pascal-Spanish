@@ -88,7 +88,10 @@ Begin
 End;
 
 Procedure Acusacion_Computadora( var jugadorTurno : usuario; sobre : sbr;
-                                phaInicio : cartas; sospech : sbr);
+                                 phaInicio : cartas; sospech : sbr
+                                 var sospecha.conta : integer;
+                                 sospecha_lista : sbr;
+                                );
 Var 
     acus : sbr; // Variables que almacenaran la acusasion del jugador.
     i : integer; // Variable de iteracion.
@@ -120,9 +123,9 @@ Begin
 
             For i := 0 to jugadorTurno.conta.sospecha Do
             Begin
-                If ( acus.arma = jugadorTurno.sospecha[i].arma ) and
-                   ( acus.habt = jugadorTurno.sospecha[i].habt ) and
-                   (  acus.prj = jugadorTurno.sospecha[i].prj  ) Then
+                If ( acus.arma = sospecha_lista[i].arma ) and
+                   ( acus.habt = sospecha_lista[i].habt ) and
+                   (  acus.prj = sospecha_lista[i].prj  ) Then
                 Begin
                     procede := true;
                 End;
