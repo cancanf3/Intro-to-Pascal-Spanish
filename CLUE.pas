@@ -125,7 +125,7 @@ TYPE
 	    jugadores[i].conta.arma := 0;
 	    jugadores[i].conta.habt := 0;
 	    jugadores[i].conta.prj  := 0;
-	    jugadores[i].conta.cartas := 0;
+	    jugadores[i].conta.cartas := -1;
 	    jugadores[i].conta.sospecha := 0;
 	    jugadores[i].x := 2;
 	    jugadores[i].y := 2;
@@ -309,16 +309,12 @@ TYPE
 	    Begin
 		jugadores[i].mano[j] := phaInicio[repartir[co]];
 //		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
-//		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		co := co + 1;
 		i := i + 1;
 	    End;
 	    j := j + 1;
 	End;
-//     For i := 0 to 5 Do
-//     Begin
-//         jugadores[i].conta.artas := jugadores[i].conta.cartas - 1;
-//     End;
     End;
     
         

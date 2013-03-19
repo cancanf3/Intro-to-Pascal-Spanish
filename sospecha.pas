@@ -62,7 +62,7 @@ Type
 	Aleatorio := Random(amplitud) + inicio;
     End;
 
-Procedure sospecha( var sospechaON : boolean; var jugadorTurno : usuario ; 
+Procedure sospecha_Usuario( var sospechaON : boolean; var jugadorTurno : usuario ; 
                     var jugadores : array of usuario; phaInicio : cartas; 
                         sospech : sbr; ultimoJ : integer);
 Var
