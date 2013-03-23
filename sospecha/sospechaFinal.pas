@@ -116,4 +116,85 @@ Begin
 End;
 End;
 
+Procedure Refuta_Usuario ( carta : Array of sbr; Var jugadorTurno : user;
+                           sospech : sbr; k : integer; 
+                           m : integer; n : integer; h : integer);
+Var
+    i : integer; // Variable para iterar.
+    s : string; // Variable de mensajes.
+    l : integer; // Variable de lectura robusta.
+Begin
+    Writeln('En tu mano hay ',k,
+        ' cartas que se sospechan, cual quieres mostrar?');
+    For i := 0 to (k-1) Do
+    Begin
+        If ( carta[i].arma = sospech.arma ) Then
+        Begin
+            Writeln(i + 1,'.- ',carta[i].arma);
+        End;
 
+        If ( carta[i].prj = sospech.prj ) Then
+        Begin
+            Writeln(i + 1,'.- ',carta[i].prj);
+        End;
+
+        If ( carta[i].habt = sospech.habt ) Then
+        Begin
+            Writeln(i + 1,'.- ',carta[i].habt);
+        End;
+    End;
+    s := 'elige el numero de la carta a mostrar';
+    Repeat
+    Begin
+        Writeln(s);
+        Read(l);
+        S := ' te equivocaste, elige otra vez';
+    End
+    Until ( n > 0 ) and ( n < (k + 1) );
+
+    If ( carta[l-1].arma = sospech.arma ) Then
+    Begin
+        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m,0);
+        jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+    End;
+    If ( carta[l-1].prj = sospech.prj ) Then
+    Begin 
+        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n,1);
+        jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+    End;
+    If ( carta[l-1].habt = sospech.habt ) Then
+    Begin 
+        Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
+        jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+    End;
+End;
+
+Procedure Swap_descarte(var jugador : user; n : integer; 
+                            m : integer; k : integer);
+Var
+tmp1 : a;
+tmp2 : h;
+tmp3 : p;
+Begin
+    Case k of 
+        0 :
+        Begin
+            tmp1 := jugador.lista.arma[n];
+            jugador.lista.arma[n] := jugador.lista.arma[m];
+            jugador.lista.arma[m] := tmp1;
+        End;
+        2 :
+        Begin
+            tmp2 := jugador.lista.habt[n];
+            jugador.lista.habt[n] := jugador.lista.habt[m];
+            jugador.lista.habt[m] := tmp2;
+        End;
+        1 :
+        Begin
+            tmp3 := jugador.lista.prj[n];
+            jugador.lista.prj[n] := jugador.lista.prj[m];
+            jugador.lista.prj[m] := tmp3;
+        End;
+    End;
+End;
+ 
