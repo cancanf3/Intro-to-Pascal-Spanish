@@ -230,6 +230,7 @@ Var
     carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
     i,j,co : integer; // Contadores 
     humano : boolean; // determina si el usuario ha mostrado una carta
+    quien : integer; // determina quien hace match con las cartas
     Begin
     
     

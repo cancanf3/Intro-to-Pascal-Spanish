@@ -520,7 +520,7 @@ TYPE
 	    i := i + 1;
 	End;
 	
-	(* Chequeo si el usuario realizo una sospecha *)
+	(* Chequeo si el usuario fallo haciendo una acusacion *)
 	If Not jugadores[0].vida Then
 	Begin
 	    juegoActivo := False;
