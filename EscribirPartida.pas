@@ -81,57 +81,55 @@ BEGIN
 
     Assign(partida,'Partida.txt');
     Rewrite(partida);
-
+    (* Hasta aqui esta bien *)
     writeln(partida, ultimoJ);
-    writeln(partida);
     writeln(partida, sobre.prj, ' ', sobre.arma, ' ', sobre.habt);
-    writeln(partida);
-
+    
     For i := 0 To ultimoJ Do
     Begin
 	
-	writeln(partida, pc[i].posicion, pc[i].peon, pc[i].vida, pc[i].posicion);
+	writeln(partida, jugadores[i].posicion, jugadores[i].peon, jugadores[i].vida, jugadores[i].posicion);
 	
-	write(partida, pc[i].conta.prj);
-	write(partida, pc[i].conta.arma);
-	write(partida, pc[i].conta.habt);
+	write(partida, jugadores[i].conta.prj);
+	write(partida, jugadores[i].conta.arma);
+	write(partida, jugadores[i].conta.habt);
 	writeln(partida);
 	(* Personajes Sin Descartar *)
-	For j := 0 To 5 - pc[i].conta.prj Do
+	For j := 0 To 5 - jugadores[i].conta.prj Do
 	Begin
-	    write(partida, pc[i].lista.prj[j], ' ');
+	    write(partida, jugadores[i].lista.prj[j], ' ');
 	End;
 	(* Armas Sin Descartar *)
-	For j := 0 To 5 - pc[i].conta.arma Do
+	For j := 0 To 5 - jugadores[i].conta.arma Do
 	Begin 	  	 	 	 	 	
-	    write(partida, pc[i].lista.arma[j], ' ');
+	    write(partida, jugadores[i].lista.arma[j], ' ');
 	End;
 	(* Habitaciones Sin Descartar *)
-	For j := 0 To 8 - pc[i].conta.habt Do
+	For j := 0 To 8 - jugadores[i].conta.habt Do
 	Begin
-	    write(partida, pc[i].lista.habt[j], ' ');
+	    write(partida, jugadores[i].lista.habt[j], ' ');
 	End;
 	writeln(partida);
 
     	(* Personajes Descartados *)
-	For  j := (5 - pc[i].conta.prj) To 5  Do
+	For  j := (5 - jugadores[i].conta.prj) To 5  Do
 	Begin
-	    write(partida, pc[i].lista.prj[j], ' ');
+	    write(partida, jugadores[i].lista.prj[j], ' ');
 	End;
 	(* Armas Descartadas *)
-	For j := (5 - pc[i].conta.arma)  To 5 Do
+	For j := (5 - jugadores[i].conta.arma)  To 5 Do
 	Begin
-	    write(partida, pc[i].lista.arma[j], ' ');
+	    write(partida, jugadores[i].lista.arma[j], ' ');
 	End;
 	(* Habitaciones Descartadas *)
-	For j := (8 - pc[i].conta.habt) To 8 Do
+	For j := (8 - jugadores[i].conta.habt) To 8 Do
 	Begin
-	    write(partida, pc[i].lista.habt[j], ' ');
+	    write(partida, jugadores[i].lista.habt[j], ' ');
 	End;
 
     End;
     writeln(partida);
-    writeln(partida, turnoActual); 
+    writeln(partida, Turn); 
 
     Close(partida);
 END.

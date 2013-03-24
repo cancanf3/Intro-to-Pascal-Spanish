@@ -1,5 +1,4 @@
-(* Este es el Proyecto Serio *)
-PROGRAM CLUE;
+PROGRAM RepartirMuerto;
 
 TYPE 
  
@@ -483,11 +482,6 @@ TYPE
 	End;
     End;
 
-    
-    
-    
-    
-    
     (* Procedimiento que elimina jugadores segun sus acusaciones *)
     Procedure Eliminar(var jugador : user;
 			acusacion : sbr;
@@ -500,127 +494,6 @@ TYPE
 	    jugador.vida := False;
 	End
     End;
-    
-    
-    Procedure Guardar (jugadores : Array of user;
-			ultimoJ : integer;
-			sobre : sbr;
-			var partida : text);
-    Var 
-	i,j  : integer;
-	tmp1 : integer;
-	tmp2 : integer;
-    Begin
-	Assign(partida,'Partida.txt');
-	Rewrite(partida);
-
-	writeln(partida, ultimoJ + 1);
-	writeln(partida, sobre.prj, ' ', sobre.arma, ' ', sobre.habt);
-	
-	For i := 0 To ultimoJ Do
-	Begin
-	    
-	    write(partida, jugadores[i].peon, ' ');
-	    If jugadores[i].vida Then
-	    Begin
-		write(partida, 'activo ');
-	    End
-	    Else
-	    Begin
-		write(partida, 'eliminado ');
-	    End;
-	    (* Hasta aqui la escritura esta bien *)
-	    tmp1 := 0;
-	    tmp2 := 0;
-	    tmp1 := jugadores[i].conta.arma + jugadores[i].conta.habt + jugadores[i].conta.prj;
-	    tmp2 := 21 - tmp1;
-	    
-	    writeln(partida, jugadores[i].donde, ' ');
-	    
-	    (* Cartas que posee el jugador *)
-	    For j := 0 To jugadores[i].conta.cartas Do
-	    Begin
-		write(partida, jugadores[i].mano[j], ' ');
-	    End;
-	    writeln(partida);
-	    
-	    (* Personajes Sin Descartar *)
-	    For j := 0 To 5 - jugadores[i].conta.prj Do
-	    Begin
-		write(partida, jugadores[i].lista.prj[j], ' ');
-	    End;
-	    (* Armas Sin Descartar *)
-	    For j := 0 To 5 - jugadores[i].conta.arma Do
-	    Begin 	  	 	 	 	 	
-		write(partida, jugadores[i].lista.arma[j], ' ');
-	    End;
-	    (* Habitaciones Sin Descartar *)
-	    For j := 0 To 8 - jugadores[i].conta.habt Do
-	    Begin
-		write(partida, jugadores[i].lista.habt[j], ' ');
-	    End;
-	    writeln(partida);
-
-	    (* Personajes Descartados *)
-	    For  j := (5 - jugadores[i].conta.prj) To 5  Do
-	    Begin
-		write(partida, jugadores[i].lista.prj[j], ' ');
-	    End;
-	    (* Armas Descartadas *)
-	    For j := (5 - jugadores[i].conta.arma)  To 5 Do
-	    Begin
-		write(partida, jugadores[i].lista.arma[j], ' ');
-	    End;
-	    (* Habitaciones Descartadas *)
-	    For j := (8 - jugadores[i].conta.habt) To 8 Do
-	    Begin
-		write(partida, jugadores[i].lista.habt[j], ' ');
-	    End;
-	    writeln(partida);
-	End;
-	writeln(partida, jugadores[jugadores[i].posicion + 1].peon); 
-	Close(partida);
-    End;
-    
-    
-    
-    
-    
-    
-    
-    (* Procedimiento que chequea si el juego debe terminar *)
-    Procedure Fin(jugadores : array of user;
-		   acusacion, sobre : sbr;
-		   var juegoActivo : boolean);
-    Var
-	i : integer;
-    Begin
-	
-	(* Chequeo si alguna computadora sigue viva *)
-	juegoActivo := False;
-	i := 1;
-	While (i < 6) And (juegoActivo = False) Do
-	Begin
-	    juegoActivo := jugadores[i].vida;
-	    i := i + 1;
-	End;
-	
-	(* Chequeo si el usuario realizo una sospecha *)
-	If Not jugadores[0].vida Then
-	Begin
-	    juegoActivo := False;
-	End;
-
-	(* Chequeo si se realizo una acusacion correcta *)
-	If (acusacion.prj = sobre.prj) 
-	    And (acusacion.habt = sobre.habt) 
-	    And (acusacion.arma = sobre.arma) Then
-	Begin
-	    juegoActivo := False;
-	End;
-	
-    End;
-    
     
     
 VAR
@@ -655,70 +528,69 @@ VAR
    
     SioNo : boolean;
     juegoActivo : boolean;
-    
-    
-BEGIN
-    writeln;
-    Randomize();
-    
-    (* Ingresa el Numero de Computadoras *)
-    NComputadoras(ultimoJ);
-    
-    Inicializa(phaInicio, ultimoJ, habitacion, jugadores, Turn, SioNo, juegoActivo, sospecha_conta);
-    
-    (* 
-     * Con este Procedimiento el usuario selecciona el personaje 
-     * que usara en el juego y se aginan los demas a las computadoras
-     *)
-    
-    SeleccionPersonaje(phaInicio, jugadores,ultimoJ);
-    writeln;
-    
-    (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
-    AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
-    writeln;
-    
-    (*
-     * Ejemplo de como llamar a Mover sospechoso 
-     *)
-    // MoverSospechoso(sospecha,ultimoJ,jugadores[i],jugadores);
-    
-    
-    
-    
-    
-    
-    (*
-     * Ejemplo de la estructura de los turnos
-     *
-     *)
-//     While juegoActivo Do
-//     Begin
-// 	For i := 0 to 5
-// 	Begin
-	    
-	    (*
-	     * Los procedimientos Mover, Sospecha y Acusacion van dentro 
-	     * de Turno, por lo que el programa seria una sola llamada a 
-	     * Turno para cada jugador
-	     *)
-	    	    
-	    (*
-	    Turno(p[i]);
-		
-		n := Aleatorio(1,6);
-		Mover(jugadores[i], n, habitacion);
-		Sospecha(sospechaON,p[i],jugadores,phaInicio);
-		Acusacion(p[i],sobre);
-	    *)
-// 	End;
-// 	Turno := Turno + 1;
-//     End;
-//      
-//     writeln;
-    Guardar(jugadores, ultimoJ, sobre, partida);
 
+
+BEGIN
+
+    Procedure RepartirEliminado (var jugador : user;
+				    var jugadores : array of user;
+				    ultimoJ : integer);
+				    
+    Var 
+	
+    i, j : integer;
+    co : integer;
     
+    Begin
+	
+    	co := 0;
+	j := 1;
+	
+	While (co < jugador.conta.cartas) Do
+	Begin
+	    i := jugador.posicion + 1;
+	    While (jugador.posicion < ultimoJ + 1) And (co < jugador.conta.cartas) Do
+	    Begin
+		jugadores[i].mano[jugadores[i].conta.cartas + 1] := jugador.mano[co]
+//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		co := co + 1;
+		i := i + 1;
+	    End;
+	End;
+	
+	
+	
+	
+	
+	While (co < jugador.conta.cartas) Do
+	Begin
+	    i := 0;
+	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
+	    Begin
+		jugadores[i].mano[jugadores[i].conta.cartas + 1] := jugador.mano[co]
+//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		co := co + 1;
+		i := i + 1;
+	    End;
+	    j := j + 1;
+	End;
+    
+    
+    
+    
+    End;
+
+
+
+
+
+
 
 
 END.
+    
+    
+    
+    
