@@ -1542,7 +1542,7 @@ BEGIN
     
     
     (*
-     * Ejemplo de la estructura de los turnos
+     * Se comienzan los turnos de cada personaje 
      *
      *)
        While juegoActivo Do
