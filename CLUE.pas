@@ -43,7 +43,7 @@ TYPE
 	prj  : prjs; 
     End;
 
-    usuario =  Record
+    user =  Record
 	x : integer;
 	y : integer;
 	usuario : boolean;
@@ -60,8 +60,8 @@ TYPE
     (* Permite ingresar el numero de Computadoras *)
     Procedure NComputadoras(var ultimoJ : integer);
     Var 
-	s : string;
-	codigo : word;
+	s : string; // Variable para el mensaje al usuario.
+	codigo : word; // Variable codigo del IOCHECK
     {Pre:
 	True
     }
@@ -89,22 +89,22 @@ TYPE
     Procedure Inicializa (var phaInicio : cartas;
 			    ultimoJ : integer;
 			    var habitacion : array of lugar;
-			    var jugadores : Array of usuario;
+			    var jugadores : Array of user;
 			    var Turn : integer;
 			    var SioNo : boolean;
 			    var juegoActivo : boolean;
 			    var sospecha_conta : integer);
     Var 
     
-	i, j : integer;
-	x, y : integer;
-	co : integer;
+	i, j : integer; // Variables de Iteracion
+	x, y : integer; // Variables Auxiliares
+	co : integer; // Variable contador
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	True
     }
         
     Begin
@@ -133,7 +133,7 @@ TYPE
 	End;
 	
 	juegoActivo := True;
-	SioNo := True; // Variable del procedimiento decision
+	SioNo := True;
 	Turn := 0;
 	sospecha_conta := 0;
 	
@@ -173,8 +173,45 @@ TYPE
     
     End;
    
+   (* Funcion que hace swap para descartar de la lista *)
 
-    (* Swap de ordinales *)
+    Procedure Swap_descarte(var jugador : user; n : integer; 
+                                m : integer; k : integer);
+    Var
+	tmp1 : a;
+	tmp2 : h;
+	tmp3 : p;
+    {Pre:
+	True
+    }
+    
+    {Post:
+	
+    }	
+	
+    Begin
+        Case k of 
+            0 :
+            Begin
+		tmp1 := jugador.lista.arma[n];
+		jugador.lista.arma[n] := jugador.lista.arma[m];
+		jugador.lista.arma[m] := tmp1;
+            End;
+            2 :
+            Begin
+		tmp2 := jugador.lista.habt[n];
+		jugador.lista.habt[n] := jugador.lista.habt[m];
+		jugador.lista.habt[m] := tmp2;
+            End;
+            1 :
+            Begin
+		tmp3 := jugador.lista.prj[n];
+		jugador.lista.prj[n] := jugador.lista.prj[m];
+		jugador.lista.prj[m] := tmp3;
+            End;
+        End;
+    End;
+ 
 
     Procedure Swap (var n : integer; var m : integer);
     Var
@@ -200,11 +237,11 @@ TYPE
     Var 
 	amplitud : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	Aleatorio >= inicio /\ Aleatorio <= tope
     }	
     Begin
 	amplitud := (tope - inicio) + 1;
@@ -214,7 +251,7 @@ TYPE
 
     (* Proceso para Seleccionar Personaje *)
     Procedure SeleccionPersonaje(phaInicio : cartas; 
-				 var jugadores : Array of usuario;
+				 var jugadores : Array of user;
 				 ultimoJ : integer);
     {Pre:
 	
@@ -265,7 +302,7 @@ TYPE
     
     (* Proceso que elije las cartas del sobre y reparte las demas *)
     Procedure AsignarCartas (phaInicio : cartas;
-			      var jugadores : array of usuario; 
+			      var jugadores : array of user; 
 			      var sobre : sbr; 
 			      ultimoJ : integer);
     Var 
@@ -328,11 +365,12 @@ TYPE
     (* Funcion que calcula el valor absoluto de un entero dado *)
     Function VA(n : integer): integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	n < 0 ==> VA = n * -1
+	/\ n > 0 ==> VA = n 
     }	
         
     Begin
@@ -353,33 +391,27 @@ TYPE
 	YN : char;
 	n : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	(SioNo == True) \/ (SioNo == False)
     }	
     Begin
-
-    Writeln('1.- Si');
-    Writeln;
-    Writeln('2.- No');
-    Writeln;
-
         Repeat
         Begin
             readln(YN);
             SioNo := true;
             n := 0;
         	Case YN of
-        	    1:
+        	    's','y' :
         		Begin
-        		    SioNo := true;
+        		    SioNo := True;
                     n := 1;
         		End;
-        	    2:
+        	    'n'     :
         		Begin
-        		    SioNo := false;
+        		    SioNo := False;
                     n := 1;
         		End;
             End;
@@ -389,13 +421,13 @@ TYPE
 
 
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
-    Function Distancia(jugador : usuario ; Habitacion : lugar): integer;
+    Function Distancia(jugador : user ; Habitacion : lugar): integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	Distancia = \Habitacion.x - jugador.x\ + \Habitacion.y - jugador.y\
     }	
         
     Begin
@@ -405,7 +437,7 @@ TYPE
     
     
     (* Procedimiento que permite mover a los jugadores *)   
-    Procedure Mover (var jugador : usuario; // Usurio o Computadora.
+    Procedure Mover (var jugador : user; // Usurio o Computadora.
 			 n: integer;    // Lo que saco con el dado.
 			 Habitacion : array of lugar);
     Var
@@ -414,11 +446,11 @@ TYPE
 	co, i  : integer; // Contadores.
     
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	
     }	
     Begin
 	Case n Of // Case de los numeros del Dado (1..6)
@@ -494,19 +526,28 @@ TYPE
     
     
     (* Procedimiento que mueve a un sospechoso/acusado *)
-
-Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
+    Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 				ultimoJ : integer; // Numero de Computadoras
-				var jugador : usuario; // Jugador que Sopecho/Acuso 
-				var jugadores : array of usuario);
+				jugador : user; // Jugador que Sopecho/Acuso 
+				var jugadores : array of user);
     Var
 	i : integer;
+    {Pre:
+	True
+    }
+    
+    {Post:
+	
+    }	
+	
+	
     Begin
 	
 	For i := 0 To ultimoJ Do
 	Begin
 	    If (jugadores[i].peon = sospeAcu.prj) 
-		And jugadores[i].vida  Then
+		And jugadores[i].vida 
+		And (i <> jugador.posicion) Then
 	    Begin
 		writeln('Posicion del que realiza la sospecha: ', jugador.donde);
 		writeln('Posicion previa del sospechoso: ', jugadores[i].donde);
@@ -516,22 +557,28 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 		writeln('Movi al jugador(', i + 1, ') a la posicion del jugador(', jugador.posicion + 1,'): ', jugadores[i].donde);
 	    End;
 	
+	    If (jugadores[i].peon = sospeAcu.prj) 
+		And (i = jugador.posicion) Then
+	    Begin
+		writeln('Jugador(', jugador.posicion + 1, ') se acusa a si mismo! :0');
+	    End;
 	End;
     End;
-  
+
+    
     (* Repartir Cartas al eliminar a un jugador *)
-    Procedure RepartirEliminado (var jugador : usuario;
-				    var jugadores : array of usuario;
+    Procedure RepartirEliminado (var jugador : user;
+				    var jugadores : array of user;
 				    ultimoJ : integer);
     Var 
 	i  : integer;
 	co : integer;
     {Pre:
-	
+	jugador.vida == False
     }
     
     {Post:
-    
+	
     }	
     Begin
 	co := 0;
@@ -566,17 +613,19 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
     
     
     (* Procedimiento que elimina jugadores segun sus acusaciones *)
-    Procedure Eliminar(var jugador : usuario;
-			var jugadores : Array of usuario;
+    Procedure Eliminar(var jugador : user;
+			var jugadores : Array of user;
 			acusacion : sbr;
 			sobre : sbr;
 			ultimoJ : integer);
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	(acusacion.prj != sobre.prj) ==> (jugador.vida == False) 
+	\/ (acusacion.habt != sobre.habt) ==> (jugador.vida == False) 
+	\/ (acusacion.arma != sobre.arma) ==> (jugador.vida == False) 
     }	
     Begin
 	If (acusacion.prj <> sobre.prj) 
@@ -590,7 +639,7 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
     End;
     
     (* Proceso que permite guardar la partida pra retomarla luego *)
-    Procedure Guardar (jugadores : Array of usuario;
+    Procedure Guardar (jugadores : Array of user;
 			ultimoJ : integer;
 			sobre : sbr;
 			var partida : text);
@@ -676,18 +725,20 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
     
     
     (* Procedimiento que chequea si el juego debe terminar *)
-    Procedure Fin(jugadores : array of usuario;
+    Procedure Fin(jugadores : array of user;
 		   acusacion, sobre : sbr;
 		   var juegoActivo : boolean);
     Var
 	i : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
-    }	
+	((%forall i \ 0 < i < 6 : !jugadores[i].vida) ==> (juegoActivo == False))
+	\/ (!jugadores[0].vida ==> (juegoActivo == False))
+	\/ ((acusacion == sobre) ==> (juegoActivo == False))
+    }
     Begin
 	
 	(* Chequeo si alguna computadora sigue viva *)
@@ -714,678 +765,8 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	End;
 	
     End;
-
-
-
-
-    (* Procedimientos para Sospecha *)
-
-
-    (* Procedimiento que permite hacer match de las manos de los jugadores*)
-
-Procedure Match_cartas ( Var carta : Array of sbr ; jugadorTurno : usuario ;
-                         jugadores : Array of usuario ; var sospechaON : boolean ;
-                         var k : integer ; var quien : integer;
-                         var humano : boolean; ultimoj : integer;
-                         sospech : sbr );
-Var
-    i,j : integer; // Contadores
-  
-Begin
-
-If  not ( jugadorTurno.usuario ) Then
-Begin
-
-    For i := ( jugadorTurno.posicion + 1 ) to ultimoj Do
-    Begin
-        If ( sospechaON ) Then
-        Begin
-            For j := 0 to jugadores[i].conta.cartas  Do
-            Begin
-                If ( jugadores[i].mano[j] = sospech.arma ) Then
-                Begin
-                    carta[j].arma := sospech.arma;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-                If ( jugadores[i].mano[j] = sospech.prj ) Then 
-                Begin    
-                    carta[j].prj := sospech.prj;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-                If ( jugadores[i].mano[j] = sospech.habt ) Then
-                Begin
-                    carta[j].habt := sospech.habt;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-            End;
-        End;
-    End;      
-            
-    For i := 0 to ( jugadorTurno.posicion - 1 ) Do
-    Begin
-        If ( sospechaON ) Then
-        Begin
-            For j := 0 to jugadores[i].conta.cartas Do
-            Begin
-                If ( jugadores[i].mano[j] = sospech.arma ) Then
-                Begin
-                    carta[j].arma := sospech.arma;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-                If ( jugadores[i].mano[j] = sospech.prj ) Then 
-                Begin    
-                    carta[j].prj := sospech.prj;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-                If ( jugadores[i].mano[j] = sospech.habt ) Then
-                Begin
-                    carta[j].habt := sospech.habt;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End; 
-                If ( sospechaON = false ) and ( jugadores[i].usuario ) Then
-                Begin
-                    humano := True
-                End;
-            End;
-        End;
-    End;
-End
-Else
-Begin
-    For i := ( jugadorTurno.posicion + 1 ) to ultimoj Do
-    Begin
-        If ( sospechaON ) Then
-        Begin
-            For j := 0 to jugadores[i].conta.cartas Do
-            Begin
-                If ( jugadores[i].mano[j] = sospech.arma ) Then
-                Begin
-                    carta[j].arma := sospech.arma;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-                If ( jugadores[i].mano[j] = sospech.prj ) Then 
-                Begin    
-                    carta[j].prj := sospech.prj;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-                If ( jugadores[i].mano[j] = sospech.habt ) Then
-                Begin
-                    carta[j].habt := sospech.habt;
-                    sospechaON := false;
-                    k := k + 1;
-                    quien := i;
-                End;
-            End;
-        End;
-    End;
-End;
-End;
-
-
-    (* Permite barajear la lista de cartas de cada jugador *)
-
-Procedure Swap_descarte(var jugador : usuario; n : integer; 
-                            m : integer; k : integer);
-Var
-tmp1 : a;
-tmp2 : h;
-tmp3 : p;
-Begin
-    Case k of 
-        0 :
-        Begin
-            tmp1 := jugador.lista.arma[n];
-            jugador.lista.arma[n] := jugador.lista.arma[m];
-            jugador.lista.arma[m] := tmp1;
-        End;
-        2 :
-        Begin
-            tmp2 := jugador.lista.habt[n];
-            jugador.lista.habt[n] := jugador.lista.habt[m];
-            jugador.lista.habt[m] := tmp2;
-        End;
-        1 :
-        Begin
-            tmp3 := jugador.lista.prj[n];
-            jugador.lista.prj[n] := jugador.lista.prj[m];
-            jugador.lista.prj[m] := tmp3;
-        End;
-    End;
-End; 
- 
-    (* Procedimiento que permite al usuario refutar una sospecha *)
-
-Procedure Refuta_Usuario ( carta : Array of sbr; Var jugadorTurno : usuario;
-                           sospech : sbr; k : integer; 
-                           m : integer; n : integer; h : integer);
-Var
-    i : integer; // Variable para iterar.
-    s : string; // Variable de mensajes.
-    l : integer; // Variable de lectura robusta.
-Begin
-    Writeln('En tu mano hay ',k,
-        ' cartas que se sospechan, cual quieres mostrar?');
-    For i := 0 to (k-1) Do
-    Begin
-        If ( carta[i].arma = sospech.arma ) Then
-        Begin
-            Writeln(i + 1,'.- ',carta[i].arma);
-        End;
-
-        If ( carta[i].prj = sospech.prj ) Then
-        Begin
-            Writeln(i + 1,'.- ',carta[i].prj);
-        End;
-
-        If ( carta[i].habt = sospech.habt ) Then
-        Begin
-            Writeln(i + 1,'.- ',carta[i].habt);
-        End;
-    End;
-    s := 'elige el numero de la carta a mostrar';
-    Repeat
-    Begin
-        Writeln(s);
-        Read(l);
-        S := ' te equivocaste, elige otra vez';
-    End
-    Until ( n > 0 ) and ( n < (k + 1) );
-
-    If ( carta[l-1].arma = sospech.arma ) Then
-    Begin
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
-        jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
-    End;
-    If ( carta[l-1].prj = sospech.prj ) Then
-    Begin 
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
-        jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
-    End;
-    If ( carta[l-1].habt = sospech.habt ) Then
-    Begin 
-        Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-        jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
-    End;
-End;
-
-    (* Procedimiento que permite a la computadora refutar una sospecha *)
-
-Procedure Refuta_computadora ( carta : Array of sbr; var jugadorTurno : usuario;
-                                k : integer; quien : integer; m : integer;
-                                n : integer; h : integer; sospech : sbr);
-Var
-    muestro : integer; // Variable que determina que carta mostrar.
-                               
-
-Begin
-
-    muestro := Aleatorio(0,k-1);
-    If jugadorTurno.usuario Then
-    Begin
-        If ( sospech.arma = carta[muestro].arma ) Then
-        Begin
-            Writeln('Jugador',quien,' te muestra ',carta[muestro].arma);
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
-            jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
-
-        End;
-
-        If ( sospech.habt = carta[muestro].habt ) Then
-        Begin
-            Writeln('Jugador',quien,' te muestra ',carta[muestro].habt);
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
-            jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
- 
-        End;
-
-        If ( sospech.prj = carta[muestro].prj ) Then
-        Begin
-            Writeln('Jugador',quien,' te muestra ',carta[muestro].prj);
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-            jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
- 
-        End;
-    End
-    Else
-    Begin
-        Writeln('Jugador',quien,' Muestra una carta a Jugador'
-            ,jugadorTurno.posicion,' La carta es: ');
-    End;
-    If ( carta[muestro].arma = sospech.arma ) 
-    and ( m-1 <= 5 - jugadorTurno.conta.arma) Then
-    Begin
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
-        jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
-    End;
-    If ( carta[muestro].prj = sospech.prj ) 
-    and ( n-1 <= 5 - jugadorTurno.conta.prj) Then
-    Begin 
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
-        jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
-    End;
-    If ( carta[muestro].habt = sospech.habt ) 
-    and ( h <= 8 - jugadorTurno.conta.habt ) Then
-    Begin 
-        Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-        jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
-    End;
-End;
-
-    (* Descartar la sospecha si es refutada *)
-
-Procedure Descarte_sospecha ( var sospechaLista : Array of sbr; 
-                              var sospechaON : boolean; 
-                              var sospech : sbr;
-                              var sospechaConta : integer );
-
-Begin
-    If not ( sospechaON ) Then
-    Begin
-        sospechaLista[sospechaConta].arma := sospech.arma;
-        sospechaLista[sospechaConta].prj := sospech.prj;
-        sospechaLista[sospechaConta].habt := sospech.habt;
-        sospechaConta := sospechaConta + 1;    
-    End;
-End;
-
-
-
-            (* Sospecha de la Computadora *)
-
-
-
-
-Procedure sospecha_computadora ( var sospechaON : boolean; 
-                                 var jugadorTurno : usuario; 
-                                 var jugadores : array of usuario; 
-                                 phaInicio : cartas; 
-                                 var sospech : sbr; ultimoJ : integer;
-                                 var sospechaConta : integer;
-                                 var sospechaLista : Array of sbr);
-
-
-
-Var
-    h,n,m : integer; // variables que permiten programacion robusta
-    k : integer; // determina cuantas cartas son sospechadas por mano
-    carta : Array[0..2] of sbr; // Arreglo que guarda las cartas sospechadas
-    i : integer; // Contadores 
-    humano : boolean; // determina si el usuario ha mostrado una carta
-    quien : integer; // determina quien hace match con las cartas
-    Begin
     
     
-    sospechaON := True;
-    humano := false;
-    quien := 0;
-
-    sospech.habt := jugadorTurno.donde;
-    For i := 0 to 8 Do
-    Begin
-        If (sospech.habt = jugadorTurno.lista.habt[i] ) Then
-        Begin
-            h := i;
-        End;
-    End;
-    (* Computadora elegira arma a sospechar *)
-
-    n := Aleatorio(0,5-jugadorTurno.conta.arma);
-    sospech.arma := jugadorTurno.lista.arma[n];
-    Writeln('La computadora',jugadorTurno.posicion,
-        ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
-    (* Computadora elegira personaje a sospechar *)
-    m := Aleatorio(0,5-jugadorTurno.conta.prj);
-    sospech.prj := jugadorTurno.lista.arma[m];   
-    Writeln('La computadora',jugadorTurno.posicion,
-        'sospecha quien mato a Mr.Black fue: ',sospech.prj);
-    (* Mover el personaje al lugar de la sospecha *)
-    
-    MoverSospechoso(sospech,ultimoJ,jugadorTurno,jugadores);
-
-    (* Match de las cartas *)
-
-    k := 0;
-    Match_cartas(carta,jugadorTurno,jugadores,
-                sospechaON,k,quien,humano,ultimoJ,sospech);
-
-    (* Refutacion *)
-
-        If ( humano ) and (sospechaON = false ) Then
-        Begin
-            Refuta_Usuario(carta,jugadorTurno,sospech,k,m,n,h);
-        End
-        Else
-        Begin    
-            If ( sospechaON = false ) and ( humano = false ) Then
-            Begin
-                Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h,sospech);
-            End;
-        End;
-    
-    (* Descarte de la sospecha *)
-
-    Descarte_sospecha(sospechaLista,sospechaON,sospech,sospechaConta);
-
-End;
-
-
-    
-        (* Sospecha del Usuario *)
-
-
-
-
-Procedure sospecha_Usuario( var sospechaON : boolean; var jugadorTurno : usuario ; 
-                            var jugadores : array of usuario; 
-                            phaInicio : cartas; var sospech : sbr; 
-                            ultimoJ : integer; var sospechaConta : integer;
-                            var sospechaLista : Array of sbr
-                            );
-
-
-
-Var
-    h,n,m : integer; // variables que permiten programacion robusta
-    s : string; // Variable que muestra mensaje al usuario
-    k : integer; // determina cuantas cartas son sospechadas por mano
-    carta : Array[0..2] of sbr; // Arreglo que guarda las cartas sospechadas
-    i : integer; // Contadores 
-    humano : boolean; // determina si el usuario ha mostrado una carta
-    quien  : integer; // Determina que jugador hizo match de las cartas
-Begin
-
-sospechaON := True;
-humano := false;
-quien := 0;
-sospech.habt := jugadorTurno.donde;
-
-    For i := 0 to 8 Do
-    Begin
-        If (sospech.habt = jugadorTurno.lista.habt[i] ) Then
-        Begin
-            h := i;
-        End;
-    End;
-
-    (* Elegir arma a sospechar *)
-
-    Writeln('Armas para sospechar');
-    For i := 0 to 5 Do
-    Begin
-        Writeln(i+1,'.- ',jugadores[0].lista.arma[i]);
-    End;
-    Writeln('Armas descartadas');
-    For i := (5 - jugadorTurno.conta.arma) to 5 Do
-    Begin
-        Writeln(jugadores[0].lista.arma[i]);
-    End;
-   
-    s := 'Arma a sospechar';
-
-    (* Lectura Robusta del arma a sospechar *) 
-    
-    Repeat
-    Begin
-        Writeln(s);
-        Readln(m);
-        s := 'Arma incorrecta, Elegir otra vez';
-    End
-    Until (m < 7 ) and ( m > 0 );
-
-    sospech.arma := phaInicio[ m + 14 ];
-
-    (* Elegir personaje a sospechar *)
-  
-    Writeln('Personajes no descartados');
-    For i := 0 to 5 Do
-    Begin
-        Writeln(i+1,'.- ',jugadorTurno.lista.prj[i]);
-    End;
-    Writeln('Armas descartadas');
-    For i := (5 - jugadorTurno.conta.prj) to 5 Do
-    Begin
-        Writeln(jugadorTurno.lista.prj[i]);
-    End;
-    
-    s := 'Personaje a sospechar: ';
-
-    (* Lectura Robusta del personaje a sospechar *)
-
-    Repeat 
-    Begin
-        Writeln(s);
-        Readln(n);
-        s := 'Personaje incorrecto, Elegir otra vez'
-    End
-    Until ( n < 7 ) and ( n > 0);
-    
-    sospech.prj := phaInicio [ n - 1];
-
-    (* Mover el personaje al lugar de la sospecha *)
-
-    MoverSospechoso(sospech,ultimoJ,jugadorTurno,jugadores);
-
-    (* Match de las cartas *)
-
-    k := 0;
-    Match_cartas(carta,jugadorTurno,jugadores,sospechaON,
-                k,quien,humano,ultimoJ,sospech);
-
-    (* Refutacion *)
-
-    Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h,sospech);
-
-    (* Descarte de sospecha *)
-
-    Descarte_sospecha(sospechaLista,sospechaON,sospech,sospechaConta);
-End;
-
-
-            (* Acusacion *)
-
-
-
-(* Procedimiento de acusacion para el usuario *)
-
-Procedure Acusacion_Usuario( var acus : sbr; var jugadorTurno : 
-                            usuario; sobre : sbr; phaInicio : cartas; 
-                            var juegoActivo : boolean;
-                            var jugadores : Array of usuario; 
-                            ultimoJ : integer );
-Var 
-    i : integer; // Variable de iteracion.
-    n,m,h : integer; // Variable que permite lectura robusta
-Begin
-
-    (* Acusacion del Personaje *)
-    Writeln('Quien Mato a Mr.Black? ');
-    Writeln;
-
-    Writeln('Personajes descartados'); 
-    Writeln;
-    For i := ( 5 - jugadorTurno.conta.prj ) to 5 Do
-    Begin
-        Writeln(jugadorTurno.lista.prj[i]);
-    End;
-    Writeln;
-    Writeln('Personajes Para Acusar ');
-    Writeln;
-    For i := 0  to 5 Do
-    Begin
-        Writeln(i+1,'.- ',phaInicio[i]);
-    End;
-    Repeat
-    Begin
-        Writeln;
-        Writeln(' Elige una opcion: ');
-        Readln(n);
-    End
-    Until ( n < 7 ) and ( n > 0 );
-
-    acus.prj := phaInicio[n-1];
-    MoverSospechoso(acus,ultimoJ,jugadorTurno,jugadores);
-    (* Acusacion del arma *)
-
-    Writeln;
-    Writeln('Que arma se uso para asesinarlo? ');
-    Writeln;
-    Writeln('Armas descartadas ');
-    Writeln;
-    For i := ( 5 - jugadorTurno.conta.arma ) to 5 Do
-    Begin
-        Writeln(jugadorTurno.lista.arma[i]);
-    End;
-    Writeln;
-    Writeln('Armas para acusar');
-    For i := 15 to 20 Do
-    Begin
-        Writeln( i - 14,'.- ',phaInicio[i]);
-    End;
-    Repeat
-    Begin
-        Writeln;
-        Writeln(' Elige una opcion');
-        Readln(m);
-    End
-    Until ( n < 7 ) and ( n > 0 ); 
-
-    acus.arma := phaInicio[m+14];
-
-    (* Acusacion de la habitacion *)
-
-    Writeln;
-    Writeln('En que lugar crees que ocurrio el asesinato?' );
-    Writeln;
-    Writeln('Habitaciones descartadas ');
-    Writeln;
-    For i := ( 8 - jugadorTurno.conta.habt ) to 8 Do
-    Begin
-        Writeln(jugadorTurno.lista.habt[i]);
-    End;
-    Writeln;
-    Writeln('Habitaciones donde acusar ');
-    For i := 6 to 14 Do
-    Begin
-        Writeln(i - 5,'.- ',phaInicio[i]);
-    End;
-    Repeat
-    Begin
-        Writeln;
-        Writeln(' Elige una opcion ');
-        Readln(h);
-    End
-    Until ( h > 0 ) and ( h < 10 );
-    
-    acus.habt := phaInicio[h+5];
-
-    (* Verificacion de la acusacion *)
-        
-    Eliminar(jugadorTurno,jugadores,acus,sobre,ultimoJ);
-    Fin(jugadores,sobre,acus,juegoActivo);
-
-
-End;
-
-
-
-
-
-
-(* Procedimiento de acusacion para la computadora *)
-
-
-
- Procedure Acusacion_Computadora( var jugadorTurno : usuario; sobre : sbr;
-                                 phaInicio : cartas; sospech : sbr;
-                                 var sospechaConta : integer;
-                                 sospechaLista : Array of sbr; 
-                                 jugadores : Array of usuario;
-                                 sospechaON : boolean; ultimoj : integer;
-                                 var juegoActivo : boolean; var acus : sbr);
-Var 
-    i : integer; // Variable de iteracion.
-    p,a,h : integer; // Permite elegir aleatoriamente la acusacion.
-    procede : boolean; // Determina que la acusacion puede proceder.
-Begin
-
-    (* Formulacion de la Acusacion *)
-
-    If sospechaON Then
-    Begin
-        acus.arma := sospech.arma;
-        acus.prj := sospech.prj;
-        acus.habt := sospech.habt;
-    End
-    Else
-    Begin
-        procede := True;
-        Repeat
-        Begin
-        
-        If not procede Then
-        Begin
-            p := Aleatorio(0,5 - jugadorTurno.conta.prj );
-            a := Aleatorio(0,5 - jugadorTurno.conta.arma );
-            h := Aleatorio(0,8 - JugadorTurno.conta.habt);
-
-            acus.prj := jugadorTurno.lista.prj[p];
-            acus.arma := jugadorTurno.lista.arma[a];
-            acus.habt := jugadorTurno.lista.habt[h];
-        End;            
-            For i := 0 to sospechaConta Do
-            Begin
-                If ( acus.arma = sospechaLista[i].arma ) and
-                   ( acus.habt = sospechaLista[i].habt ) and
-                   (  acus.prj = sospechaLista[i].prj  ) Then
-                Begin
-                    procede := false;
-                    Writeln('lo logra',sospechaConta);
-                End
-                Else
-                Begin
-                    procede := true;
-                End;
-
-            End;
-        End
-        Until ( procede = true );
-
-        MoverSospechoso(acus,ultimoj,jugadorTurno,jugadores);
-        Writeln; 
-        Writeln('Jugador',jugadorTurno.posicion + 1,' ha realizado una acusacion');
-        Writeln;
-        Writeln('Arma elegida: ',acus.arma);
-        Writeln;
-        Writeln('Personaje elegido: ',acus.prj);
-        Writeln;
-        Writeln('Haitacion elegida: ',acus.habt);
-    End;
-
-    (* Verificacion de la acusacion *)
-    
-    Eliminar(jugadorTurno,jugadores,acus,sobre,ultimoJ);
-    Fin(jugadores,acus,sobre,juegoActivo);
-    
-
-End;
-
-   
     
 VAR
     (* 
@@ -1405,23 +786,23 @@ VAR
     sobre   : sbr; // Variable que contiene los hechos reales
     partida : Text;
     
-    jugadores : Array[0..5] of usuario; // Arreglo de jugadores Jugador[0]:Usuario
+    jugadores : Array[0..5] of user; // Arreglo de jugadores Jugador[0]:Usuario
     
     Turn   : integer; // Contador de los Turnos.
     
-    sospech  : sbr; // variable para realizar sospechas
-    acus : sbr; // variable para realizar acusaciones
+    sospecha  : sbr; // variable para realizar sospechas
+    acusacion : sbr; // variable para realizar acusaciones
     ultimoJ : integer;
     sospechaLista : Array[0..323] of sbr;
     sospechaConta : integer;
    
     SioNo : boolean;
     juegoActivo : boolean;
-    sospechaON : boolean;
+    
     
 BEGIN
     writeln;
-   // Randomize();
+    Randomize();
     
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
@@ -1438,6 +819,16 @@ BEGIN
     
     (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
     AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
+    writeln;
+    
+    (*
+     * Ejemplo de como llamar a Mover sospechoso 
+     *)
+    // MoverSospechoso(sospecha,ultimoJ,jugadores[i],jugadores);
+    
+    
+    
+    
     
     
     (*
