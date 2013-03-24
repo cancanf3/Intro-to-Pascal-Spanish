@@ -525,28 +525,19 @@ TYPE
     
     
     (* Procedimiento que mueve a un sospechoso/acusado *)
-    Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
+
+Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 				ultimoJ : integer; // Numero de Computadoras
-				jugador : user; // Jugador que Sopecho/Acuso 
+				var jugador : user; // Jugador que Sopecho/Acuso 
 				var jugadores : array of user);
     Var
 	i : integer;
-    {Pre:
-	
-    }
-    
-    {Post:
-    
-    }	
-	
-	
     Begin
 	
 	For i := 0 To ultimoJ Do
 	Begin
 	    If (jugadores[i].peon = sospeAcu.prj) 
-		And jugadores[i].vida 
-		And (i <> jugador.posicion) Then
+		And jugadores[i].vida  Then
 	    Begin
 		writeln('Posicion del que realiza la sospecha: ', jugador.donde);
 		writeln('Posicion previa del sospechoso: ', jugadores[i].donde);
@@ -556,15 +547,9 @@ TYPE
 		writeln('Movi al jugador(', i + 1, ') a la posicion del jugador(', jugador.posicion + 1,'): ', jugadores[i].donde);
 	    End;
 	
-	    If (jugadores[i].peon = sospeAcu.prj) 
-		And (i = jugador.posicion) Then
-	    Begin
-		writeln('Jugador(', jugador.posicion + 1, ') se acusa a si mismo! :0');
-	    End;
 	End;
     End;
-
-    
+  
     (* Repartir Cartas al eliminar a un jugador *)
     Procedure RepartirEliminado (var jugador : user;
 				    var jugadores : array of user;
@@ -760,8 +745,84 @@ TYPE
 	End;
 	
     End;
+
+(* Procedimiento de acusacion para la computadora *)
+
+ Procedure Acusacion_Computadora( var jugadorTurno : user; sobre : sbr;
+                                 phaInicio : cartas; sospech : sbr;
+                                 var sospechaConta : integer;
+                                 sospechaLista : Array of sbr; 
+                                 jugadores : Array of user;
+                                 sospechaON : boolean; ultimoj : integer;
+                                 var juegoActivo : boolean; var acus : sbr);
+Var 
+    i : integer; // Variable de iteracion.
+    p,a,h : integer; // Permite elegir aleatoriamente la acusacion.
+    procede : boolean; // Determina que la acusacion puede proceder.
+Begin
+
+    (* Formulacion de la Acusacion *)
+
+    If sospechaON Then
+    Begin
+        acus.arma := sospech.arma;
+        acus.prj := sospech.prj;
+        acus.habt := sospech.habt;
+    End
+    Else
+    Begin
+        procede := True;
+        Repeat
+        Begin
+        
+        If not procede Then
+        Begin
+            p := Aleatorio(0,5 - jugadorTurno.conta.prj );
+            a := Aleatorio(0,5 - jugadorTurno.conta.arma );
+            h := Aleatorio(0,8 - JugadorTurno.conta.habt);
+
+            acus.prj := jugadorTurno.lista.prj[p];
+            acus.arma := jugadorTurno.lista.arma[a];
+            acus.habt := jugadorTurno.lista.habt[h];
+        End;            
+            For i := 0 to sospechaConta Do
+            Begin
+                If ( acus.arma = sospechaLista[i].arma ) and
+                   ( acus.habt = sospechaLista[i].habt ) and
+                   (  acus.prj = sospechaLista[i].prj  ) Then
+                Begin
+                    procede := false;
+                    Writeln('lo logra',sospechaConta);
+                End
+                Else
+                Begin
+                    procede := true;
+                End;
+
+            End;
+        End
+        Until ( procede = true );
+
+        MoverSospechoso(acus,ultimoj,jugadorTurno,jugadores);
+        Writeln; 
+        Writeln('Jugador',jugadorTurno.posicion + 1,' ha realizado una acusacion');
+        Writeln;
+        Writeln('Arma elegida: ',acus.arma);
+        Writeln;
+        Writeln('Personaje elegido: ',acus.prj);
+        Writeln;
+        Writeln('Haitacion elegida: ',acus.habt);
+    End;
+
+    (* Verificacion de la acusacion *)
     
+    Eliminar(jugadorTurno,jugadores,acus,sobre,ultimoJ);
+    Fin(jugadores,acus,sobre,juegoActivo);
     
+
+End;
+
+   
     
 VAR
     (* 
@@ -785,19 +846,19 @@ VAR
     
     Turn   : integer; // Contador de los Turnos.
     
-    sospecha  : sbr; // variable para realizar sospechas
-    acusacion : sbr; // variable para realizar acusaciones
+    sospech  : sbr; // variable para realizar sospechas
+    acus : sbr; // variable para realizar acusaciones
     ultimoJ : integer;
     sospechaLista : Array[0..323] of sbr;
     sospechaConta : integer;
    
     SioNo : boolean;
     juegoActivo : boolean;
-    
+    sospechaON : boolean;
     
 BEGIN
     writeln;
-    Randomize();
+   // Randomize();
     
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
@@ -815,16 +876,24 @@ BEGIN
     (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
     AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
     writeln;
+    Writeln(sobre.prj,' ',sobre.habt,' ',sobre.arma);
+    Writeln;
     
-    (*
-     * Ejemplo de como llamar a Mover sospechoso 
-     *)
-    // MoverSospechoso(sospecha,ultimoJ,jugadores[i],jugadores);
-    
-    
-    
-    
-    
+    (* Probando Acusacion para Computadora *)   
+    sospechaLista[0].prj := phaInicio[3];
+    sospechaLista[0].habt := phaInicio[14];
+    sospechaLista[0].arma := phaInicio[18];
+    sospechaON := False;
+    sospechaConta := 0;
+    acus.prj := phaInicio[3];
+    acus.habt := phaInicio[14];
+    acus.arma := phaInicio[18];
+     
+    Acusacion_Computadora(jugadores[1],sobre,phaInicio,sospech,sospechaConta,
+                      sospechaLista,jugadores,sospechaON,
+                      ultimoj,juegoActivo,acus);
+
+ 
     
     (*
      * Ejemplo de la estructura de los turnos
