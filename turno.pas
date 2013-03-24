@@ -1,10 +1,9 @@
 Procedure Turno(phaInicio : Array of cartas; var habitacion : Array of lugar;
-                sobre : sbr; var partida : text; var Turn : integer;
+    sobre : sbr; var partida : text; var jugadorTurno : sbr;
                 var jugadores : Array of usuario; var sospech : sbr;
                 var acus : sbr; ultimoJ : integer; var sospechaConta : integer; 
                 Var sospechaLista : Array of sbr; var SioNo : boolean;
-                var juegoActivo : boolean; var sospechaON : boolean;
-                var jugadorTurno : sbr );
+                var juegoActivo : boolean; var sospechaON : boolean);
 
 var
     i,j,co : integer; // Contadores
@@ -72,21 +71,20 @@ Begin
 
         End;
         
-        If ( sospechaConta > 100 ) and ( jugadorTurno.posicion <> 1 ) Then
+        If ( sospechaConta > 20 * ultimoJ ) 
+        and ( jugadorTurno.posicion <> 1 ) Then
         Begin
 
         n := Aleatorio(0,1);
 
         If ( n = 1) Then
         Begin
-            SioNo := True; 
-        End
-        Else
-        Begin
-            SioNo := False;
+            Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                                  sospechaConta,sospechaLista,jugadores,
+                                  sospechaON,ultimoJ,juegoActivo,acus);
         End;
-
-        
+    End;
+End; 
 
 
 
