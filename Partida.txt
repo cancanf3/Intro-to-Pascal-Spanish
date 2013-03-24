@@ -1,15 +1,15 @@
 3
-CoronelMostaza Candelabro Vestibulo
-CoronelMostaza activo Vestibulo 
-SalaDeBaile Biblioteca Comedor Cuerda Invernadero SenoraCeleste 
+SenoritaEscarlata Revolver Comedor
+SenoraBlanco activo Vestibulo 6 0
+Vestibulo Estudio Cuchillo Salon SenorVerde Tubo 
 SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
 CoronelMostaza Tubo SalaDeBillar 
-SenoraBlanco activo Vestibulo 
-SenorVerde SenoraBlanco ProfesorCiruela SalaDeBillar Cocina Estudio 
+CoronelMostaza activo Vestibulo 6 0
+CoronelMostaza Candelabro SenoraCeleste SenoraBlanco Cocina Biblioteca 
 SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
 CoronelMostaza Tubo SalaDeBillar 
-SenorVerde activo Vestibulo 
-LlaveInglesa Revolver Cuchillo Tubo Salon SenoritaEscarlata 
+SenorVerde activo Vestibulo 6 0
+Invernadero SalaDeBaile ProfesorCiruela SalaDeBillar Cuerda LlaveInglesa 
 SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
 CoronelMostaza Tubo SalaDeBillar 
 SenoraBlanco
