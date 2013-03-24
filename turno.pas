@@ -8,17 +8,16 @@ Procedure Turno(phaInicio : Array of cartas; var habitacion : Array of lugar;
 
 var
     i,j,co : integer; // Contadores
-    dado : integer; // Valor del dado
-
+    n : integer; // Valor del dado
 Begin
 
     (* Se calcula el dado *)
 
-    dado := Aleatorio(1,6);
+    n := Aleatorio(1,6);
 
     (* Mover al jugador *)
 
-    Mover(jugadorTurno,dado,habitacion);
+    Mover(jugadorTurno,n,habitacion);
 
     (* Jugador del Turno hace la sospecha *)
 
@@ -63,7 +62,34 @@ Begin
     End
     Else
     Begin
-        Writeln;
+        If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 6 ) and 
+           (jugadorTurno.conta.prj = 6 ( jugadorTurno.conta.habt = 8 ) Then
+        Begin
+                
+            Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                                  sospechaConta,sospechaLista,jugadores,
+                                  sospechaON,ultimoJ,juegoActivo,acus);
+
+        End;
+        
+        If ( sospechaConta > 100 ) and ( jugadorTurno.posicion <> 1 ) Then
+        Begin
+
+        n := Aleatorio(0,1);
+
+        If ( n = 1) Then
+        Begin
+            SioNo := True; 
+        End
+        Else
+        Begin
+            SioNo := False;
+        End;
+
+        
+
+
+
 
 
 
