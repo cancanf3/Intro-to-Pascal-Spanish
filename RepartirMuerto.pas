@@ -535,60 +535,44 @@ BEGIN
     Procedure RepartirEliminado (var jugador : user;
 				    var jugadores : array of user;
 				    ultimoJ : integer);
-				    
     Var 
-	
-    i, j : integer;
-    co : integer;
-    
+	i  : integer;
+	co : integer;
     Begin
-	
-    	co := 0;
-	j := 1;
-	
+	co := 0;
+	i := jugador.posicion + 1;	
 	While (co < jugador.conta.cartas) Do
 	Begin
-	    i := jugador.posicion + 1;
-	    While (jugador.posicion < ultimoJ + 1) And (co < jugador.conta.cartas) Do
+	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
 	    Begin
-		jugadores[i].mano[jugadores[i].conta.cartas + 1] := jugador.mano[co]
-//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
+//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
 		co := co + 1;
 		i := i + 1;
 	    End;
 	End;
-	
-	
-	
-	
-	
+		
 	While (co < jugador.conta.cartas) Do
 	Begin
 	    i := 0;
 	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
 	    Begin
-		jugadores[i].mano[jugadores[i].conta.cartas + 1] := jugador.mano[co]
-//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
+// 		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
 		co := co + 1;
 		i := i + 1;
 	    End;
-	    j := j + 1;
 	End;
-    
-    
-    
-    
+	writeln(co);
+	jugador.conta.cartas := 0;
     End;
-
-
-
-
-
-
-
-
+    
+    (* LLamada de ejemplo *)
+    RepartirEliminado(jugadores[i],jugadores,ultimoJ);
+    
+    
 END.
     
     
