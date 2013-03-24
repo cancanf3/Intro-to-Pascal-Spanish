@@ -1545,21 +1545,20 @@ BEGIN
      * Se comienzan los turnos de cada personaje 
      *
      *)
-       While juegoActivo Do
-       Begin
-   	For i := 0 to 5
- 	Begin
+    While juegoActivo Do
+    Begin
+   	    For i := 0 to 5
+ 	    Begin
 	    
-        Turno(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
-              sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
-              juegoActivo,sospechaON);
+            Turno(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
+                  sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
+                  juegoActivo,sospechaON);
 	    	    
 		
- 	End;
- 	Turno := Turno + 1;
-       End;
-      
-       Writeln;
+ 	    End;
+ 	    Turno := Turno + 1;
+    End;
+    Writeln;
     Guardar(jugadores, ultimoJ, sobre, partida);
 
     
