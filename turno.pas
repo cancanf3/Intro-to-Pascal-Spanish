@@ -20,7 +20,7 @@ Begin
 
     Mover(jugadorTurno,dado,habitacion);
 
-    (* jugador del Turno hace la sospecha *)
+    (* Jugador del Turno hace la sospecha *)
 
     If ( jugadorTurno.usuario ) Then
     Begin
@@ -28,9 +28,48 @@ Begin
         Writeln('Deseas realizar una sospecha?');
         Writeln;
         Decision(SioNO);
+
+        If SioNo Then
+        Begin
+            sospecha_Usuario(sospechaON,jugadorTurno,jugadores,phaInicio,
+                            sospech,ultimoJ,sospechaConta,sospechaLista);
+        End;
+    End
+    Else
+    Begin
+        Writeln;
+        Writeln('El Jugador',jugadorTurno.posicion);
+        Writeln('va a realizar una sospecha');
+        Writeln;
+    
+        sospecha_computadora(sospechaON,jugadorTurno,jugadores,phaInicio,
+                            sospech,ultimoJ,sospechaConta,sospechaLista);
     End;
 
-    If SioNo Then
+    (* Jugador del Turno hace la Acusacion *)
+    
+    If ( jugadorTurno.usuario ) Then
     Begin
-       SioNo  
-        
+        Writeln;
+        Writeln('Deseas realizar una acusacion?');
+        Writeln;
+        Decision(SioNo);
+
+        If SioNo Then
+        Begin
+            Acusacion_Usuario(acus,jugadorTurno,sobre,cartas,
+                              juegoActivo,jugadores,ultimoJ);
+        End;
+    End
+    Else
+    Begin
+        Writeln;
+
+
+
+
+
+
+
+
+
