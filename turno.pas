@@ -1,43 +1,36 @@
-Procedure Turno ( var player : user; habitacion : Array of lugar; SioNo : boolean );
-Var
-    decision : integer;
-    opinion : boolean;
-    n : integer;
+Procedure Turno(phaInicio : Array of cartas; var habitacion : Array of lugar;
+                sobre : sbr; var partida : text; var Turn : integer;
+                var jugadores : Array of usuario; var sospech : sbr;
+                var acus : sbr; ultimoJ : integer; var sospechaConta : integer; 
+                Var sospechaLista : Array of sbr; var SioNo : boolean;
+                var juegoActivo : boolean; var sospechaON : boolean;
+                var jugadorTurno : sbr );
+
+var
+    i,j,co : integer; // Contadores
+    dado : integer; // Valor del dado
+
 Begin
- 
-    Writeln('Se lanza el dado');
-    
-    (* Emulacion de Dado *)
-    n := Aleatorio(1,6);
-    Writeln('Al lanzar el dado obtuvo un ', n, '.');
-    (* El jugador va a moverse *)
 
-    Mover(player,n,habitacion);
-    (* El jugador realiza una sospecha *)
+    (* Se calcula el dado *)
 
-    sospecha(player.sospecha,);
-    (* El jugador realiza una acusacion *)
+    dado := Aleatorio(1,6);
 
-    If not (* Variable que simboliza si la sospecha fue refutada *) Then
+    (* Mover al jugador *)
+
+    Mover(jugadorTurno,dado,habitacion);
+
+    (* jugador del Turno hace la sospecha *)
+
+    If ( jugadorTurno.usuario ) Then
     Begin
-        If (player.usuario = true ) Then
-        Begin
-              Writeln('Tu sospecha no ha sido refutada');
-              Writeln('Deseas realizar una acusacion (s/n): ');
-              decision(SioNo);
-        End
+        Writeln;
+        Writeln('Deseas realizar una sospecha?');
+        Writeln;
+        Decision(SioNO);
+    End;
+
+    If SioNo Then
+    Begin
+       SioNo  
         
-            If ( SioNo ) Then
-            Begin
-                Acusacion;
-            End;
-        End
-        Else // Algoritmo para determinar si una computadora hace una acusacion 
-        Begin
-            If (player.sospecha = 1 ) Then
-            Begin
-                 Acusacion;
-            End;
-        End;
-            
-End;
