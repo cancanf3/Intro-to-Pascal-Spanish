@@ -360,18 +360,24 @@ TYPE
     
     }	
     Begin
+
+    Writeln('1.- Si');
+    Writeln;
+    Writeln('2.- No');
+    Writeln;
+
         Repeat
         Begin
             readln(YN);
             SioNo := true;
             n := 0;
         	Case YN of
-        	    's','y' :
+        	    1:
         		Begin
         		    SioNo := true;
                     n := 1;
         		End;
-        	    'n'     :
+        	    2:
         		Begin
         		    SioNo := false;
                     n := 1;
