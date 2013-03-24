@@ -289,7 +289,7 @@ Var
     h,n,m,l : integer; // variables que permiten programacion robusta
     s : string; // Variable que muestra mensaje al usuario
     k : integer; // determina cuantas cartas son sospechadas por mano
-    carta : Array[0..5] of pha; // Arreglo que guarda las cartas sospechadas
+    carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
     i,j,co : integer; // Contadores 
     humano : boolean; // determina si el usuario ha mostrado una carta
     quien : integer; // determina quien hace match con las cartas
@@ -320,22 +320,8 @@ Var
     Writeln('La computadora',jugadorTurno.posicion,
         'sospecha quien mato a Mr.Black fue: ',sospech.prj);
     (* Mover el personaje al lugar de la sospecha *)
-
-    For i := (jugadorTurno.posicion + 1) to 5 Do
-    Begin
-        If ( sospech.prj = jugadores[i].peon ) Then
-        Begin
-            jugadores[i].donde := sospech.habt;
-        End;
-    End;
-
-    For i := 0 to (jugadorTurno.posicion - 1) Do
-    Begin        
-        If ( sospech.prj = jugadores[i].peon ) Then
-        Begin
-            jugadores[i].donde := sospech.habt;
-        End;
-    End;
+    
+    MoverSospechoso(sospech,ultimoJ,jugadorTurno,jugadores);
 
     (* Match de las cartas *)
 
@@ -452,13 +438,7 @@ quien := 0;
 
     (* Mover el personaje al lugar de la sospecha *)
 
-    For i := 1 to 5 Do
-    Begin
-        If ( sospech.prj = jugadores[i].peon ) Then
-        Begin
-            jugadores[i].donde := sospech.habt;
-        End;
-    End;
+    MoverSospechoso(sospech,ultimoJ,jugadorTurno,jugadores);
 
     (* Match de las cartas *)
 
