@@ -388,7 +388,7 @@ TYPE
  
     Procedure Decision (var SioNo : boolean);
     Var
-	YN : char;
+	YN : integer;
 	n : integer;
     {Pre:
 	True
@@ -776,16 +776,14 @@ TYPE
                 (*  Turno *) 
 
 
-Procedure Turno(phaInicio : Array of cartas; var habitacion : Array of lugar;
-                sobre : sbr; var partida : text; var Turn : integer;
+Procedure Turnos(phaInicio : cartas; var habitacion : Array of lugar;
+                sobre : sbr; var partida : text; var jugadorTurno : usuario;
                 var jugadores : Array of usuario; var sospech : sbr;
                 var acus : sbr; ultimoJ : integer; var sospechaConta : integer; 
                 Var sospechaLista : Array of sbr; var SioNo : boolean;
-                var juegoActivo : boolean; var sospechaON : boolean;
-                var jugadorTurno : sbr );
+                var juegoActivo : boolean; var sospechaON : boolean);
 
 var
-    i,j,co : integer; // Contadores
     n : integer; // Valor del dado
 Begin
 
@@ -834,14 +832,14 @@ Begin
 
         If SioNo Then
         Begin
-            Acusacion_Usuario(acus,jugadorTurno,sobre,cartas,
+            Acusacion_Usuario(acus,jugadorTurno,sobre,phaInicio,
                               juegoActivo,jugadores,ultimoJ);
         End;
     End
     Else
     Begin
         If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 6 ) and 
-           (jugadorTurno.conta.prj = 6 ( jugadorTurno.conta.habt = 8 ) Then
+           (jugadorTurno.conta.prj = 6) and ( jugadorTurno.conta.habt = 8 ) Then
         Begin
                 
             Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
@@ -864,7 +862,7 @@ Begin
         End;
     End;
 End; 
-
+End;
 
 
         (* Empieza el Programa Principal *)
@@ -901,8 +899,10 @@ VAR
    
     SioNo : boolean;
     juegoActivo : boolean;
-    
-    
+
+    sospechaON : boolean;
+    i : integer; // Contador    
+
 BEGIN
     writeln;
     Randomize();
@@ -910,7 +910,7 @@ BEGIN
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
     
-    Inicializa(phaInicio, ultimoJ, habitacion, jugadores, Turn, SioNo, juegoActivo, sospechaConta);
+    Inicializa(phaInicio, ultimoJ, habitacion, jugadores, Turno, SioNo, juegoActivo, sospechaConta);
     
     (* 
      * Con este Procedimiento el usuario selecciona el personaje 
@@ -940,10 +940,10 @@ BEGIN
      *)
     While juegoActivo Do
     Begin
-   	    For i := 0 to 5
+   	    For i := 0 to 5 Do
  	    Begin
 	    
-            Turno(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
+            Turnos(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
                   sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
                   juegoActivo,sospechaON);
 	    	    
