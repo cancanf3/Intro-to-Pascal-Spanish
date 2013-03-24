@@ -484,24 +484,66 @@ TYPE
     End;
 
     
-    
-    
+    (* Repartir Cartas al eliminar a un jugador *)
+    Procedure RepartirEliminado (var jugador : user;
+				    var jugadores : array of user;
+				    ultimoJ : integer);
+    Var 
+	i  : integer;
+	co : integer;
+    Begin
+	co := 0;
+	i := jugador.posicion + 1;	
+	While (co < jugador.conta.cartas) Do
+	Begin
+	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
+	    Begin
+		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
+//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+		co := co + 1;
+		i := i + 1;
+	    End;
+	End;
+		
+	While (co < jugador.conta.cartas) Do
+	Begin
+	    i := 0;
+	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
+	    Begin
+		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
+		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
+// 		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+		co := co + 1;
+		i := i + 1;
+	    End;
+	End;
+	writeln(co);
+	jugador.conta.cartas := 0;
+    End;
     
     
     (* Procedimiento que elimina jugadores segun sus acusaciones *)
     Procedure Eliminar(var jugador : user;
+			var jugadores : Array of user;
 			acusacion : sbr;
-			sobre : sbr);
+			sobre : sbr;
+			ultimoJ : integer);
     Begin
 	If (acusacion.prj <> sobre.prj) 
 	    Or (acusacion.habt <> sobre.habt ) 
 	    Or (acusacion.arma <> sobre.arma ) Then
 	Begin
+	    writeln('El jugador', jugador.posicion + 1, ' ha muerto :(.'); 
 	    jugador.vida := False;
-	End
+	End;
+	RepartirEliminado(jugador,jugadores,ultimoJ);
     End;
     
     
+    
+    
+    (* Proceso que permite guardar la partida pra retomarla luego *)
     Procedure Guardar (jugadores : Array of user;
 			ultimoJ : integer;
 			sobre : sbr;
@@ -581,11 +623,6 @@ TYPE
 	writeln(partida, jugadores[jugadores[i].posicion + 1].peon); 
 	Close(partida);
     End;
-    
-    
-    
-    
-    
     
     
     (* Procedimiento que chequea si el juego debe terminar *)
