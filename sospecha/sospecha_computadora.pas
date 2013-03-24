@@ -1,11 +1,3 @@
-Procedure sospecha_computadora ( var sospechaON : boolean; 
-                                 var jugadorTurno : usuario; 
-                                 var jugadores : array of usuario; 
-                                 phaInicio : cartas; 
-                                 var sospech : sbr; ultimoJ : integer;
-                                 var sospecha.conta : integer;
-                                 var sospecha_lista : Array of sbr);
-
 Procedure Match_cartas ( Var carta : sbr ; jugadorTurno : user ;
                          jugadores : user ; var sospechaON : boolean ;
                          var k : integer ; var quien : integer
@@ -221,6 +213,16 @@ End;
 
 
 
+Procedure sospecha_computadora ( var sospechaON : boolean; 
+                                 var jugadorTurno : usuario; 
+                                 var jugadores : array of usuario; 
+                                 phaInicio : cartas; 
+                                 var sospech : sbr; ultimoJ : integer;
+                                 var sospecha.conta : integer;
+                                 var sospecha_lista : Array of sbr);
+
+
+
 Var
     h,n,m,l : integer; // variables que permiten programacion robusta
     s : string; // Variable que muestra mensaje al usuario
@@ -228,6 +230,7 @@ Var
     carta : Array[0..2] of pha; // Arreglo que guarda las cartas sospechadas
     i,j,co : integer; // Contadores 
     humano : boolean; // determina si el usuario ha mostrado una carta
+    quien : integer; // determina quien hace match con las cartas
     Begin
     
     
