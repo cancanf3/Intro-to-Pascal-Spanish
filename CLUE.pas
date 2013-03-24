@@ -767,6 +767,109 @@ TYPE
     End;
     
     
+
+
+
+
+
+
+                (*  Turno *) 
+
+
+Procedure Turno(phaInicio : Array of cartas; var habitacion : Array of lugar;
+                sobre : sbr; var partida : text; var Turn : integer;
+                var jugadores : Array of usuario; var sospech : sbr;
+                var acus : sbr; ultimoJ : integer; var sospechaConta : integer; 
+                Var sospechaLista : Array of sbr; var SioNo : boolean;
+                var juegoActivo : boolean; var sospechaON : boolean;
+                var jugadorTurno : sbr );
+
+var
+    i,j,co : integer; // Contadores
+    n : integer; // Valor del dado
+Begin
+
+    (* Se calcula el dado *)
+
+    n := Aleatorio(1,6);
+
+    (* Mover al jugador *)
+
+    Mover(jugadorTurno,n,habitacion);
+
+    (* Jugador del Turno hace la sospecha *)
+
+    If ( jugadorTurno.usuario ) Then
+    Begin
+        Writeln;
+        Writeln('Deseas realizar una sospecha?');
+        Writeln;
+        Decision(SioNO);
+
+        If SioNo Then
+        Begin
+            sospecha_Usuario(sospechaON,jugadorTurno,jugadores,phaInicio,
+                            sospech,ultimoJ,sospechaConta,sospechaLista);
+        End;
+    End
+    Else
+    Begin
+        Writeln;
+        Writeln('El Jugador',jugadorTurno.posicion);
+        Writeln('va a realizar una sospecha');
+        Writeln;
+    
+        sospecha_computadora(sospechaON,jugadorTurno,jugadores,phaInicio,
+                            sospech,ultimoJ,sospechaConta,sospechaLista);
+    End;
+
+    (* Jugador del Turno hace la Acusacion *)
+    
+    If ( jugadorTurno.usuario ) Then
+    Begin
+        Writeln;
+        Writeln('Deseas realizar una acusacion?');
+        Writeln;
+        Decision(SioNo);
+
+        If SioNo Then
+        Begin
+            Acusacion_Usuario(acus,jugadorTurno,sobre,cartas,
+                              juegoActivo,jugadores,ultimoJ);
+        End;
+    End
+    Else
+    Begin
+        If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 6 ) and 
+           (jugadorTurno.conta.prj = 6 ( jugadorTurno.conta.habt = 8 ) Then
+        Begin
+                
+            Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                                  sospechaConta,sospechaLista,jugadores,
+                                  sospechaON,ultimoJ,juegoActivo,acus);
+
+        End;
+        
+        If ( sospechaConta > 20 * ultimoJ ) 
+        and ( jugadorTurno.posicion <> 1 ) Then
+        Begin
+
+        n := Aleatorio(0,1);
+
+        If ( n = 1) Then
+        Begin
+            Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                                  sospechaConta,sospechaLista,jugadores,
+                                  sospechaON,ultimoJ,juegoActivo,acus);
+        End;
+    End;
+End; 
+
+
+
+        (* Empieza el Programa Principal *)
+
+
     
 VAR
     (* 
@@ -788,7 +891,7 @@ VAR
     
     jugadores : Array[0..5] of user; // Arreglo de jugadores Jugador[0]:Usuario
     
-    Turn   : integer; // Contador de los Turnos.
+    Turno   : integer; // Contador de los Turnos.
     
     sospecha  : sbr; // variable para realizar sospechas
     acusacion : sbr; // variable para realizar acusaciones
@@ -832,33 +935,23 @@ BEGIN
     
     
     (*
-     * Ejemplo de la estructura de los turnos
+     * Se comienzan los turnos de cada personaje 
      *
      *)
-//     While juegoActivo Do
-//     Begin
-// 	For i := 0 to 5
-// 	Begin
+    While juegoActivo Do
+    Begin
+   	    For i := 0 to 5
+ 	    Begin
 	    
-	    (*
-	     * Los procedimientos Mover, Sospecha y Acusacion van dentro 
-	     * de Turno, por lo que el programa seria una sola llamada a 
-	     * Turno para cada jugador
-	     *)
+            Turno(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
+                  sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
+                  juegoActivo,sospechaON);
 	    	    
-	    (*
-	    Turno(p[i]);
 		
-		n := Aleatorio(1,6);
-		Mover(jugadores[i], n, habitacion);
-		Sospecha(sospechaON,p[i],jugadores,phaInicio);
-		Acusacion(p[i],sobre);
-	    *)
-// 	End;
-// 	Turno := Turno + 1;
-//     End;
-//      
-//     writeln;
+ 	    End;
+ 	    Turno := Turno + 1;
+    End;
+    Writeln;
     Guardar(jugadores, ultimoJ, sobre, partida);
 
     
