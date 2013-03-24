@@ -1545,27 +1545,21 @@ BEGIN
      * Ejemplo de la estructura de los turnos
      *
      *)
-//     While juegoActivo Do
-//     Begin
-// 	For i := 0 to 5
-// 	Begin
+       While juegoActivo Do
+       Begin
+   	For i := 0 to 5
+ 	Begin
 	    
-	    (*
-	     * Los procedimientos Mover, Sospecha y Acusacion van dentro 
-	     * de Turno, por lo que el programa seria una sola llamada a 
-	     * Turno para cada jugador
-	     *)
-
-        Turno(phaInicio,habitacion,sobre,partida,jugadorTurno,jugadores,
+        Turno(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
               sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
               juegoActivo,sospechaON);
 	    	    
 		
-// 	End;
-// 	Turno := Turno + 1;
-//     End;
-//      
-//     writeln;
+ 	End;
+ 	Turno := Turno + 1;
+       End;
+      
+       Writeln;
     Guardar(jugadores, ultimoJ, sobre, partida);
 
     
