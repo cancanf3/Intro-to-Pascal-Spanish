@@ -56,12 +56,32 @@ TYPE
 	posicion : integer; 
     End;
   
+    (* Procedimiento para evitar el runtime error en lectura de enteros *)
+    Procedure LecturaRobusta(Var variable : integer;
+				r : string; // Primer mensaje para el usuario
+				s : string; // Mensaje al fallar
+				inicio : integer;
+				tope : integer);
+    Var 
+	codigo : word;
+    Begin
+       	Repeat
+	Begin
+	    write(r);
+	    {$IOCHECKS OFF}
+	    read(variable);
+	    {$IOCHECKS ON}
+	    codigo := ioResult; 
+	    r := s;
+	End
+	Until (variable < tope + 1) And (variable > inicio - 1) And (codigo = 0);
+    End;
+  
     
     (* Permite ingresar el numero de Computadoras *)
     Procedure NComputadoras(var ultimoJ : integer);
     Var 
-	s : string;
-	codigo : word;
+	r,s : string;
     {Pre:
 	True
     }
@@ -71,17 +91,9 @@ TYPE
     }
     
     Begin
-	s := 'Ingrese el numero de computadoras contra las que desea jugar (2-5): ';
-	Repeat
-	Begin
-	    write(s);
-	    {$IOCHECKS OFF}
-	    read(ultimoJ);
-	    {$IOCHECKS ON}
-	    codigo := ioResult; 
-	    s := 'Opcion no valida, elija entre 2 y 5 computadoras: ';
-	End
-	Until (ultimoJ < 6) And (ultimoJ > 1) And (codigo = 0);
+	r := 'Ingrese el numero de computadoras contra las que desea jugar (2-5): ';
+        s := 'Opcion no valida, elija entre 2 y 5 computadoras: ';
+	LecturaRobusta(ultimoJ,r,s,2,5);
     End;
     
     
@@ -255,9 +267,8 @@ TYPE
     }	
     Var
 	i : integer;
-	s : string;
+	r,s : string;
 	repartir: Array[0..5] of integer = (0,1,2,3,4,5);
-	codigo : word;
     Begin
 	writeln('Seleccione un personaje ingresando el numero correspondiente.');
 	For i := 0 To 5 Do
@@ -265,17 +276,9 @@ TYPE
 	    Writeln(i+1, '.- ', phaInicio[i]);
 	End;
 	
-	s := 'Seleccion: ';
-	Repeat
-	Begin
-	    write(s);
-	    {$IOCHECKS OFF}
-	    read(i);
-	    {$IOCHECKS ON}
-	    codigo := ioResult; 
-	    s := 'Opcion no valida, intente de nuevo: '
-	End
-	Until (i < 7) And (i > 0) And (codigo = 0);
+	r := 'Seleccion: ';
+	s := 'Opcion no valida, intente de nuevo: ';
+	LecturaRobusta(i,r,s,1,6);
 		
 	jugadores[0].peon := phaInicio[i-1];
 	writeln('El personaje seleccionado fue: ', jugadores[0].peon);
@@ -435,12 +438,12 @@ TYPE
         	Case YN of
         	    1:
         		Begin
-        		    SioNo := true;
+        		    SioNo := True;
                     n := 1;
         		End;
         	    2:
         		Begin
-        		    SioNo := false;
+        		    SioNo := False;
                     n := 1;
         		End;
             End;
