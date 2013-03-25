@@ -67,7 +67,7 @@ TYPE
     Begin
        	Repeat
 	Begin
-	    write(r);
+	    Writeln(r);
 	    {$IOCHECKS OFF}
 	    read(variable);
 	    {$IOCHECKS ON}
@@ -424,6 +424,8 @@ TYPE
     Var
 	YN : integer;
 	n : integer;
+    r : string;
+    s : string;
     {Pre:
 	True
     }
@@ -437,11 +439,11 @@ TYPE
     Writeln;
     Writeln('2.- No');
     Writeln;
-
+    r := ' Eliga una opcion ';
+    s := ' Error! Eliga otra vez';
         Repeat
         Begin
-            readln(YN);
-            SioNo := true;
+            LecturaRobusta(YN,r,s,1,2); 
             n := 0;
         	Case YN of
         	    1:
@@ -986,7 +988,7 @@ Procedure Refuta_Usuario ( carta : Array of sbr; Var jugadorTurno : usuario;
                            m : integer; n : integer; h : integer);
 Var
     i : integer; // Variable para iterar.
-    s : string; // Variable de mensajes.
+    s,r : string; // Variable de mensajes.
     l : integer; // Variable de lectura robusta.
     {Pre:
     (% Exist x : 0 <= x <= 2 : carta[x] )	
@@ -1020,14 +1022,9 @@ Begin
             Writeln(i + 1,'.- ',carta[i].habt);
         End;
     End;
-    s := 'elige el numero de la carta a mostrar';
-    Repeat
-    Begin
-        Writeln(s);
-        Read(l);
-        S := ' te equivocaste, elige otra vez';
-    End
-    Until ( l > 0 ) and ( l < (k + 1) );
+    r := 'elige el numero de la carta a mostrar';
+    s := ' te equivocaste, elige otra vez';
+    LecturaRobusta(l,r,s,1,k); 
 
     If ( carta[l-1].arma = sospech.arma ) Then
     Begin
@@ -1254,7 +1251,7 @@ Procedure sospecha_Usuario( var sospechaON : boolean; var jugadorTurno : usuario
 
 Var
     h,n,m : integer; // variables que permiten programacion robusta
-    s : string; // Variable que muestra mensaje al usuario
+    s,r : string; // Variable que muestra mensaje al usuario
     k : integer; // determina cuantas cartas son sospechadas por mano
     carta : Array[0..2] of sbr; // Arreglo que guarda las cartas sospechadas
     i : integer; // Contadores 
@@ -1295,17 +1292,11 @@ sospech.habt := jugadorTurno.donde;
         Writeln(jugadores[0].lista.arma[i+1]);
     End;
    
-    s := 'Arma a sospechar';
+    r := 'Arma a sospechar';
+    s := 'Te equivocaste, Elige otra vez';
 
     (* Lectura Robusta del arma a sospechar *) 
-    
-    Repeat
-    Begin
-        Writeln(s);
-        Readln(m);
-        s := 'Arma incorrecta, Elegir otra vez';
-    End
-    Until (m < 7 ) and ( m > 0 );
+    LecturaRobusta(m,r,s,1,6);
 
     sospech.arma := jugadorTurno.lista.arma[m-1];
 
@@ -1322,17 +1313,10 @@ sospech.habt := jugadorTurno.donde;
         Writeln(jugadorTurno.lista.prj[i+1]);
     End;
     
-    s := 'Personaje a sospechar: ';
-
+    r := 'Personaje a sospechar: ';
+    s := 'Te equivocaste, Elige otra vez';
     (* Lectura Robusta del personaje a sospechar *)
-
-    Repeat 
-    Begin
-        Writeln(s);
-        Readln(n);
-        s := 'Personaje incorrecto, Elegir otra vez'
-    End
-    Until ( n < 7 ) and ( n > 0);
+    LecturaRobusta(n,r,s,1,6);
     
     sospech.prj := jugadorTurno.lista.prj[n-1];
 
@@ -1370,12 +1354,13 @@ Procedure Acusacion_Usuario( var acus : sbr; var jugadorTurno :
 Var 
     i : integer; // Variable de iteracion.
     n,m,h : integer; // Variable que permite lectura robusta
+    s,r : string; // Variables para mensajes
     {Pre:
-	
+    true	
     }
     
     {Post:
-    
+    jugadorTurno.vida = false \/ jugadorTurno.vida = true
     }	
 Begin
 
@@ -1387,7 +1372,7 @@ Begin
     Writeln;
     Writeln(jugadorTurno.lista.prj[5]);
     Writeln(jugadorTurno.conta.prj);
-        Writeln;
+    Writeln;
     For i := ( 5 - jugadorTurno.conta.prj ) to 4 Do
     Begin
         Writeln(jugadorTurno.lista.prj[i+1]);
@@ -1399,13 +1384,10 @@ Begin
     Begin
         Writeln(i+1,'.- ',phaInicio[i]);
     End;
-    Repeat
-    Begin
-        Writeln;
-        Writeln(' Elige una opcion: ');
-        Readln(n);
-    End
-    Until ( n < 7 ) and ( n > 0 );
+    r := 'Elige una opcion';
+    s := 'Te equivocaste, Eliga otra vez';
+    Writeln;
+    LecturaRobusta(n,r,s,1,6);
 
     acus.prj := phaInicio[n-1];
     MoverSospechoso(acus,ultimoJ,jugadorTurno,jugadores);
@@ -1426,13 +1408,10 @@ Begin
     Begin
         Writeln( i - 14,'.- ',phaInicio[i]);
     End;
-    Repeat
-    Begin
-        Writeln;
-        Writeln(' Elige una opcion');
-        Readln(m);
-    End
-    Until ( n < 7 ) and ( n > 0 ); 
+    r := 'Elige una opcion';
+    s := 'Te equivocaste, Eliga otra vez';
+    Writeln;
+    LecturaRobusta(m,r,s,1,6);
 
     acus.arma := phaInicio[m+14];
 
@@ -1453,13 +1432,10 @@ Begin
     Begin
         Writeln(i - 5,'.- ',phaInicio[i]);
     End;
-    Repeat
-    Begin
-        Writeln;
-        Writeln(' Elige una opcion ');
-        Readln(h);
-    End
-    Until ( h > 0 ) and ( h < 10 );
+    r := 'Elige una opcion';
+    s := 'Te equivocaste, Eliga otra vez';
+    Writeln;
+    LecturaRobusta(h,r,s,1,9);
     
     acus.habt := phaInicio[h+5];
 
@@ -1492,11 +1468,11 @@ Var
     p,a,h : integer; // Permite elegir aleatoriamente la acusacion.
     procede : boolean; // Determina que la acusacion puede proceder.
     {Pre:
-	
+    true	
     }
     
-    {Post:
-    
+    {Post: 
+    jugadorTurno.vida = false \/ jugadorTurno.vida = true
     }	
 Begin
 
