@@ -681,6 +681,10 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	    End;
 	End;
 	jugador.conta.cartas := 0;
+    Writeln;
+    Writeln;
+    Writeln;
+    Writeln;
     End;
     
     
@@ -820,7 +824,8 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	    And (acusacion.arma = sobre.arma) Then
 	Begin
 	    juegoActivo := False;
-        Writeln('Se adivino el sobre');
+        Writeln('Se ha adivinado el sobre!!');
+        Writeln;
 	End;
     If juegoActivo Then
     Begin
@@ -848,11 +853,20 @@ Procedure Match_cartas ( Var carta : Array of sbr ; jugadorTurno : usuario ;
 Var
     i,j : integer; // Contadores
     {Pre:
-	
+     sospech.arma = (% Exist x : 0 <= x <= 5 : jugadorTurno.lista.arma[x] ) /\
+     sospech.prj = (% Exist x : 0 <= x <= 5 : jugadorTurno.lista.prj[x] ) /\
+     sospech.habt = jugadorTurno.donde    
     }
     
     {Post:
-    
+    carta.arma = (% First : jugadorTurno.posicion + 1 <= y <= 5 /\ 0 <= y <= jugadorTurno.posicon - 1 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.arma)) /\ 
+    carta.prj = (% First : jugadorTurno.posicion + 1 <= y <= 5 /\ 0 <= y <= jugadorTurno.posicon - 1 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.prj)) /\
+    carta.habt = (% First : jugadorTurno.posicion + 1 <= y <= 5 /\ 0 <= y <= jugadorTurno.posicon - 1 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.habt)) 
+
+
     }	
   
   
@@ -975,11 +989,14 @@ Var
     s : string; // Variable de mensajes.
     l : integer; // Variable de lectura robusta.
     {Pre:
-	
+    (% Exist x : 0 <= x <= 2 : carta[x] )	
     }
     
     {Post:
-    
+    carta[x].arma = (% last x : 0 <= x <= 5 - jugadorTurno.conta.arma : jugadorTurno.lista.arma[x] ) \/ 
+    carta[x].prj = (% last x : 0 <= x <= 5 - jugadorTurno.conta.prj : jugadorTurno.lista.prj[x] ) \/ 
+    carta[x].habt = (% last x : 0 <= x <= 8 - jugadorTurno.conta.habt : jugadorTurno.lista.habt[x] ) 
+
     }	
     
     
@@ -1037,11 +1054,13 @@ Procedure Refuta_computadora ( carta : Array of sbr; var jugadorTurno : usuario;
 Var
     muestro : integer; // Variable que determina que carta mostrar.
     {Pre:
-	
+	(% Exist x : 0 <= x <= 2 : carta[x] )	
     }
     
-    {Post:
-    
+    {Post: 
+    carta[x].arma = (% last x : 0 <= x <= 5 - jugadorTurno.conta.arma : jugadorTurno.lista.arma[x] ) \/ 
+    carta[x].prj = (% last x : 0 <= x <= 5 - jugadorTurno.conta.prj : jugadorTurno.lista.prj[x] ) \/ 
+    carta[x].habt = (% last x : 0 <= x <= 8 - jugadorTurno.conta.habt : jugadorTurno.lista.habt[x] ) 
     }	                       
 
 Begin
@@ -1108,11 +1127,13 @@ Procedure Descarte_sospecha ( var sospechaLista : Array of sbr;
                               var sospech : sbr;
                               var sospechaConta : integer );
     {Pre:
-	
+    sospechaON = False 	
     }
     
     {Post:
-    
+    sospechaConta >= 0 /\ sospechaConta <= 323 /\ (% Forall x : 0 <= x <= sospechaConta 
+    : sospechaLista[x].arma = sospech.arma /\ sospechaLista[x].habt = sospech.habt /\ 
+    sospechaLista[x].prj = sospech.prj)
     }	
 
 
@@ -1143,11 +1164,11 @@ Procedure sospecha_computadora ( var sospechaON : boolean;
 
 
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+    sospechaON = false \/ sospechaON = true 
     }	
 
 
@@ -1240,11 +1261,11 @@ Var
     humano : boolean; // determina si el usuario ha mostrado una carta
     quien  : integer; // Determina que jugador hizo match de las cartas
     {Pre:
-	
+	true
     }
     
-    {Post:
-    
+    {Post: 
+    sospechaON = false \/ sospechaON = true 
     }	
 Begin
 
@@ -1565,7 +1586,7 @@ var
     }
     
     {Post:
-    
+    jugadorTurno.vida = ( acus.prj = sobre.prj /\ acus.habt = sobre.habt /\ acus.arma = sobre.arma )
     }	
 Begin
 
@@ -1646,6 +1667,7 @@ Begin
     Writeln;
     Writeln('Turno ',turno);
     Writeln;
+    Writeln(sobre.prj,sobre.habt,sobre.arma);
     Readln; 
 
 
