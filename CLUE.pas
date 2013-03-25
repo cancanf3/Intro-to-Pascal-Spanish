@@ -57,6 +57,70 @@ TYPE
     End;
   
   
+    (* Procedimiento para evitar el runtime error en lectura de enteros *)
+    Procedure LecturaRobusta(Var variable : integer;
+				r : string; // Primer mensaje para el usuario
+				s : string; // Mensaje al fallar
+				inicio : integer;
+				tope : integer);
+    Var 
+	codigo : word;
+    Begin
+       	Repeat
+	Begin
+	    Writeln(r);
+	    {$IOCHECKS OFF}
+	    read(variable);
+	    {$IOCHECKS ON}
+	    codigo := ioResult; 
+	    r := s;
+	End
+	Until (variable < tope + 1) And (variable > inicio - 1) And (codigo = 0);
+    End;
+  
+    Procedure Decision (var SioNo : boolean);
+    Var
+	YN : integer;
+	n : integer;
+    r : string;
+    s : string;
+    {Pre:
+	True
+    }
+    
+    {Post:
+	(SioNo == True) \/ (Siono == False)
+    }	
+    Begin
+
+    Writeln('1.- Si');
+    Writeln;
+    Writeln('2.- No');
+    Writeln;
+    r := ' Eliga una opcion ';
+    s := ' Error! Eliga otra vez';
+        Repeat
+        Begin
+            LecturaRobusta(YN,r,s,1,2); 
+            n := 0;
+        	Case YN of
+        	    1:
+        		Begin
+        		    SioNo := True;
+                    n := 1;
+        		End;
+        	    2:
+        		Begin
+        		    SioNo := False;
+                    n := 1;
+        		End;
+            End;
+        End
+        Until ( n = 1 );
+    End;  
+  
+  
+  
   (* Procedimiento que contiene las instrucciones del juego *)
   Procedure Instrucciones ();
     {Pre:
@@ -252,27 +316,7 @@ TYPE
   
   
   
-    (* Procedimiento para evitar el runtime error en lectura de enteros *)
-    Procedure LecturaRobusta(Var variable : integer;
-				r : string; // Primer mensaje para el usuario
-				s : string; // Mensaje al fallar
-				inicio : integer;
-				tope : integer);
-    Var 
-	codigo : word;
-    Begin
-       	Repeat
-	Begin
-	    Writeln(r);
-	    {$IOCHECKS OFF}
-	    read(variable);
-	    {$IOCHECKS ON}
-	    codigo := ioResult; 
-	    r := s;
-	End
-	Until (variable < tope + 1) And (variable > inicio - 1) And (codigo = 0);
-    End;
-  
+
     
     (* Permite ingresar el numero de Computadoras *)
     Procedure NComputadoras(var ultimoJ : integer);
@@ -614,49 +658,6 @@ TYPE
     End;
     
     
-    (* Funcion para preguntas del tipo (s/n) al usuario *)
- 
-    Procedure Decision (var SioNo : boolean);
-    Var
-	YN : integer;
-	n : integer;
-    r : string;
-    s : string;
-    {Pre:
-	True
-    }
-    
-    {Post:
-	(SioNo == True) \/ (Siono == False)
-    }	
-    Begin
-
-    Writeln('1.- Si');
-    Writeln;
-    Writeln('2.- No');
-    Writeln;
-    r := ' Eliga una opcion ';
-    s := ' Error! Eliga otra vez';
-        Repeat
-        Begin
-            LecturaRobusta(YN,r,s,1,2); 
-            n := 0;
-        	Case YN of
-        	    1:
-        		Begin
-        		    SioNo := True;
-                    n := 1;
-        		End;
-        	    2:
-        		Begin
-        		    SioNo := False;
-                    n := 1;
-        		End;
-            End;
-        End
-        Until ( n = 1 );
-    End;  
-
 
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
     Function Distancia(jugador : usuario ; Habitacion : lugar): integer;
