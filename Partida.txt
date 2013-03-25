@@ -1,21 +1,20 @@
 6
-ProfesorCiruela Revolver Salon
-SenoraBlanco eliminado Biblioteca 0 4
+SenoritaEscarlata Revolver Cocina
+SenoraCeleste activo Biblioteca 3 15
+SalaDeBaile Salon Tubo 
+SenoritaEscarlata CoronelMostaza ProfesorCiruela SenorVerde SenoraBlanco Revolver Cuerda LlaveInglesa Candelabro Cuchillo Estudio Invernadero SalaDeBillar Vestibulo Salon 
+SenoraBlanco activo Salon 0 17
 
-SenoritaEscarlata LlaveInglesa Candelabro SalaDeBaile 
-CoronelMostaza activo Biblioteca 4 3
-Invernadero SenoraCeleste Tubo SenoraBlanco 
-SenoritaEscarlata Revolver SalaDeBaile 
-SenorVerde activo Vestibulo 4 3
-SalaDeBillar Estudio Comedor SenoraBlanco 
-SalaDeBillar Invernadero SalaDeBaile 
-SenoraCeleste activo Vestibulo 4 3
-SenorVerde LlaveInglesa SalaDeBaile SenoraBlanco 
-SenoritaEscarlata Revolver Salon 
-ProfesorCiruela activo Vestibulo 3 3
-SenoritaEscarlata Cuerda Vestibulo 
-CoronelMostaza Revolver SalaDeBaile 
-SenoritaEscarlata activo Vestibulo 3 3
-SenoraBlanco Cocina Candelabro 
-SenoritaEscarlata Revolver SalaDeBaile 
-SenoraBlanco
+SenoritaEscarlata ProfesorCiruela SenorVerde CoronelMostaza SenoraBlanco Revolver Tubo Candelabro LlaveInglesa Cuerda Cocina Salon SalaDeBaile Vestibulo Estudio Biblioteca Comedor 
+SenorVerde activo Vestibulo 3 17
+Cuerda LlaveInglesa Invernadero 
+SenoritaEscarlata SenoraCeleste CoronelMostaza ProfesorCiruela SenorVerde Revolver Tubo Cuchillo Candelabro LlaveInglesa Cocina Biblioteca Vestibulo SalaDeBillar Comedor Estudio Salon 
+CoronelMostaza activo Salon 3 12
+Estudio SenoraBlanco Vestibulo 
+SenoraCeleste ProfesorCiruela SenorVerde CoronelMostaza Cuerda LlaveInglesa Cuchillo SalaDeBillar Invernadero Comedor Biblioteca Vestibulo 
+ProfesorCiruela activo Salon 3 16
+SenorVerde Biblioteca CoronelMostaza 
+CoronelMostaza SenoraCeleste ProfesorCiruela SenoraBlanco SenorVerde Revolver Cuchillo Cuerda Tubo LlaveInglesa Comedor Vestibulo Estudio Invernadero Salon SalaDeBillar 
+SenoritaEscarlata activo Estudio 3 15
+Candelabro Comedor ProfesorCiruela 
+SenoritaEscarlata SenorVer

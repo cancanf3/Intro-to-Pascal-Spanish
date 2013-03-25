@@ -181,7 +181,7 @@ TYPE
 	End;
 	
 	
-	jugadores[0].usuario := True; // Determinar que el jugador jugadores[0] es el Usuario
+	 jugadores[0].usuario := True; // Determinar que el jugador jugadores[0] es el Usuario
     
     End;
    
@@ -214,6 +214,14 @@ TYPE
     tmp1 : a;
     tmp2 : h;
     tmp3 : p;
+
+    {Pre: 
+    k >= 0 /\ k <= 1 /\ n <= 8 /\ m <= 0
+    }
+
+    {Post: 
+    n = m0 /\ m = n0 
+    }
     Begin
         Case k of 
             0 :
@@ -371,13 +379,13 @@ TYPE
             If ( jugadores[i].mano[jugadores[i].conta.cartas]
                 = phaInicio[j+6] ) Then
             Begin
-                Swap_descarte(jugadores[i],j,5-jugadores[i].conta.habt,2);
+                Swap_descarte(jugadores[i],j,8-jugadores[i].conta.habt,2);
                 jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
             End;  
         End;
 
-		Writeln('Jugador', i,' cantidad de cartas ',jugadores[i].conta.cartas
-                , '   Carta: ', jugadores[i].mano[jugadores[i].conta.cartas]);
+//		Writeln('Jugador', i,' cantidad de cartas ',jugadores[i].conta.cartas
+  //              , '   Carta: ', jugadores[i].mano[jugadores[i].conta.cartas]);
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		co := co + 1;
 		i := i + 1;
@@ -508,7 +516,14 @@ TYPE
 			    co := co + 1;
 			End;
 		    End;
-		    
+            Writeln;
+            Writeln('Tienes ',jugador.conta.habt,' Habitaciones Descartadas');
+		    For i := ( 8 - jugador.conta.habt ) to 7 Do
+            Begin
+                Writeln;
+                Writeln(jugador.lista.habt[i+1]);
+            End;
+            Writeln;
 		    write('Ingrese el numero correspondiente: ');
 		    read(moverA);
 		    (* Verificacion de la Entrada del Usuario *)
@@ -591,6 +606,7 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
     Var 
 	i  : integer;
 	co : integer;
+    z  : integer;
     {Pre:
 	True
     }
@@ -611,6 +627,38 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	Begin
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
+        
+        For z := (5 - jugadores[i].conta.arma) to 4 Do
+        Begin
+            If ( jugadores[i].mano[jugadores[i].conta.cartas] 
+                = jugadores[i].lista.arma[z] ) Then
+            Begin
+                Swap_descarte(jugadores[i],z,5-jugadores[i].conta.arma,0);
+                jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+            End;
+        End;
+
+        For z := (5 - jugadores[i].conta.prj ) to 4 Do
+        Begin
+            If ( jugadores[i].mano[jugadores[i].conta.cartas] 
+                = jugadores[i].lista.prj[z] ) Then
+            Begin
+                Swap_descarte(jugadores[i],z,5-jugadores[i].conta.prj,1);
+                jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+            End;
+        End;
+
+        For z := ( 8 - jugadores[i].conta.habt ) to 7 Do
+        Begin
+            If ( jugadores[i].mano[jugadores[i].conta.cartas] 
+                = jugadores[i].lista.habt[z] ) Then
+            Begin
+                Swap_descarte(jugadores[i],z,8-jugadores[i].conta.habt,2);
+                jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+            End; 
+
+        End;
+
 		writeln('Jugador',i,' Tiene ',jugadores[i].conta.cartas,' cartas','   Carta: ', jugadores[i].mano[jugadores[i].conta.cartas]);
 		co := co + 1;
 		i := i + 1;
@@ -632,7 +680,6 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 		i := i + 1;
 	    End;
 	End;
-	writeln(co);
 	jugador.conta.cartas := 0;
     End;
     
@@ -763,7 +810,7 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	(* Chequeo si el usuario fallo haciendo una acusacion *)
 	If Not jugadores[0].vida Then
 	Begin
-	   // juegoActivo := False;
+	    juegoActivo := False;
         Writeln('Usted ha muerto');
 	End;
 
@@ -775,7 +822,14 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	    juegoActivo := False;
         Writeln('Se adivino el sobre');
 	End;
-    Writeln('-------------------',juegoActivo);
+    If juegoActivo Then
+    Begin
+        Writeln('<-----------El juego no ha Terminado---------->');
+    End
+    Else
+    Begin
+        Writeln('<-----------El juego ha Terminado----------->');
+    End;
     End;
 
 
@@ -810,7 +864,7 @@ Begin
 
     For i := ( jugadorTurno.posicion + 1 ) to ultimoj Do
     Begin
-        If ( sospechaON ) Then
+        If ( sospechaON ) and (jugadores[i].vida ) Then
         Begin
             For j := 0 to jugadores[i].conta.cartas  Do
             Begin
@@ -841,7 +895,7 @@ Begin
             
     For i := 0 to ( jugadorTurno.posicion - 1 ) Do
     Begin
-        If ( sospechaON ) Then
+        If ( sospechaON ) and ( jugadores[i].vida )Then
         Begin
             For j := 0 to jugadores[i].conta.cartas Do
             Begin
@@ -878,7 +932,7 @@ Else
 Begin
     For i := ( jugadorTurno.posicion + 1 ) to ultimoj Do
     Begin
-        If ( sospechaON ) Then
+        If ( sospechaON ) and ( jugadores[i].vida ) Then
         Begin
             For j := 0 to jugadores[i].conta.cartas Do
             Begin
@@ -888,7 +942,6 @@ Begin
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
-                    Writeln('lo logra arma')
                 End;
                 If ( jugadores[i].mano[j] = sospech.prj ) Then 
                 Begin    
@@ -896,7 +949,6 @@ Begin
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
-                    Writeln('lo logra prj');
                 End;
                 If ( jugadores[i].mano[j] = sospech.habt ) Then
                 Begin
@@ -904,7 +956,6 @@ Begin
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
-                    Writeln('lo logra habt');
                 End;
             End;
         End;
@@ -959,7 +1010,7 @@ Begin
         Read(l);
         S := ' te equivocaste, elige otra vez';
     End
-    Until ( n > 0 ) and ( n < (k + 1) );
+    Until ( l > 0 ) and ( l < (k + 1) );
 
     If ( carta[l-1].arma = sospech.arma ) Then
     Begin
@@ -994,9 +1045,7 @@ Var
     }	                       
 
 Begin
-    Writeln(k);
     muestro := Aleatorio(0,k-1);
-    Writeln(muestro);
     If jugadorTurno.usuario Then
     Begin
         If ( sospech.arma = carta[muestro].arma ) Then
@@ -1028,22 +1077,26 @@ Begin
             ,jugadorTurno.posicion+1);
 
         If ( carta[muestro].arma = sospech.arma ) 
-        and ( m-1 <= 5 - jugadorTurno.conta.arma) Then
+        and ( m <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m,0);
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,n,0);
             jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+            Writeln(carta[muestro].arma);
         End;
         If ( carta[muestro].prj = sospech.prj ) 
-        and ( n-1 <= 5 - jugadorTurno.conta.prj) Then
+        and ( n <= 5 - jugadorTurno.conta.prj) Then
         Begin 
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n,1);
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,m,1);
             jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+            Writeln(carta[muestro].prj);
+            Writeln(jugadorTurno.conta.prj);
         End;
         If ( carta[muestro].habt = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
             Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+            Writeln(carta[muestro].habt);
         End;
     End;
 End;
@@ -1121,12 +1174,13 @@ Var
         End;
     End;
     (* Computadora elegira arma a sospechar *)
-
+    Writeln(jugadorTurno.conta.arma);
     n := Aleatorio(0,5-jugadorTurno.conta.arma);
     sospech.arma := jugadorTurno.lista.arma[n];
     Writeln('El jugador',jugadorTurno.posicion+1,
         ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
     (* Computadora elegira personaje a sospechar *)
+    Writeln(jugadorTurno.conta.prj);
     m := Aleatorio(0,5-jugadorTurno.conta.prj);
     sospech.prj := jugadorTurno.lista.prj[m];   
     Writeln('El jugador',jugadorTurno.posicion+1,
@@ -1232,7 +1286,7 @@ sospech.habt := jugadorTurno.donde;
     End
     Until (m < 7 ) and ( m > 0 );
 
-    sospech.arma := phaInicio[ m + 14 ];
+    sospech.arma := jugadorTurno.lista.arma[m-1];
 
     (* Elegir personaje a sospechar *)
   
@@ -1259,7 +1313,7 @@ sospech.habt := jugadorTurno.donde;
     End
     Until ( n < 7 ) and ( n > 0);
     
-    sospech.prj := phaInicio [ n - 1];
+    sospech.prj := jugadorTurno.lista.prj[n-1];
 
     (* Mover el personaje al lugar de la sospecha *)
 
@@ -1505,7 +1559,9 @@ Procedure Turnos(phaInicio : cartas; var habitacion : Array of lugar;
 var
     n : integer; // Valor del dado
     {Pre:
-	
+	 ultimoJ > 2 /\ ultimoJ < 6 /\ juegoActivo = True /\ Turno >= 0 /\
+     sospechaConta >= 0 /\ sospechaLista = ( %forall z : 0 <= z < 324 : sospecha[z].arma /\
+      sospecha[z].habt /\ sospecha[z].prj )  /\ phaInicio = ( %forall z : 0 <= z <= 20 : phaInicio[z])  
     }
     
     {Post:
@@ -1516,9 +1572,9 @@ Begin
     If ( JugadorTurno.vida ) Then
     Begin
         (* Se calcula el dado *)
-
         n := Aleatorio(1,6);
-        Writeln('Jugador',jugadorTurno.posicion,' Saco ',n,' en el dado');
+        Writeln('Jugador',jugadorTurno.posicion+1,' Saco ',n,' en el dado');
+
         (* Mover al jugador *)
 
         Mover(jugadorTurno,n,habitacion);
@@ -1576,31 +1632,23 @@ Begin
 
             End;
             
-            If ( sospechaConta > 10 * ultimoJ ) 
+            If ( Turno > 10 * ultimoJ ) 
             and ( jugadorTurno.posicion <> 1 ) Then
             Begin
 
-            n := Aleatorio(0,4);
-
-            If ( n = 1) Then
-            Begin
                 Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
                                       sospechaConta,sospechaLista,jugadores,
                                       sospechaON,ultimoJ,juegoActivo,acus);
             End;
-        End;
-    End; 
+        End; 
 
     turno := turno + 1;
     Writeln;
     Writeln('Turno ',turno);
     Writeln;
-    Guardar(jugadores,ultimoJ,sobre,partida);
     Readln; 
 
-    Readln;
 
-    Readln;
 End;
 End;
 
@@ -1643,7 +1691,7 @@ VAR
     i : integer; // Contador    
 BEGIN
     writeln;
-    //Randomize();
+    Randomize();
     
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
