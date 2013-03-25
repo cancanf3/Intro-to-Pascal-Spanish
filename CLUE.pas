@@ -847,7 +847,7 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 
     (* Procedimiento que permite hacer match de las manos de los jugadores*)
 
-Procedure Match_cartas ( Var carta : Array of sbr ; jugadorTurno : usuario ;
+Procedure Chequeo_cartas ( Var carta : Array of sbr ; jugadorTurno : usuario ;
                          jugadores : Array of usuario ; var sospechaON : boolean ;
                          var k : integer ; var quien : integer;
                          var humano : boolean; ultimoj : integer;
@@ -862,9 +862,9 @@ Var
     
     {Post:
     carta.arma = (% First : jugadorTurno.posicion + 1 <= y <= 5 /\ 0 <= y <= jugadorTurno.posicon - 1 : 
-                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.arma)) /\ 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.arma)) \/ 
     carta.prj = (% First : jugadorTurno.posicion + 1 <= y <= 5 /\ 0 <= y <= jugadorTurno.posicon - 1 : 
-                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.prj)) /\
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.prj)) \/
     carta.habt = (% First : jugadorTurno.posicion + 1 <= y <= 5 /\ 0 <= y <= jugadorTurno.posicon - 1 : 
                     (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.habt)) 
 
@@ -877,7 +877,13 @@ Begin
 
 If  not ( jugadorTurno.usuario ) Then
 Begin
-
+    { Inv carta.arma = (% First : jugadorTurno.posicion + 1 <= y <= 5 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.arma)) \/ 
+    carta.prj = (% First : jugadorTurno.posicion + 1 <= y <= 5 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.prj)) \/
+    carta.habt = (% First : jugadorTurno.posicion + 1 <= y <= 5 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.habt)) 
+  }
     For i := ( jugadorTurno.posicion + 1 ) to ultimoj Do
     Begin
         If ( sospechaON ) and (jugadores[i].vida ) Then
@@ -908,7 +914,15 @@ Begin
             End;
         End;
     End;      
-            
+    { Inv carta.arma = (% First : 0 <= y <= jugadorTurno.posicon - 1 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.arma)) \/ 
+    carta.prj = (% First : 0 <= y <= jugadorTurno.posicon - 1 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.prj)) \/
+    carta.habt = (% First : 0 <= y <= jugadorTurno.posicon - 1 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.habt)) 
+
+
+    }        
     For i := 0 to ( jugadorTurno.posicion - 1 ) Do
     Begin
         If ( sospechaON ) and ( jugadores[i].vida )Then
@@ -946,6 +960,13 @@ Begin
 End
 Else
 Begin
+    { Inv carta.arma = (% First : jugadorTurno.posicion + 1 <= y <= 5 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.arma)) \/ 
+    carta.prj = (% First : jugadorTurno.posicion + 1 <= y <= 5 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.prj)) \/
+    carta.habt = (% First : jugadorTurno.posicion + 1 <= y <= 5 : 
+                    (% First x : 0 <= x <= jugadores[y].conta.cartas : jugadores[y].mano[x] = sospech.habt)) 
+  }
     For i := ( jugadorTurno.posicion + 1 ) to ultimoj Do
     Begin
         If ( sospechaON ) and ( jugadores[i].vida ) Then
@@ -1184,6 +1205,7 @@ Var
     quien := 0;
 
     sospech.habt := jugadorTurno.donde;
+    { Inv (% Exist x : 0 <= x <= 8 : sospech.habt = jugadorTurno.listalhabt[x] ) }
     For i := 0 to 8 Do
     Begin
         If (sospech.habt = jugadorTurno.lista.habt[i] ) Then
@@ -1210,7 +1232,7 @@ Var
     (* Match de las cartas *)
 
     k := 0;
-    Match_cartas(carta,jugadorTurno,jugadores,
+    Chequeo_cartas(carta,jugadorTurno,jugadores,
                 sospechaON,k,quien,humano,ultimoJ,sospech);
 
     (* Refutacion *)
@@ -1271,6 +1293,7 @@ humano := false;
 quien := 0;
 sospech.habt := jugadorTurno.donde;
 
+    { Inv (% Exist x : 0 <= x <= 8 : sospech.habt = jugadorTurno.listalhabt[x] ) }
     For i := 0 to 8 Do
     Begin
         If (sospech.habt = jugadorTurno.lista.habt[i] ) Then
@@ -1327,7 +1350,7 @@ sospech.habt := jugadorTurno.donde;
     (* Match de las cartas *)
 
     k := 0;
-    Match_cartas(carta,jugadorTurno,jugadores,sospechaON,
+    Chequeo_cartas(carta,jugadorTurno,jugadores,sospechaON,
                 k,quien,humano,ultimoJ,sospech);
 
     (* Refutacion *)
@@ -1499,7 +1522,9 @@ Begin
             acus.prj := jugadorTurno.lista.prj[p];
             acus.arma := jugadorTurno.lista.arma[a];
             acus.habt := jugadorTurno.lista.habt[h];
-        End;            
+        End; 
+            {Inv (%Exist x : 0 <= x <= sospechaConta : acus.arma = sospechaLista[x].arma /\
+            acus.habt = sospechaLista[x].habt /\ acus.prj = sospechaLista[x].prj ) }      
             For i := 0 to sospechaConta Do
             Begin
                 If ( acus.arma = sospechaLista[i].arma ) and
@@ -1649,7 +1674,30 @@ Begin
 
 End;
 End;
+        (* MENSAJE DE DESPEDIDA *)
 
+Procedure Despedida;
+{Pre
+juegoActivo = False
+}
+
+{Pos
+True
+}
+
+Begin
+
+Writeln;
+Writeln(' <------Gracias por jugar CLUE--------> ');
+Writeln(' Espero que haya podido disfrutar la experiencia de ');
+Writeln(' haber ido por el camino de las pistas y la intuicion ');
+Writeln(' para descrubir los hechos del asesinato de MR. BLACK ');
+Writeln;
+Writeln;
+Writeln;
+Writeln(' Copyright 2013 <---MAC---> . All rights reserverd. ');
+
+End;
 
         (* Empieza el Programa Principal *)
 
@@ -1712,8 +1760,11 @@ BEGIN
      * Se comienzan los turnos de cada personaje 
      *
      *)
+
+    
     While juegoActivo Do
     Begin
+        { Inv x <= ultimoJ /\ x >= 0 }
    	    For i := 0 to ultimoJ Do
  	    Begin
 	    
