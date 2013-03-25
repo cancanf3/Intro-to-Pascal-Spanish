@@ -102,7 +102,7 @@ TYPE
 			    ultimoJ : integer;
 			    var habitacion : array of lugar;
 			    var jugadores : Array of usuario;
-			    var Turno : integer;
+			    var Turno : longint;
 			    var SioNo : boolean;
 			    var juegoActivo : boolean;
 			    var sospechaConta : integer);
@@ -599,18 +599,21 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
     
     }	
     Begin
+    For i := 0 to jugador.conta.cartas Do
+    Begin
+        Writeln(jugador.mano[i],' ',i);
+        Writeln;
+    End;
+    Writeln;
 	co := 0;
-	i := jugador.posicion + 1;	
-	While (co < jugador.conta.cartas) Do
+	i := jugador.posicion + 1;
+	While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
 	Begin
-	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
-	    Begin
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
-//		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+		writeln('Jugador',i,' Tiene ',jugadores[i].conta.cartas,' cartas','   Carta: ', jugadores[i].mano[jugadores[i].conta.cartas]);
 		co := co + 1;
 		i := i + 1;
-	    End;
 	End;
 		
 	While (co < jugador.conta.cartas) Do
@@ -618,9 +621,13 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	    i := 0;
 	    While (i < ultimoJ + 1) And (co < jugador.conta.cartas) Do
 	    Begin
+            If ( i = jugador.posicion ) Then
+            Begin
+                i := i + 1;
+            End;
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		jugadores[i].mano[jugadores[i].conta.cartas] := jugador.mano[co];
-// 		writeln('Jugador', i,j, '   Carta: ', jugadores[i].mano[j]);    Probar Funcion
+ 		writeln('Jugador', i,' Tiene ',jugadores[i].conta.cartas,' cartas','  Carta: ', jugadores[i].mano[jugadores[i].conta.cartas]);
 		co := co + 1;
 		i := i + 1;
 	    End;
@@ -704,19 +711,19 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 		write(partida, jugadores[i].mano[j], ' ');
 	    End;
 	    writeln(partida);
-	    
+
 	    (* Personajes Descartados *)
-	    For  j := (5 - jugadores[i].conta.prj) To 5  Do
+	    For  j := (5 - jugadores[i].conta.prj) To 4  Do
 	    Begin
 		write(partida, jugadores[i].lista.prj[j], ' ');
 	    End;
 	    (* Armas Descartadas *)
-	    For j := (5 - jugadores[i].conta.arma)  To 5 Do
+	    For j := (5 - jugadores[i].conta.arma)  To 4 Do
 	    Begin
 		write(partida, jugadores[i].lista.arma[j], ' ');
 	    End;
 	    (* Habitaciones Descartadas *)
-	    For j := (8 - jugadores[i].conta.habt) To 8 Do
+	    For j := (8 - jugadores[i].conta.habt) To 7 Do
 	    Begin
 		write(partida, jugadores[i].lista.habt[j], ' ');
 	    End;
@@ -756,7 +763,8 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	(* Chequeo si el usuario fallo haciendo una acusacion *)
 	If Not jugadores[0].vida Then
 	Begin
-	    juegoActivo := False;
+	   // juegoActivo := False;
+        Writeln('Usted ha muerto');
 	End;
 
 	(* Chequeo si se realizo una acusacion correcta *)
@@ -765,8 +773,9 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	    And (acusacion.arma = sobre.arma) Then
 	Begin
 	    juegoActivo := False;
+        Writeln('Se adivino el sobre');
 	End;
-	
+    Writeln('-------------------',juegoActivo);
     End;
 
 
@@ -807,21 +816,21 @@ Begin
             Begin
                 If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
-                    carta[j].arma := sospech.arma;
+                    carta[k].arma := sospech.arma;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
                 End;
                 If ( jugadores[i].mano[j] = sospech.prj ) Then 
                 Begin    
-                    carta[j].prj := sospech.prj;
+                    carta[k].prj := sospech.prj;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
                 End;
                 If ( jugadores[i].mano[j] = sospech.habt ) Then
                 Begin
-                    carta[j].habt := sospech.habt;
+                    carta[k].habt := sospech.habt;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
@@ -838,21 +847,21 @@ Begin
             Begin
                 If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
-                    carta[j].arma := sospech.arma;
+                    carta[k].arma := sospech.arma;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
                 End;
                 If ( jugadores[i].mano[j] = sospech.prj ) Then 
                 Begin    
-                    carta[j].prj := sospech.prj;
+                    carta[k].prj := sospech.prj;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
                 End;
                 If ( jugadores[i].mano[j] = sospech.habt ) Then
                 Begin
-                    carta[j].habt := sospech.habt;
+                    carta[k].habt := sospech.habt;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
@@ -875,7 +884,7 @@ Begin
             Begin
                 If ( jugadores[i].mano[j] = sospech.arma ) Then
                 Begin
-                    carta[j].arma := sospech.arma;
+                    carta[k].arma := sospech.arma;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
@@ -883,7 +892,7 @@ Begin
                 End;
                 If ( jugadores[i].mano[j] = sospech.prj ) Then 
                 Begin    
-                    carta[j].prj := sospech.prj;
+                    carta[k].prj := sospech.prj;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
@@ -891,7 +900,7 @@ Begin
                 End;
                 If ( jugadores[i].mano[j] = sospech.habt ) Then
                 Begin
-                    carta[j].habt := sospech.habt;
+                    carta[k].habt := sospech.habt;
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
@@ -987,6 +996,7 @@ Var
 Begin
     Writeln(k);
     muestro := Aleatorio(0,k-1);
+    Writeln(muestro,' ',carta[muestro].arma);
     If jugadorTurno.usuario Then
     Begin
         If ( sospech.arma = carta[muestro].arma ) Then
@@ -1490,7 +1500,7 @@ Procedure Turnos(phaInicio : cartas; var habitacion : Array of lugar;
                 var acus : sbr; ultimoJ : integer; var sospechaConta : integer; 
                 Var sospechaLista : Array of sbr; var SioNo : boolean;
                 var juegoActivo : boolean; var sospechaON : boolean; 
-                var turno : integer);
+                var turno : longint);
 
 var
     n : integer; // Valor del dado
@@ -1503,92 +1513,95 @@ var
     }	
 Begin
 
-    (* Se calcula el dado *)
-
-    n := Aleatorio(1,6);
-    Writeln('Jugador',jugadorTurno.posicion,' Saco ',n,' en el dado');
-    (* Mover al jugador *)
-
-    Mover(jugadorTurno,n,habitacion);
-
-    (* Jugador del Turno hace la sospecha *)
-
-    If ( jugadorTurno.usuario ) Then
+    If ( JugadorTurno.vida ) Then
     Begin
-        Writeln;
-        Writeln('Deseas realizar una sospecha?');
-        Writeln;
-        Decision(SioNO);
+        (* Se calcula el dado *)
 
-        If SioNo Then
+        n := Aleatorio(1,6);
+        Writeln('Jugador',jugadorTurno.posicion,' Saco ',n,' en el dado');
+        (* Mover al jugador *)
+
+        Mover(jugadorTurno,n,habitacion);
+
+        (* Jugador del Turno hace la sospecha *)
+
+        If ( jugadorTurno.usuario ) Then
         Begin
-            sospecha_Usuario(sospechaON,jugadorTurno,jugadores,phaInicio,
-                            sospech,ultimoJ,sospechaConta,sospechaLista);
-        End;
-    End
-    Else
-    Begin
-        Writeln;
-        Writeln('El Jugador', jugadorTurno.posicion + 1);
-        Writeln('va a realizar una sospecha');
-        Writeln;
-    
-        sospecha_computadora(sospechaON,jugadorTurno,jugadores,phaInicio,
-                            sospech,ultimoJ,sospechaConta,sospechaLista);
-    End;
+            Writeln;
+            Writeln('Deseas realizar una sospecha?');
+            Writeln;
+            Decision(SioNO);
 
-    (* Jugador del Turno hace la Acusacion *)
-    
-    If ( jugadorTurno.usuario ) Then
-    Begin
-        Writeln;
-        Writeln('Deseas realizar una acusacion?');
-        Writeln;
-        Decision(SioNo);
-
-        If SioNo Then
+            If SioNo Then
+            Begin
+                sospecha_Usuario(sospechaON,jugadorTurno,jugadores,phaInicio,
+                                sospech,ultimoJ,sospechaConta,sospechaLista);
+            End;
+        End
+        Else
         Begin
-            Acusacion_Usuario(acus,jugadorTurno,sobre,phaInicio,
-                              juegoActivo,jugadores,ultimoJ);
-        End;
-    End
-    Else
-    Begin
-        If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 5 ) and 
-           (jugadorTurno.conta.prj = 5) and ( jugadorTurno.conta.habt = 7 ) Then
-        Begin
-                
-            Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
-                                  sospechaConta,sospechaLista,jugadores,
-                                  sospechaON,ultimoJ,juegoActivo,acus);
-
-        End;
+            Writeln;
+            Writeln('El Jugador', jugadorTurno.posicion + 1);
+            Writeln('va a realizar una sospecha');
+            Writeln;
         
-        If ( sospechaConta > 10 * ultimoJ ) 
-        and ( jugadorTurno.posicion <> 1 ) Then
-        Begin
-
-        n := Aleatorio(0,4);
-
-        If ( n = 1) Then
-        Begin
-            Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
-                                  sospechaConta,sospechaLista,jugadores,
-                                  sospechaON,ultimoJ,juegoActivo,acus);
+            sospecha_computadora(sospechaON,jugadorTurno,jugadores,phaInicio,
+                                sospech,ultimoJ,sospechaConta,sospechaLista);
         End;
-    End;
-End; 
 
-turno := turno + 1;
-Writeln;
-Writeln('Turno ',turno);
-Writeln;
-Readln;
+        (* Jugador del Turno hace la Acusacion *)
+        
+        If ( jugadorTurno.usuario ) Then
+        Begin
+            Writeln;
+            Writeln('Deseas realizar una acusacion?');
+            Writeln;
+            Decision(SioNo);
 
-Readln;
+            If SioNo Then
+            Begin
+                Acusacion_Usuario(acus,jugadorTurno,sobre,phaInicio,
+                                  juegoActivo,jugadores,ultimoJ);
+            End;
+        End
+        Else
+        Begin
+            If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 5 ) and 
+               (jugadorTurno.conta.prj = 5) and ( jugadorTurno.conta.habt = 7 ) Then
+            Begin
+                    
+                Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                                      sospechaConta,sospechaLista,jugadores,
+                                      sospechaON,ultimoJ,juegoActivo,acus);
 
-Readln;
+            End;
+            
+            If ( sospechaConta > 10 * ultimoJ ) 
+            and ( jugadorTurno.posicion <> 1 ) Then
+            Begin
 
+            n := Aleatorio(0,4);
+
+            If ( n = 1) Then
+            Begin
+                Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                                      sospechaConta,sospechaLista,jugadores,
+                                      sospechaON,ultimoJ,juegoActivo,acus);
+            End;
+        End;
+    End; 
+
+    turno := turno + 1;
+    Writeln;
+    Writeln('Turno ',turno);
+    Writeln;
+    Guardar(jugadores,ultimoJ,sobre,partida);
+    Readln; 
+
+    Readln;
+
+    Readln;
+End;
 End;
 
 
@@ -1616,7 +1629,7 @@ VAR
     
     jugadores : Array[0..5] of usuario; // Arreglo de jugadores Jugador[0]:Usuario
     
-    Turno   : integer; // Contador de los Turnos.
+    Turno   : Longint; // Contador de los Turnos.
     
     sospech  : sbr; // variable para realizar sospechas
     acus : sbr; // variable para realizar acusaciones
@@ -1630,7 +1643,7 @@ VAR
     i : integer; // Contador    
 BEGIN
     writeln;
-    Randomize();
+    //Randomize();
     
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
