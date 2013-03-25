@@ -1,27 +1,21 @@
 6
 ProfesorCiruela Revolver Salon
-SenoraCeleste activo Vestibulo 3 0
-Cuchillo Biblioteca CoronelMostaza 
-SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
-CoronelMostaza Tubo SalaDeBillar 
-SenoraBlanco eliminado Vestibulo 0 0
+SenoraBlanco eliminado Biblioteca 0 4
 
-SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
-CoronelMostaza Tubo SalaDeBillar 
-SenorVerde activo Vestibulo 3 0
-SalaDeBillar Estudio Comedor 
-SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
-CoronelMostaza Tubo SalaDeBillar 
-CoronelMostaza activo Vestibulo 3 0
-SenorVerde LlaveInglesa SalaDeBaile 
-SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
-CoronelMostaza Tubo SalaDeBillar 
-ProfesorCiruela activo Vestibulo 3 0
+SenoritaEscarlata LlaveInglesa Candelabro SalaDeBaile 
+CoronelMostaza activo Biblioteca 4 3
+Invernadero SenoraCeleste Tubo SenoraBlanco 
+SenoritaEscarlata Revolver SalaDeBaile 
+SenorVerde activo Vestibulo 4 3
+SalaDeBillar Estudio Comedor SenoraBlanco 
+SalaDeBillar Invernadero SalaDeBaile 
+SenoraCeleste activo Vestibulo 4 3
+SenorVerde LlaveInglesa SalaDeBaile SenoraBlanco 
+SenoritaEscarlata Revolver Salon 
+ProfesorCiruela activo Vestibulo 3 3
 SenoritaEscarlata Cuerda Vestibulo 
-SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
-CoronelMostaza Tubo SalaDeBillar 
-SenoritaEscarlata activo Vestibulo 3 0
+CoronelMostaza Revolver SalaDeBaile 
+SenoritaEscarlata activo Vestibulo 3 3
 SenoraBlanco Cocina Candelabro 
-SenoraBlanco SenorVerde SenoraCeleste ProfesorCiruela SenoritaEscarlata CoronelMostaza Candelabro Cuchillo Cuerda LlaveInglesa Revolver Tubo Biblioteca Cocina Comedor Estudio Vestibulo Salon Invernadero SalaDeBaile SalaDeBillar 
-CoronelMostaza Tubo SalaDeBillar 
+SenoritaEscarlata Revolver SalaDeBaile 
 SenoraBlanco
