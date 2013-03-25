@@ -1489,8 +1489,8 @@ Begin
     End
     Else
     Begin
-        If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 6 ) and 
-           (jugadorTurno.conta.prj = 6) and ( jugadorTurno.conta.habt = 8 ) Then
+        If (jugadorTurno.posicion = 1 ) and (jugadorTurno.conta.arma = 5 ) and 
+           (jugadorTurno.conta.prj = 5) and ( jugadorTurno.conta.habt = 7 ) Then
         Begin
                 
             Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
