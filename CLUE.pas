@@ -993,7 +993,7 @@ Var
 Begin
     Writeln(k);
     muestro := Aleatorio(0,k-1);
-    Writeln(muestro,' ',carta[muestro].arma);
+    Writeln(muestro);
     If jugadorTurno.usuario Then
     Begin
         If ( sospech.arma = carta[muestro].arma ) Then
@@ -1022,7 +1022,7 @@ Begin
     Else
     Begin
         Writeln('Jugador',quien+1,' Muestra una carta a Jugador'
-            ,jugadorTurno.posicion);
+            ,jugadorTurno.posicion+1);
 
         If ( carta[muestro].arma = sospech.arma ) 
         and ( m-1 <= 5 - jugadorTurno.conta.arma) Then
@@ -1121,12 +1121,12 @@ Var
 
     n := Aleatorio(0,5-jugadorTurno.conta.arma);
     sospech.arma := jugadorTurno.lista.arma[n];
-    Writeln('La computadora',jugadorTurno.posicion,
+    Writeln('El jugador',jugadorTurno.posicion+1,
         ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
     (* Computadora elegira personaje a sospechar *)
     m := Aleatorio(0,5-jugadorTurno.conta.prj);
     sospech.prj := jugadorTurno.lista.prj[m];   
-    Writeln('La computadora',jugadorTurno.posicion,
+    Writeln('El jugador',jugadorTurno.posicion+1,
         ' sospecha quien mato a Mr.Black fue: ',sospech.prj);
     (* Mover el personaje al lugar de la sospecha *)
     
