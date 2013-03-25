@@ -194,6 +194,36 @@ TYPE
     End;   
     
     
+    (* Permite barajear la lista de cartas de cada jugador *)
+
+    Procedure Swap_descarte(var jugador : usuario; n : integer; 
+                            m : integer; k : integer);
+    Var
+    tmp1 : a;
+    tmp2 : h;
+    tmp3 : p;
+    Begin
+        Case k of 
+            0 :
+            Begin
+                tmp1 := jugador.lista.arma[n];
+                jugador.lista.arma[n] := jugador.lista.arma[m];
+                jugador.lista.arma[m] := tmp1;
+            End;
+            2 :
+            Begin
+                tmp2 := jugador.lista.habt[n];
+                jugador.lista.habt[n] := jugador.lista.habt[m];
+                jugador.lista.habt[m] := tmp2;
+            End;
+            1 :
+            Begin
+                tmp3 := jugador.lista.prj[n];
+                jugador.lista.prj[n] := jugador.lista.prj[m];
+                jugador.lista.prj[m] := tmp3;
+            End;
+        End;
+    End;     
     
     (* Funcion que genera numeros aleatorios en un rango dado *)
     Function Aleatorio(inicio : integer; tope : integer) : integer;
@@ -274,6 +304,7 @@ TYPE
 	n,x,y,z : integer;
 	i : integer;
 	co : integer;
+    j : integer;
     {Pre:
 	True
     }
@@ -314,7 +345,35 @@ TYPE
 	    While (i < ultimoJ + 1) And (co < 18) Do
 	    Begin
 		jugadores[i].mano[jugadores[i].conta.cartas] := phaInicio[repartir[co]];
-		Writeln('Jugador', i,'cantidad de cartas ',jugadores[i].conta.cartas
+
+
+        For j := 0  to 5 Do 
+        Begin
+            If ( jugadores[i].mano[jugadores[i].conta.cartas] 
+                = phaInicio[j] ) Then
+            Begin
+                Swap_descarte(jugadores[i],j,5-jugadores[i].conta.prj,1);
+                jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+            End;
+            If ( jugadores[i].mano[jugadores[i].conta.cartas] 
+                = phaInicio[j+15] ) Then
+            Begin
+                Swap_descarte(jugadores[i],j,5-jugadores[i].conta.arma,0);
+                jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+            End;
+        End;
+
+        For j := 0 to 8 Do
+        Begin
+            If ( jugadores[i].mano[jugadores[i].conta.cartas]
+                = phaInicio[j+6] ) Then
+            Begin
+                Swap_descarte(jugadores[i],j,5-jugadores[i].conta.habt,2);
+                jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+            End;  
+        End;
+
+		Writeln('Jugador', i,' cantidad de cartas ',jugadores[i].conta.cartas
                 , '   Carta: ', jugadores[i].mano[jugadores[i].conta.cartas]);
 		jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
 		co := co + 1;
@@ -839,6 +898,7 @@ Begin
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
+                    Writeln('lo logra');
                 End;
                 If ( jugadores[i].mano[j] = sospech.habt ) Then
                 Begin
@@ -892,6 +952,7 @@ Begin
         End;
     End;
 End; 
+
  
     (* Procedimiento que permite al usuario refutar una sospecha *)
 
