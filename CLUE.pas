@@ -907,6 +907,7 @@ Begin
                     sospechaON := false;
                     k := k + 1;
                     quien := i;
+                    Writeln('lo logra habt');
                 End;
             End;
         End;
@@ -996,7 +997,7 @@ Var
     }	                       
 
 Begin
-
+    Writeln(k);
     muestro := Aleatorio(0,k-1);
     If jugadorTurno.usuario Then
     Begin
