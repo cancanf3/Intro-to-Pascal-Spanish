@@ -697,7 +697,9 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	    Begin
 		write(partida, 'eliminado ');
 	    End;
-	    (* Hasta aqui la escritura esta bien *)
+	    (*
+	     * Hasta aqui la escritura esta bien 
+	     *)
 	    tmp := 0;
 	    tmp := jugadores[i].conta.arma + jugadores[i].conta.habt + jugadores[i].conta.prj;
 	    	    
@@ -709,6 +711,7 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 		write(partida, jugadores[i].mano[j], ' ');
 	    End;
 	    writeln(partida);
+
 	    (* Personajes Descartados *)
 	    For  j := (5 - jugadores[i].conta.prj) To 4  Do
 	    Begin
