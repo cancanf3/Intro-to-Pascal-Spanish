@@ -1,21 +1,21 @@
 6
-ProfesorCiruela Revolver Salon
-SenoraBlanco eliminado Biblioteca 0 4
+SenoritaEscarlata LlaveInglesa Estudio
+SenorVerde eliminado Estudio 0 4
 
-SenoritaEscarlata LlaveInglesa Candelabro SalaDeBaile 
-CoronelMostaza activo Biblioteca 4 3
-Invernadero SenoraCeleste Tubo SenoraBlanco 
-SenoritaEscarlata Revolver SalaDeBaile 
-SenorVerde activo Vestibulo 4 3
-SalaDeBillar Estudio Comedor SenoraBlanco 
-SalaDeBillar Invernadero SalaDeBaile 
-SenoraCeleste activo Vestibulo 4 3
-SenorVerde LlaveInglesa SalaDeBaile SenoraBlanco 
-SenoritaEscarlata Revolver Salon 
-ProfesorCiruela activo Vestibulo 3 3
-SenoritaEscarlata Cuerda Vestibulo 
-CoronelMostaza Revolver SalaDeBaile 
-SenoritaEscarlata activo Vestibulo 3 3
-SenoraBlanco Cocina Candelabro 
-SenoritaEscarlata Revolver SalaDeBaile 
+ProfesorCiruela SenoraCeleste Revolver SalaDeBaile 
+SenoraBlanco activo Biblioteca 4 4
+Revolver Cuerda Cocina SenoraBlanco 
+SenoritaEscarlata LlaveInglesa Cuerda SalaDeBaile 
+CoronelMostaza activo Estudio 4 3
+SalaDeBaile Cuchillo Candelabro SenoraBlanco 
+LlaveInglesa Candelabro SalaDeBillar 
+SenoraCeleste activo Biblioteca 4 4
+SalaDeBillar ProfesorCiruela Invernadero SenoraBlanco 
+CoronelMostaza SenoraBlanco SalaDeBaile Invernadero 
+ProfesorCiruela activo Cocina 3 4
+CoronelMostaza Vestibulo SenoraBlanco 
+SenoraCeleste SenorVerde SenoraBlanco SalaDeBaile 
+SenoritaEscarlata activo Cocina 3 4
+Comedor Tubo Salon 
+Revolver SalaDeBaile Cocina Salon 
 SenoraBlanco
