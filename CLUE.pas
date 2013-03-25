@@ -90,21 +90,21 @@ TYPE
 			    ultimoJ : integer;
 			    var habitacion : array of lugar;
 			    var jugadores : Array of usuario;
-			    var Turn : integer;
+			    var Turno : integer;
 			    var SioNo : boolean;
 			    var juegoActivo : boolean;
 			    var sospechaConta : integer);
     Var 
     
-	i, j : integer;
-	x, y : integer;
-	co : integer;
+	i, j : integer; // Variables de iteracion.
+	x, y : integer; // Variables auxiliares.
+	co : integer; // Variable contador.
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	True
     }
         
     Begin
@@ -133,8 +133,8 @@ TYPE
 	End;
 	
 	juegoActivo := True;
-	SioNo := True; // Variable del procedimiento decision
-	Turn := 0;
+	SioNo := True; 
+	Turno := 0;
 	sospechaConta := 0;
 	
 	For i := 0 to ultimoJ Do // Inicializo a todos los jugadores
@@ -174,18 +174,18 @@ TYPE
     End;
    
 
-    (* Swap de ordinales *)
+    (* Swap de variables de tipo entero *)
 
     Procedure Swap (var n : integer; var m : integer);
     Var
-	tmp : integer;
+	tmp : integer; // Variable temporal para el Intercambio
 	
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	
     }	
     Begin
 	tmp := n;
@@ -200,11 +200,11 @@ TYPE
     Var 
 	amplitud : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	(Aleatorio >= inicio) /\ (Aleatorio <= Tope)
     }	
     Begin
 	amplitud := (tope - inicio) + 1;
@@ -217,7 +217,7 @@ TYPE
 				 var jugadores : Array of usuario;
 				 ultimoJ : integer);
     {Pre:
-	
+	True
     }
     
     {Post:
@@ -275,7 +275,7 @@ TYPE
 	i : integer;
 	co : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
@@ -324,16 +324,16 @@ TYPE
     End;
     
         
-    
-    
+     
     (* Funcion que calcula el valor absoluto de un entero dado *)
     Function VA(n : integer): integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	n < 0 ==> (VA = n * -1)
+	/\ n >= 0 ==> (VA = n)
     }	
         
     Begin
@@ -347,6 +347,7 @@ TYPE
 	End;
     End;
     
+    
     (* Funcion para preguntas del tipo (s/n) al usuario *)
  
     Procedure Decision (var SioNo : boolean);
@@ -354,11 +355,11 @@ TYPE
 	YN : integer;
 	n : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	(SioNo == True) \/ (Siono == False)
     }	
     Begin
 
@@ -392,11 +393,12 @@ TYPE
     (* Funcion que calcula la distancia ente un usuario y una habitacion *)
     Function Distancia(jugador : usuario ; Habitacion : lugar): integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	Distancia = \Habitacion.x - jugador.x\ + \Habitacion.y - jugador.y\
+
     }	
         
     Begin
@@ -415,7 +417,7 @@ TYPE
 	co, i  : integer; // Contadores.
     
     {Pre:
-	
+	True
     }
     
     {Post:
@@ -528,7 +530,7 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 	i  : integer;
 	co : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
@@ -573,11 +575,13 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
 			sobre : sbr;
 			ultimoJ : integer);
     {Pre:
-	
+	True
     }
     
     {Post:
-    
+	(acusacion.prj != sobre.prj) ==> (jugador.vida == False) 
+	\/ (acusacion.habt != sobre.habt) ==> (jugador.vida == False) 
+	\/ (acusacion.arma != sobre.arma) ==> (jugador.vida == False) 
     }	
     Begin
 	If (acusacion.prj <> sobre.prj) 
@@ -683,12 +687,14 @@ Procedure MoverSospechoso (sospeAcu : sbr; // Acusacion o Sospecha realizada
     Var
 	i : integer;
     {Pre:
-	
+	True
     }
     
     {Post:
-    
-    }	
+	((%forall i \ 0 < i < 6 : !jugadores[i].vida) ==> (juegoActivo == False))
+	\/ (!jugadores[0].vida ==> (juegoActivo == False))
+	\/ ((acusacion == sobre) ==> (juegoActivo == False))
+    }
     Begin
 	
 	(* Chequeo si alguna computadora sigue viva *)
@@ -731,6 +737,15 @@ Procedure Match_cartas ( Var carta : Array of sbr ; jugadorTurno : usuario ;
                          sospech : sbr );
 Var
     i,j : integer; // Contadores
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
+  
+  
   
 Begin
 
@@ -847,6 +862,14 @@ Var
 tmp1 : a;
 tmp2 : h;
 tmp3 : p;
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
+
 Begin
     Case k of 
         0 :
@@ -879,6 +902,15 @@ Var
     i : integer; // Variable para iterar.
     s : string; // Variable de mensajes.
     l : integer; // Variable de lectura robusta.
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
+    
+    
 Begin
     Writeln('En tu mano hay ',k,
         ' cartas que se sospechan, cual quieres mostrar?');
@@ -932,7 +964,13 @@ Procedure Refuta_computadora ( carta : Array of sbr; var jugadorTurno : usuario;
                                 n : integer; h : integer; sospech : sbr);
 Var
     muestro : integer; // Variable que determina que carta mostrar.
-                               
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	                       
 
 Begin
 
@@ -994,6 +1032,14 @@ Procedure Descarte_sospecha ( var sospechaLista : Array of sbr;
                               var sospechaON : boolean; 
                               var sospech : sbr;
                               var sospechaConta : integer );
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
+
 
 Begin
     If not ( sospechaON ) Then
@@ -1020,6 +1066,14 @@ Procedure sospecha_computadora ( var sospechaON : boolean;
                                  var sospechaConta : integer;
                                  var sospechaLista : Array of sbr);
 
+
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
 
 
 Var
@@ -1109,6 +1163,13 @@ Var
     i : integer; // Contadores 
     humano : boolean; // determina si el usuario ha mostrado una carta
     quien  : integer; // Determina que jugador hizo match de las cartas
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
 Begin
 
 sospechaON := True;
@@ -1212,6 +1273,13 @@ Procedure Acusacion_Usuario( var acus : sbr; var jugadorTurno :
 Var 
     i : integer; // Variable de iteracion.
     n,m,h : integer; // Variable que permite lectura robusta
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
 Begin
 
     (* Acusacion del Personaje *)
@@ -1326,6 +1394,13 @@ Var
     i : integer; // Variable de iteracion.
     p,a,h : integer; // Permite elegir aleatoriamente la acusacion.
     procede : boolean; // Determina que la acusacion puede proceder.
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
 Begin
 
     (* Formulacion de la Acusacion *)
@@ -1406,6 +1481,13 @@ Procedure Turnos(phaInicio : cartas; var habitacion : Array of lugar;
 
 var
     n : integer; // Valor del dado
+    {Pre:
+	
+    }
+    
+    {Post:
+    
+    }	
 Begin
 
     (* Se calcula el dado *)
