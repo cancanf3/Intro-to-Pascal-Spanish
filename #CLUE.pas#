@@ -175,11 +175,11 @@ TYPE
 	writeln('declara ganador. En caso que el usuario sea eliminado, por haber hecho una falsa acusación, se declara ganador a');
 	writeln('la máquina y termina el juego. Si todos los jugadores, excepto el usuario, son eliminados por falsa acusación, el');
 	writeln('juego termina y el  usuario se declara ganador');
-	readln;
+	    	
     End;
     
     (* Procedimiento que la bienvenida al usuario *)
-    Procedure Bienvenida ();
+    Procedure Bienvenida (var Siono : boolean);
     {Pre:
 	True
     }
@@ -213,6 +213,16 @@ TYPE
 	writeln('Bienvenido a Clue USB!');
 	writeln();
 	writeln('Desea leer las instrucciones?');
+	
+	Decision(SioNo);
+	If SioNo Then
+	Begin
+	    Instrucciones;
+	End
+	Else
+	Begin
+	    writeln('Bien! Juguemos!');
+	End;
 	
     End;
 
@@ -299,39 +309,7 @@ TYPE
 		    '         |                      |                     |');
 	writeln('\_____________________|______________________|____________',
 		    '_________|______________________|____________________/ ');
-	
     End;
-
-    Procedure Introduccion(var SioNo : boolean);
-    {Pre:
-    `True
-    }
-    {Post:
-	True
-    }
-    Begin
-	Bienvenida;
-	Decision(SioNo);
-	If SioNo Then
-	Begin
-	    Instrucciones;
-	    write('Presione <ENTER>');
-	    Readln
-	End
-	Else
-	Begin
-	    writeln('Bien! Juguemos!');
-	    readln;
-	End;
-	TableroClue;
-	readln;
-    End;
-  
-  
-  
-  
-  
-
     
     (* Permite ingresar el numero de Computadoras *)
     Procedure NComputadoras(var ultimoJ : integer);
@@ -355,7 +333,7 @@ TYPE
     (* Inicializacion de variables *)
     Procedure Inicializa (var phaInicio : cartas;
 			    ultimoJ : integer;
-			    var habitacion : array of lugar;
+			    var habitacion : Array of lugar;
 			    var jugadores : Array of usuario;
 			    var Turno : longint;
 			    var SioNo : boolean;
@@ -461,7 +439,7 @@ TYPE
     End;   
     
     
-    (* Permite barajear la lista de cartas de cada jugador *)
+    (* Permite barajar la lista de cartas de cada jugador *)
 
     Procedure Swap_descarte(var jugador : usuario; n : integer; 
                             m : integer; k : integer);
@@ -619,16 +597,16 @@ TYPE
                 = phaInicio[j] ) Then
             Begin
                 Swap_descarte(jugadores[i],j,5-jugadores[i].conta.prj,1);
-                jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+	       jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
             End;
             If ( jugadores[i].mano[jugadores[i].conta.cartas] 
                 = phaInicio[j+15] ) Then
             Begin
                 Swap_descarte(jugadores[i],j,5-jugadores[i].conta.arma,0);
                 jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
-            End;
+	    End;
         End;
-
+	       
         For j := 0 to 8 Do
         Begin
             If ( jugadores[i].mano[jugadores[i].conta.cartas]
@@ -1950,8 +1928,7 @@ VAR
 BEGIN
     writeln;
     Randomize();
-    (* Procedimiento con Instrucciones *)
-    Introduccion(SioNo);
+    
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
     
