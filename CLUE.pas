@@ -1923,13 +1923,16 @@ Begin
 					sospechaON,ultimoJ,juegoActivo,acus);
 
 		End;
-		
+	    
+        If not  juegoActivo  Then
+        Begin
+            despedida;
+        End;   
 
 	    turno := turno + 1;
 	    Writeln;
 	    Writeln('Turno ',turno);
 	    Writeln;
-	    Writeln(sobre.prj,sobre.habt,sobre.arma);
 	    Readln; 
 	End;
 End;
