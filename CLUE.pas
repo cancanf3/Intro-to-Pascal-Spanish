@@ -1979,13 +1979,10 @@ BEGIN
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
     
-<<<<<<< HEAD
     (* Inicializacion de Variables *)
-    Inicializa(phaInicio, ultimoJ, habitacion, jugadores, Turno, SioNo, juegoActivo, sospechaConta);
-=======
+
     Inicializa(phaInicio,ultimoJ,habitacion,jugadores,
                 Turno,SioNo,juegoActivo,sospechaConta);
->>>>>>> a7b5b2d42235498aa027c7383bfb7bd839b41429
     
     (* 
      * Con este Procedimiento el usuario selecciona el personaje 
