@@ -1885,46 +1885,37 @@ BEGIN
     Randomize();
     (* Procedimiento con Instrucciones *)
     Introduccion(SioNo);
+    
     (* Ingresa el Numero de Computadoras *)
     NComputadoras(ultimoJ);
     
+    (* Inicializacion de Variables *)
     Inicializa(phaInicio, ultimoJ, habitacion, jugadores, Turno, SioNo, juegoActivo, sospechaConta);
     
     (* 
      * Con este Procedimiento el usuario selecciona el personaje 
      * que usara en el juego y se aginan los demas a las computadoras
      *)
-    
     SeleccionPersonaje(phaInicio, jugadores,ultimoJ);
     Writeln;
     
     (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
     AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
     
-    
     (*
-     * Se comienzan los turnos de cada personaje 
-     *
+     * Comienzan los turnos de cada personaje 
      *)
-
-    
     While juegoActivo Do
     Begin
         { Inv x <= ultimoJ /\ x >= 0 }
    	    For i := 0 to ultimoJ Do
  	    Begin
-	    
-            Turnos(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
+		Turnos(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
                   sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
                   juegoActivo,sospechaON,turno);
-	    	    
-		
  	    End;
     End;
     Writeln;
     Guardar(jugadores, ultimoJ, sobre, partida);
-
-    
-
 
 END.

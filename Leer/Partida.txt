@@ -1,0 +1,12 @@
+3											
+SenioraBlanco	Cuerda	Cocina									
+CoronelMostaza	activo	Cocina	6	12							
+Estudio	Invernadero	Vestibulo	CoronelMostaza	SeniorVerde	Cuchillo						
+SalaDeBillar	Salon	SalaDeBaile	ProfesorCiruela	Tubo	Candelabro	Biblioteca	Comedor	SenioritaEscarlata	SenioraCeleste	LlaveInglesa	Revolver
+ProfesorCiruela	activo	Cocina	6	12							
+SalaDeBillar	Salon	SalaDeBaile	ProfesorCiruela	Tubo	Candelabro						
+Biblioteca	Comedor	SenioritaEscarlata	SenioraCeleste	LlaveInglesa	Revolver	Estudio	Invernadero	Vestibulo	CoronelMostaza	SeniorVerde	Cuchillo
+SeniorVerde	activo	Cocina	6	12							
+Biblioteca	Comedor	SenioritaEscarlata	SenioraCeleste	LlaveInglesa	Revolver						
+Estudio	Invernadero	Vestibulo	CoronelMostaza	SeniorVerde	Cuchillo	SalaDeBillar	Salon	SalaDeBaile	ProfesorCiruela	Tubo	Candelabro
+CoronelMostaza		
