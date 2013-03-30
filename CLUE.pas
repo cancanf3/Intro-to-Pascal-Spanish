@@ -1463,13 +1463,11 @@ Var
             End;
         End;
         (* Computadora elegira arma a sospechar *)
-        Writeln(jugadorTurno.conta.arma);
         n := Aleatorio(0,5-jugadorTurno.conta.arma);
         sospech.arma := jugadorTurno.lista.arma[n];
         Writeln('El jugador',jugadorTurno.posicion+1,
             ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
         (* Computadora elegira personaje a sospechar *)
-        Writeln(jugadorTurno.conta.prj);
         m := Aleatorio(0,5-jugadorTurno.conta.prj);
         sospech.prj := jugadorTurno.lista.prj[m];   
         Writeln('El jugador',jugadorTurno.posicion+1,
