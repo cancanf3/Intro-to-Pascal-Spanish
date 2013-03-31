@@ -1,0 +1,18 @@
+	5													
+	ProfesorCiruela	LlaveInglesa	Cocina											
+	SenioritaEscarlata	activo	Cocina	4	14									
+	Estudio	SalaDeBaile	SenioraBlanco	Candelabro										
+	Vestibulo	Salon	SenioraCeleste	Cuchillo	SalaDeBillar	Biblioteca	SeniorVerde	Tubo	Invernadero	SenioritaEscarlata	Cuerda	Comedor	CoronelMostaza	Revolver
+	CoronelMostaza	activo	Estudio	5	9									
+	Vestibulo	Salon	SenioraCeleste	Cuchillo	Comedor									
+	Estudio	SalaDeBaile	SenioraBlanco	Candelabro	SalaDeBillar	Biblioteca	SeniorVerde	Tubo	CoronelMostaza					
+	SenioraBlanco	activo	Vestibulo	5	9									
+	SalaDeBillar	Biblioteca	SeniorVerde	Tubo	CoronelMostaza									
+	Estudio	SalaDeBaile	SenioraBlanco	Candelabro	Vestibulo	Salon	SenioraCeleste	Cuchillo	Comedor					
+	SenioraCeleste	activo	SalaDeBillar	4	9									
+	Invernadero	SenioritaEscarlata	Cuerda	Revolver										
+	Estudio	SalaDeBaile	SenioraBlanco	Candelabro	Vestibulo	Salon	SenioraCeleste	Cuchillo	Comedor					
+	SeniorVerde	eliminado	Invernadero	0	14									
+
+	Vestibulo	Salon	SenioraCeleste	Cuchillo	SalaDeBillar	Biblioteca	SeniorVerde	Tubo	Invernadero	SenioritaEscarlata	Cuerda	Comedor	CoronelMostaza	Revolver
+	CoronelMostaza													

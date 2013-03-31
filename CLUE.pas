@@ -77,7 +77,7 @@ TYPE
 	        codigo := ioResult; 
 	        r := s;
 	    End
-	    Until (Variable < tope + 1) And (Variable > inicio - 1) And (codigo = 0);
+	Until (Variable < tope + 1) And (Variable > inicio - 1) And (codigo = 0);
     End;
   
     (* Procedimiento que permite al usuario tomar decisiones *)
@@ -308,9 +308,9 @@ TYPE
 	True
     }
     Begin
-	    Bienvenida;
-	    Writeln('Desea leer las instrucciones?');
-	    Decision(SioNo);
+	Bienvenida;
+	Writeln('Desea leer las instrucciones?');
+	Decision(SioNo);
         If SioNo Then
         Begin
             Instrucciones;
@@ -368,7 +368,7 @@ TYPE
     Begin
 
 	(* Habitaciones *)
-	    co := 0;
+	co := 0;
         For i := 6 To 14 Do
         Begin
             habitacion[co].nombre := phaInicio[i];
@@ -411,10 +411,7 @@ TYPE
             For j := 0 To 5 Do
             Begin
                 jugadores[i].lista.arma[j] := phaInicio[j + 15 ];
-            End;
-            For j := 0 To 5 Do
-            Begin
-                jugadores[i].lista.prj[j] := phaInicio[j];
+		jugadores[i].lista.prj[j] := phaInicio[j];
             End;
             For j := 0 To 8 Do
             Begin
