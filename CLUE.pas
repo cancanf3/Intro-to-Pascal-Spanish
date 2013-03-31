@@ -3,12 +3,12 @@ PROGRAM CLUE;
 
 TYPE 
  
-    pha = (SenoraBlanco, SenorVerde, SenoraCeleste, ProfesorCiruela,
-	   SenoritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
+    pha = (SenioraBlanco, SeniorVerde, SenioraCeleste, ProfesorCiruela,
+	   SenioritaEscarlata, CoronelMostaza, Biblioteca, Cocina, Comedor,
 	   Estudio, Vestibulo, Salon, Invernadero, SalaDeBaile, SalaDeBillar,
 	   Candelabro, Cuchillo, Cuerda, LlaveInglesa, Revolver, Tubo);
     
-    p = SenoraBlanco..CoronelMostaza;
+    p = SenioraBlanco..CoronelMostaza;
     h = Biblioteca..SalaDeBillar;
     a = Candelabro..Tubo;
     
@@ -69,14 +69,14 @@ TYPE
 
     Begin
        	Repeat
-	    Begin
-	        Writeln(r);
-	        {$IOCHECKS OFF}
-	        read(Variable);
-	        {$IOCHECKS ON}
-	        codigo := ioResult; 
-	        r := s;
-	    End
+	Begin
+	    Writeln(r);
+	    {$IOCHECKS OFF}
+	    read(Variable);
+	    {$IOCHECKS ON}
+	    codigo := ioResult; 
+	    r := s;
+	End
 	Until (Variable < tope + 1) And (Variable > inicio - 1) And (codigo = 0);
     End;
   
@@ -196,7 +196,7 @@ TYPE
                 '         8 8888      88  `8.`8888.     8 8888     ,88 ');
         Writeln('88 8888           8 8888      8 8888      88 8 88888888888',
                 '8        8 8888      88   `8.`8888.    8 8888.   ,88  ');
-        Writeln('88 8888           8 8888      8 8888      88 8 8888       ',
+        Writeln('88 8888           8 8888      8 8888      88 8 	8888       ',
                 '         8 8888      88    `8.`8888.   8 8888888888   ');
         Writeln('88 8888           8 8888      8 8888      88 8 8888       ',
                 '         8 8888      88     `8.`8888.  8 8888    `88. ');
@@ -325,6 +325,281 @@ TYPE
         TableroClue;
         readln;
     End;
+    
+    Procedure leerPalabra(
+	    var partida	:text;
+	    var palabra	:string;
+	    var saltoLinea : boolean
+    );
+    Var
+	    caracter	: char;
+    Begin
+	palabra := '';
+	read(partida,caracter);
+	saltoLinea := false;
+	While (caracter <> '	') And (caracter <> #10) Do 
+	Begin
+	    palabra := palabra + caracter;
+	    read(partida,caracter);
+	End;
+	if (caracter = #10) then
+	Begin
+	    saltoLinea := True;
+	End;
+	writeln('Lei  ------>  (', palabra, ')');
+    End;
+	
+    Function Indice(const aStr : string) : integer;
+    Const
+	phaStr : Array[pha] of string = ('SenioraBlanco', 'SeniorVerde',
+				    'SenioraCeleste', 'ProfesorCiruela',
+				    'SenioritaEscarlata', 'CoronelMostaza',
+				    'Biblioteca', 'Cocina', 'Comedor', 
+				    'Estudio',	'Vestibulo', 'Salon',
+				    'Invernadero', 'SalaDeBaile',
+				    'SalaDeBillar', 'Candelabro', 'Cuchillo',
+				    'Cuerda', 'LlaveInglesa', 'Revolver',
+				    'Tubo');
+    Var
+	aPHA : pha;
+    Begin
+	Indice := -1;
+	For aPHA := SenioraBlanco to Tubo do
+	Begin
+	    If (aStr = phaStr[aPHA]) then
+	    Begin
+		Indice := Ord(aPHA);
+		Break;
+	    End;
+	End;
+    End;
+    
+    Procedure Cargar(phaInicio : cartas;
+			habitacion : Array of lugar;
+			var jugadores : Array of usuario;
+			var sobre : sbr;
+			var ultimoJ : integer;
+			var turnoActual : integer);
+    Var
+	i, j, k : integer;
+	co : integer;
+	partida : text;
+	palabra : array[0..20] of string;
+	tmp : integer;
+	esta : boolean; 
+	saltoLinea	: boolean;
+    Begin
+	writeln;
+	writeln('Lectura de un partida');
+	writeln;
+	
+	assign(partida,'Partida.txt');
+	reset(partida);
+	
+	readln(partida, ultimoJ);
+	ultimoJ := ultimoJ - 1;
+	
+	writeln;
+	writeln('(************************************************)');
+	writeln('(*             NUMERO DE COMUTADORAS            *)');
+	writeln('(*                   ',ultimoJ, '                  *)');
+	writeln('(************************************************)');
+	writeln;
+
+	i := 0;
+	While not eoln(partida) Do
+	Begin
+	    leerPalabra(partida, palabra[i], saltoLinea);
+	    i := i + 1;
+	End;
+	readln(partida);
+	
+	sobre.prj := phaInicio[Indice(palabra[0])];
+	sobre.arma := phaInicio[Indice(palabra[1])];
+	sobre.habt := phaInicio[Indice(palabra[2])];
+	
+	writeln;
+	writeln('(************************************************)');
+	writeln('(*                 HECHOS REALES                *)');
+	writeln('(*     ', sobre.prj,' ', sobre.arma, ' ', sobre.habt, '    *)');
+	writeln('(************************************************)');
+	writeln;
+	
+	For i := 0 To ultimoJ Do
+	Begin
+	    For j := 0 To 2 Do
+	    Begin
+		leerPalabra(partida, palabra[j], saltoLinea);
+	    End;
+
+	    jugadores[i].peon := phaInicio[Indice(palabra[0])];
+	    jugadores[i].vida := palabra[1] = 'activo';
+	    jugadores[i].donde := phaInicio[Indice(palabra[2])];
+	    
+	    
+	    writeln;
+	    writeln('(************************************************)');
+	    writeln('(*      JUGADOR(',i,')   VIDA   UBICACION             *)');
+	    writeln('(*         ',jugadores[i].peon, ' ', jugadores[i].vida, ' ', jugadores[i].donde,  '        *)');
+	    
+	    writeln('(************************************************)');
+	    writeln;
+	    
+	    
+	    For j := 0 To 8 Do
+	    Begin
+		If habitacion[j].nombre = jugadores[i].donde Then
+		Begin
+		    jugadores[i].x := habitacion[j].x;
+		    jugadores[i].y := habitacion[j].y;
+		End;
+	    End;
+	    readln(partida, jugadores[i].conta.cartas, tmp); // tmp == descartadas
+	    
+	    writeln;
+	    writeln('(*    ',jugadores[i].conta.cartas,'   ', tmp, '      *)');
+	    writeln;
+	    
+	    For j := 0 To jugadores[i].conta.cartas - 1 Do
+	    Begin
+		leerPalabra(partida, palabra[j], saltoLinea);
+		jugadores[i].mano[j] := phaInicio[Indice(palabra[j])];
+	    End;
+	    If not saltoLinea Then
+	    Begin
+		readln(partida);
+	    End;
+	    writeln;
+	    writeln('(************************************************)');
+	    writeln('(*         CARTAS QUE POSEE EL JUGADOR(',i,')          *)');
+	    write('(*    ');
+	    For j := 0 To jugadores[i].conta.cartas - 1 Do
+	    Begin
+		write(jugadores[i].mano[j], ' ');
+	    End;
+	    writeln('    *)');
+	    writeln('(************************************************)');
+	    writeln;
+	    
+	    For j := 0 To tmp - 1 Do
+	    Begin
+		leerPalabra(partida, palabra[j], saltoLinea);
+		Case Indice(palabra[j]) Of
+		    0..5   :
+		    Begin
+			jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[Indice(palabra[j])];
+			jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+		    End;
+		    6..14  :
+		    Begin
+			jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[Indice(palabra[j])];
+			jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+		    End;
+		    15..20 :
+		    Begin
+			jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[Indice(palabra[j])];
+			jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+		    End;
+		End;
+	    End;
+	    
+	    writeln;
+	    writeln('(*****************************************************)');
+	    writeln('(*         CARTAS DESCARTADAS POR EL JUGADOR',i,'         *)');
+	    write('(*    ');
+	    For j := 0 To tmp - 1 Do
+	    Begin
+		write(palabra[j], ' ');
+	    End;
+	    writeln('    *)');
+	    writeln('(*****************************************************)');
+	    writeln;
+	    
+	    If not saltoLinea Then
+	    Begin
+		readln(partida);
+	    End;
+	    
+	    co := 0;
+	    For j := 0 To 5 Do
+	    Begin
+		k := 0;
+		esta := False;
+		While (k < 6) And not esta Do
+		Begin
+		    If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+		    Begin
+			esta := True;
+		    End;
+		    k := k + 1;
+		End;
+		If not esta Then
+		Begin
+		    jugadores[i].lista.prj[co] := phaInicio[j];
+		    co := co + 1;
+		End;
+	    End;
+	    
+	    co := 0;
+	    For j := 6 To 14 Do
+	    Begin
+		k := 0;
+		esta := False;
+		While (k < 9) And not esta Do
+		Begin
+		    If (phaInicio[j] = jugadores[i].lista.habt[k]) Then
+		    Begin
+			esta := True;
+		    End;
+		    k := k + 1;
+		End;
+		If not esta Then
+		Begin
+		    jugadores[i].lista.habt[co] := phaInicio[j];
+		    co := co + 1;
+		End;
+	    End;
+	    
+	    co := 0;
+	    For j := 0 To 5 Do
+	    Begin
+		k := 0;
+		esta := False;
+		While (k < 6) And not esta Do
+		Begin
+		    If (phaInicio[j] = jugadores[i].lista.arma[k]) Then
+		    Begin
+			esta := True;
+		    End;
+		    k := k + 1;
+		End;
+		If not esta Then
+		Begin
+		    jugadores[i].lista.arma[co] := phaInicio[j];
+		    co := co + 1;
+		End;
+	    End;
+	    
+	End;
+		
+	leerPalabra(partida, palabra[0], saltoLinea);
+	For i := 0 To ultimoJ Do
+	Begin
+	    If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
+	    Begin
+		turnoActual := i;
+ 	    End;
+	End;
+	
+	close(partida);
+	
+	writeln('cerre el archivo! todo bien! :)');
+    End; //Procedure
+    
+    
+    
+  
+  
   
     (* Permite ingresar el numero de Computadoras *)
     Procedure NComputadoras(Var ultimoJ : integer);
@@ -338,15 +613,18 @@ TYPE
 	ultimoJ > 1 /\ ultimoJ < 6
     }
     Begin
-	    r := 'Ingrese el numero de computadoras contra las que desea jugar (2-5): ';
+	r := 'Ingrese el numero de computadoras contra las que desea jugar (2-5): ';
         s := 'Opcion no valida, elija entre 2 y 5 computadoras: ';
-	    LecturaRobusta(ultimoJ,r,s,2,5);
+	LecturaRobusta(ultimoJ,r,s,2,5);
     End;
     
     (* Inicializacion de Variables *)
     Procedure Inicializa (
                 Var phaInicio     : cartas;
-			    ultimoJ           : integer;
+			    var sobre : sbr;
+			    var turnoActual : integer;
+			    var partidaCargada:boolean;
+			    var ultimoJ           : integer;
 			    Var habitacion    : array of lugar;
 			    Var jugadores     : Array of usuario;
 			    Var Turno         : longint;
@@ -392,33 +670,45 @@ TYPE
         End;
         
         juegoActivo := True;
-        SioNo := True; 
+        turnoActual := 0;
         Turno := 0;
         sospechaConta := 0;
+        SioNo := True; 
+        partidaCargada := False;
         
-        For i := 0 to ultimoJ Do // Inicializo a todos los jugadores
+        Writeln('Desea cargar una partida previa?');
+        Decision(Siono);
+        If Siono Then
         Begin
-            jugadores[i].conta.arma := 0;
-            jugadores[i].conta.habt := 0;
-            jugadores[i].conta.prj  := 0;
-            jugadores[i].conta.cartas := 0;
-            jugadores[i].x := 2;
-            jugadores[i].y := 2;
-            jugadores[i].usuario := False;
-            jugadores[i].donde := Vestibulo;
-            jugadores[i].posicion := i;
-            jugadores[i].vida := True;
-            For j := 0 To 5 Do
-            Begin
-                jugadores[i].lista.arma[j] := phaInicio[j + 15 ];
-		jugadores[i].lista.prj[j] := phaInicio[j];
-            End;
-            For j := 0 To 8 Do
-            Begin
-                jugadores[i].lista.habt[j] := phaInicio[j + 6 ];
-            End;
+	    Cargar(phaInicio, habitacion, jugadores, sobre, ultimoJ, turnoActual);
+	    partidaCargada := True;
+	End
+        Else
+        Begin
+	    NComputadoras(ultimoJ);
+	    For i := 0 to ultimoJ Do // Inicializo a todos los jugadores
+	    Begin
+		jugadores[i].conta.arma := 0;
+		jugadores[i].conta.habt := 0;
+		jugadores[i].conta.prj  := 0;
+		jugadores[i].conta.cartas := 0;
+		jugadores[i].x := 2;
+		jugadores[i].y := 2;
+		jugadores[i].usuario := False;
+		jugadores[i].donde := Vestibulo;
+		jugadores[i].posicion := i;
+		jugadores[i].vida := True;
+		For j := 0 To 5 Do
+		Begin
+		    jugadores[i].lista.arma[j] := phaInicio[j + 15 ];
+		    jugadores[i].lista.prj[j] := phaInicio[j];
+		End;
+		For j := 0 To 8 Do
+		Begin
+		    jugadores[i].lista.habt[j] := phaInicio[j + 6 ];
+		End;
+	    End;
         End;
-        
         (* Descarto a las computadoras que no juegan *)
         For i := ultimoJ + 1 To 5 Do 
         Begin
@@ -1912,8 +2202,8 @@ VAR
      * Habitaciones: del 6 al 14
      * Armas: 15 20 
      *)
-    phaInicio : cartas = (SenoraBlanco, SenorVerde, SenoraCeleste,
-			ProfesorCiruela, SenoritaEscarlata, 
+    phaInicio : cartas = (SenioraBlanco, SeniorVerde, SenioraCeleste,
+			ProfesorCiruela, SenioritaEscarlata, 
 			CoronelMostaza, Biblioteca, Cocina, 
 			Comedor, Estudio, Vestibulo, Salon, 
 			Invernadero, SalaDeBaile, SalaDeBillar,
@@ -1933,7 +2223,9 @@ VAR
     ultimoJ       : integer;
     sospechaLista : Array[0..323] of sbr;
     sospechaConta : integer;
+    turnoActual   : integer;
    
+    partidaCargada: boolean;
     SioNo         : boolean;
     juegoActivo   : boolean;
     sospechaON    : boolean;
@@ -1944,12 +2236,8 @@ BEGIN
     (* Procedimiento con Instrucciones *)
     Introduccion(SioNo);
     
-    (* Ingresa el Numero de Computadoras *)
-    NComputadoras(ultimoJ);
-    
     (* Inicializacion de Variables *)
-
-    Inicializa(phaInicio,ultimoJ,habitacion,jugadores,
+    Inicializa(phaInicio, sobre, turnoActual, partidaCargada, ultimoJ,habitacion,jugadores,
                 Turno,SioNo,juegoActivo,sospechaConta);
     
     (* 
