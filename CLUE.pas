@@ -18,43 +18,43 @@ TYPE
     armas  = Array[0..5] of a;
 	   
     lugar      = Record
-	nombre     : h;
-	x          : integer;
-	y          : integer;
-    alcanzable : boolean;
-            End;
+	    nombre     : h;
+	    x          : integer;
+	    y          : integer;
+        alcanzable : boolean;
+    End;
     
     sbr  =  Record
-	arma : a;
-	habt : h;
-	prj  : p;
-            End;
+	    arma : a;
+	    habt : h;
+	    prj  : p;
+    End;
 	
     contadores = Record // Variable contadora de descarte para las jugadores 
-	arma       : integer;
-	habt       : integer;
-	prj        : integer;
-	cartas     : integer;
-                 End;
+	    arma       : integer;
+	    habt       : integer;
+	    prj        : integer;
+	    cartas     : integer;
+    End;
     
     lista_cartas = Record
-	arma         : armas;
-	habt         : habts;
-	prj          : prjs; 
-                   End;
+	    arma         : armas;
+	    habt         : habts;
+	    prj          : prjs; 
+    End;
 
     usuario  =  Record
-	x        : integer;
-	y        : integer;
-	usuario  : boolean;
-	vida     : boolean;
-	mano     : cartas;
-	donde    : h;
-	peon     : p;  // Ficha que usa para jugar
-	lista    : lista_cartas;  // Lista de cartas
-	conta    : contadores;
-	posicion : integer; 
-                End;
+	    x        : integer;
+	    y        : integer;
+	    usuario  : boolean;
+	    vida     : boolean;
+	    mano     : cartas;
+	    donde    : h;
+	    peon     : p;  // Ficha que usa para jugar
+	    lista    : lista_cartas;  // Lista de cartas
+	    conta    : contadores;
+	    posicion : integer; 
+    End;
   
   
     (* Procedimiento para evitar el runtime error en lectura de enteros *)
@@ -878,6 +878,8 @@ TYPE
             n := Aleatorio(0,i);
             Swap(repartir[i], repartir[n]);
         End;
+
+
         
         (* Reparto las cartas dependiendo del numero de jugadores *)
         co := 0;
@@ -888,6 +890,15 @@ TYPE
             Begin
                 jugadores[i].mano[jugadores[i].conta.cartas] 
                 := phaInicio[repartir[co]];
+
+                If jugadores[i].usuario Then
+                Begin
+                Writeln(' Te dieron: ',jugadores[i].mano[jugadores[i].conta.cartas]);
+                End;
+
+
+
+
                 For j := 0  to 5 Do 
                 Begin
                     If ( jugadores[i].mano[jugadores[i].conta.cartas] 
@@ -895,14 +906,20 @@ TYPE
                     Begin
                         Swap_descarte(jugadores[i],j,
                             5-jugadores[i].conta.prj,1);
-                        jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+                        jugadores[i].conta.prj := 
+                        jugadores[i].conta.prj + 1;
                     End;
+                End;
+
+                For j := 0 to 5 Do
+                Begin
                     If ( jugadores[i].mano[jugadores[i].conta.cartas] 
                     = phaInicio[j+15] ) Then
                     Begin
                         Swap_descarte(jugadores[i],j,
-                            5-jugadores[i].conta.arma,0);
-                        jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+                        5-jugadores[i].conta.arma,0);
+                        jugadores[i].conta.arma := 
+                        jugadores[i].conta.arma + 1;
                     End;
                 End;
 
@@ -912,8 +929,9 @@ TYPE
                     = phaInicio[j+6] ) Then
                     Begin
                         Swap_descarte(jugadores[i],j,
-                            8-jugadores[i].conta.habt,2);
-                        jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+                        8-jugadores[i].conta.habt,2);
+                        jugadores[i].conta.habt := 
+                        jugadores[i].conta.habt + 1;
                     End;  
                 End;
                 jugadores[i].conta.cartas := jugadores[i].conta.cartas + 1;
@@ -921,6 +939,9 @@ TYPE
                 i := i + 1;
             End;
         End;
+        Writeln('armas',jugadores[0].conta.arma);
+        Writeln('prj',jugadores[0].conta.prj);
+        Writeln('habt',jugadores[0].conta.habt);
     End;
      
     (* Funcion que calcula el valor absoluto de un entero dado *)
@@ -1846,7 +1867,7 @@ Begin
         Writeln('Armas para sospechar');
         For i := 0 to 5 Do
         Begin
-            Writeln(i+1,'.- ',jugadores[0].lista.arma[i]);
+            Writeln(i+1,'.- ',jugadorTurno.lista.arma[i]);
         End;
         Writeln('Armas que ya tienes descartadas');
         For i := (5 - jugadorTurno.conta.arma) to 4 Do
@@ -1865,7 +1886,7 @@ Begin
 
         (* Elegir personaje a sospechar *)
       
-        Writeln('Personajes no descartados');
+        Writeln('Personajes para Sospechar');
         For i := 0 to 5 Do
         Begin
             Writeln(i+1,'.- ',jugadorTurno.lista.prj[i]);
@@ -1876,7 +1897,7 @@ Begin
             Writeln;
             Writeln(jugadorTurno.lista.prj[i+1]);
         End;
-        
+        Writeln; 
         r := 'Personaje a sospechar: ';
         s := 'Te equivocaste, Elige otra vez';
         (* Lectura Robusta del personaje a sospechar *)
