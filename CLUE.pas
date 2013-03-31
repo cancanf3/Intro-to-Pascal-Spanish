@@ -337,7 +337,7 @@ TYPE
 	palabra := '';
 	read(partida,caracter);
 	saltoLinea := false;
-	While (caracter <> '	') And (caracter <> #10) Do 
+	While (caracter <> '	') And (caracter <> #10) And (caracter <> ' ') Do 
 	Begin
 	    palabra := palabra + caracter;
 	    read(partida,caracter);
@@ -2115,6 +2115,18 @@ Var
 	}	
 Begin
 
+	writeln;
+	writeln('(************************************************)');
+	writeln('             Turno del jugador ', jugadorTurno.posicion + 1,'          ');
+	writeln('               ', jugadorTurno.peon, '               ');
+	writeln('(************************************************)');
+	writeln;
+	
+	
+	
+	
+	
+	
 	If ( JugadorTurno.vida ) Then
 	Begin
 	    (* Se calcula el dado *)
@@ -2244,28 +2256,31 @@ BEGIN
     Inicializa(phaInicio, sobre, turnoActual, partidaCargada, ultimoJ,habitacion,jugadores,
                 Turno,SioNo,juegoActivo,sospechaConta);
     
-    (* 
-     * Con este Procedimiento el usuario selecciona el personaje 
-     * que usara en el juego y se aginan los demas a las computadoras
-     *)
-    SeleccionPersonaje(phaInicio, jugadores,ultimoJ);
-    Writeln;
+    If Not partidaCargada Then
+    Begin
+	(* Asigancion de personajes *)
+	SeleccionPersonaje(phaInicio, jugadores,ultimoJ);
+	Writeln;
     
-    (* Se Asignan las cartas al sobre y se reparten las demas a los jugadores *)
-    AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
-    
+	(* Se Asignan las cartas al sobre y se reparten las demas *)
+	AsignarCartas(phaInicio, jugadores, sobre,  ultimoJ);
+    End;
     (*
      * Comienzan los turnos de cada personaje 
      *)
     While juegoActivo Do
     Begin
         { Inv x <= ultimoJ /\ x >= 0 }
-   	    For i := 0 to ultimoJ Do
+	    i := 0;
+	    i := turnoActual;
+   	    While i < ultimoJ + 1 Do
  	    Begin
 		Turnos(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
                   sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
                   juegoActivo,sospechaON,turno);
+		i := i + 1;
  	    End;
+	    turnoActual := 0;
     End;
     Writeln;
     Guardar(jugadores, ultimoJ, sobre, partida);
