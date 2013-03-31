@@ -1848,10 +1848,11 @@ Begin
         Begin
             Writeln(i+1,'.- ',jugadores[0].lista.arma[i]);
         End;
-        Writeln('Armas descartadas');
+        Writeln('Armas que ya tienes descartadas');
         For i := (5 - jugadorTurno.conta.arma) to 4 Do
         Begin
-            Writeln(jugadores[0].lista.arma[i+1]);
+            Writeln;
+            Writeln(jugadorTurno.lista.arma[i+1]);
         End;
        
         r := 'Arma a sospechar';
@@ -1869,9 +1870,10 @@ Begin
         Begin
             Writeln(i+1,'.- ',jugadorTurno.lista.prj[i]);
         End;
-        Writeln('Personajes descartados');
+        Writeln('Personajes que ya tienes descartados');
         For i := (5 - jugadorTurno.conta.prj) to 4 Do
         Begin
+            Writeln;
             Writeln(jugadorTurno.lista.prj[i+1]);
         End;
         
@@ -2102,12 +2104,14 @@ Var
 	n : integer; // Valor del dado
 	{Pre:
 	    ultimoJ > 2 /\ ultimoJ < 6 /\ juegoActivo = True /\ Turno >= 0 /\
-	sospechaConta >= 0 /\ sospechaLista = ( %forall z : 0 <= z < 324 : sospecha[z].arma /\
-	sospecha[z].habt /\ sospecha[z].prj )  /\ phaInicio = ( %forall z : 0 <= z <= 20 : phaInicio[z])  
+	sospechaConta >= 0 /\ sospechaLista = ( %forall z : 0 <= z < 324 : 
+        sospecha[z].arma /\ sospecha[z].habt /\ sospecha[z].prj )  /\ 
+    phaInicio = ( %forall z : 0 <= z <= 20 : phaInicio[z])  
 	}
 	
 	{Post:
-	jugadorTurno.vida = ( acus.prj = sobre.prj /\ acus.habt = sobre.habt /\ acus.arma = sobre.arma )
+	jugadorTurno.vida = ( acus.prj = sobre.prj /\ acus.habt = sobre.habt /\ 
+        acus.arma = sobre.arma )
 	}	
 Begin
 
@@ -2149,7 +2153,7 @@ Begin
 
 	    (* Jugador del Turno hace la Acusacion *)
 	    
-	    If ( jugadorTurno.usuario ) Then
+	    If ( jugadorTurno.usuario ) and ( sospechaON ) Then
 	    Begin
 		    Writeln;
 		    Writeln('Deseas realizar una acusacion?');
