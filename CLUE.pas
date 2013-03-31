@@ -1544,7 +1544,7 @@ Var
     
 Begin
     Writeln('En tu mano hay ',k,
-        ' cartas que se sospechan, cual quieres mostrar?');
+        ' carta(s) que se sospechan, cual quieres mostrar?');
     For i := 0 to (k-1) Do
     Begin
         If ( carta[i].arma = sospech.arma ) Then
@@ -1854,7 +1854,7 @@ Begin
             Writeln;
             Writeln(jugadorTurno.lista.arma[i+1]);
         End;
-       
+        Writeln; 
         r := 'Arma a sospechar';
         s := 'Te equivocaste, Elige otra vez';
 
