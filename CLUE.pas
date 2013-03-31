@@ -1042,6 +1042,7 @@ TYPE
         Else
         Begin
             Writeln('<-----------El juego ha Terminado----------->');
+            halt;
         End;
     End;
 
@@ -1459,13 +1460,11 @@ Var
             End;
         End;
         (* Computadora elegira arma a sospechar *)
-        Writeln(jugadorTurno.conta.arma);
         n := Aleatorio(0,5-jugadorTurno.conta.arma);
         sospech.arma := jugadorTurno.lista.arma[n];
         Writeln('El jugador',jugadorTurno.posicion+1,
             ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
         (* Computadora elegira personaje a sospechar *)
-        Writeln(jugadorTurno.conta.prj);
         m := Aleatorio(0,5-jugadorTurno.conta.prj);
         sospech.prj := jugadorTurno.lista.prj[m];   
         Writeln('El jugador',jugadorTurno.posicion+1,
@@ -1746,10 +1745,6 @@ End;
             Var juegoActivo   : boolean; 
             Var acus          : sbr
                                 );
-Var 
-    i       : integer; // Variable de iteracion.
-    p,a,h   : integer; // Permite elegir aleatoriamente la acusacion.
-    procede : boolean; // Determina que la acusacion puede proceder.
     {Pre:
     true	
     }
@@ -1766,42 +1761,7 @@ Begin
         acus.arma := sospech.arma;
         acus.prj := sospech.prj;
         acus.habt := sospech.habt;
-    End
-    Else
-    Begin
-        procede := True;
-        Repeat
-        Begin
-        
-        If not procede Then
-        Begin
-            p := Aleatorio(0,5 - jugadorTurno.conta.prj );
-            a := Aleatorio(0,5 - jugadorTurno.conta.arma );
-            h := Aleatorio(0,8 - JugadorTurno.conta.habt);
-
-            acus.prj := jugadorTurno.lista.prj[p];
-            acus.arma := jugadorTurno.lista.arma[a];
-            acus.habt := jugadorTurno.lista.habt[h];
-        End; 
-            {Inv (%Exist x : 0 <= x <= sospechaConta : acus.arma = sospechaLista[x].arma /\
-            acus.habt = sospechaLista[x].habt /\ acus.prj = sospechaLista[x].prj ) }      
-            For i := 0 to sospechaConta Do
-            Begin
-                If ( acus.arma = sospechaLista[i].arma ) and
-                   ( acus.habt = sospechaLista[i].habt ) and
-                   (  acus.prj = sospechaLista[i].prj  ) Then
-                Begin
-                    procede := false;
-                    Writeln('lo logra',sospechaConta);
-                End
-                Else
-                Begin
-                    procede := true;
-                End;
-
-            End;
-        End
-        Until ( procede = true );
+    
 
         MoverSospechoso(acus,ultimoj,jugadorTurno,jugadores);
         Writeln; 
@@ -1812,13 +1772,16 @@ Begin
         Writeln('Personaje elegido: ',acus.prj);
         Writeln;
         Writeln('Haitacion elegida: ',acus.habt);
-    End;
 
     (* Verificacion de la acusacion *)
+        Eliminar(jugadorTurno,jugadores,acus,sobre,ultimoJ);
+        Fin(jugadores,acus,sobre,juegoActivo);
+ 
+
+    End;
+
     
-    Eliminar(jugadorTurno,jugadores,acus,sobre,ultimoJ);
-    Fin(jugadores,acus,sobre,juegoActivo);
-    
+   
 
 End;
 
@@ -1908,22 +1871,27 @@ Begin
 		        Acusacion_Usuario(acus,jugadorTurno,sobre,phaInicio,
 				    juegoActivo,jugadores,ultimoJ);
 		    End;
-        End;
+        End
+        Else
+        Begin
 
         (* Computadora acusa *) 
 
-		If (sospechaON) Then 
-		Begin
-			
-		    Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
-					sospechaConta,sospechaLista,jugadores,
-					sospechaON,ultimoJ,juegoActivo,acus);
+            If (jugadorTurno.conta.arma = 5 ) and (jugadorTurno.conta.habt = 8 ) 
+                and (jugadorTurno.conta.prj = 5) and ( sospechaON) Then 
+            Begin
+                
+                Acusacion_Computadora(jugadorTurno,sobre,phaInicio,sospech,
+                        sospechaConta,sospechaLista,jugadores,
+                        sospechaON,ultimoJ,juegoActivo,acus);
 
-		End;
+            End;
+        End;
 	    
         If not  juegoActivo  Then
         Begin
             despedida;
+            Writeln(sobre.prj,sobre.arma,sobre.habt);
         End;   
 
 	    turno := turno + 1;
