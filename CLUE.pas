@@ -1,4 +1,20 @@
-(* Este es el Proyecto Serio *)
+(*
+ *
+ * CLUE.pas
+ *
+ * Es un programa hecho bajo las especificaciones del proyecto 
+ * de Algoritmos 1 basado en el juego CLUE
+ * Contiene los tipos de datos, funciones con sus 
+ * especificaciones y esquema general del juego.
+ *
+ * Autores:
+ *  Jose Pena
+ *  Jose Pascarella
+ *
+ * Ultima Modificacion: 
+ *  01 / 04 2013
+ *
+ *)
 PROGRAM CLUE;
 
 TYPE 
