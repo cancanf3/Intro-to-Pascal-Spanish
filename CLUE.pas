@@ -2412,7 +2412,7 @@ Begin
         turno := turno + 1;
         Writeln;
         Writeln('Turno ',turno);
-        Writeln(jugadorTurno.conta.arma,jugadorTurno.conta.habt,jugadorTurno.conta.prj);
+        Writeln;
         Readln; 
     End;
 End;
