@@ -1717,7 +1717,7 @@ Begin
     Else
     Begin
         Writeln('(************************************************)');
-            Writeln(Jugadores[quien].peon,'        Muestra una carta a Jugador'
+            Writeln('     ',Jugadores[quien].peon,' Muestra una carta a Jugador'
             ,jugadorTurno.posicion+1);
 
         writeln('(************************************************)');
