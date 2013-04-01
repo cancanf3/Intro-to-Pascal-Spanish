@@ -622,7 +622,7 @@ end;
 
 
 End; //Procedure
-    
+   
     
     
 
@@ -850,7 +850,7 @@ Begin
     For i:= 1 To ultimoJ Do
     Begin
         jugadores[i].peon := phaInicio[repartir[i-1]];
-        Writeln('Jugador ', i + 1, ' Selecciona a: ', jugadores[i].peon,);
+        Writeln('Jugador ', i + 1, ' Selecciona a: ', jugadores[i].peon);
     End;
     Writeln('(************************************************)');
 
@@ -1163,7 +1163,6 @@ Procedure RepartirEliminado (Var jugador : usuario;
 Var 
     i  : integer;
     co : integer;
-    z  : integer;
 {Pre:
 True
 }
@@ -1649,7 +1648,9 @@ Procedure Refuta_computadora (
             m            : integer;
             n            : integer; 
             h            : integer; 
-            sospech      : sbr);
+            sospech      : sbr;
+            jugadores    : Array of usuario
+            );
 Var
     muestro : integer; // Variable que determina que carta mostrar.
     {Pre:
@@ -1836,7 +1837,8 @@ Begin
         Begin    
             If ( sospechaON = false ) and ( humano = false ) Then
             Begin
-                Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h,sospech);
+                Refuta_computadora(carta,jugadorTurno,k,quien,
+                    m,n,h,sospech,jugadores);
             End;
         End;
     
@@ -1956,7 +1958,7 @@ Begin
 
         (* Refutacion *)
 
-        Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h,sospech);
+        Refuta_computadora(carta,jugadorTurno,k,quien,m,n,h,sospech,jugadores);
 
         (* Descarte de sospecha *)
 
