@@ -384,242 +384,242 @@ TYPE
             var ultimoJ : integer;
             var turnoActual : integer);
     Var
-    i, j, k : integer;
-    co : integer;
-    partida : text;
-    palabra : array[0..20] of string;
-    tmp : integer;
-    esta : boolean; 
-    saltoLinea	: boolean;
+        i, j, k : integer;
+        co : integer;
+        partida : text;
+        palabra : array[0..20] of string;
+        tmp : integer;
+        esta : boolean; 
+        saltoLinea	: boolean;
     Begin
-    writeln;
-    writeln('Lectura de un partida');
-    writeln;
-    
-    assign(partida,'Partida.txt');
-    reset(partida);
-    
-    readln(partida, ultimoJ);
-    ultimoJ := ultimoJ - 1;
-    
-    writeln;
-    writeln('(************************************************)');
-    writeln('(*             NUMERO DE COMUTADORAS            *)');
-    writeln('(*                   ',ultimoJ, '                  *)');
-    writeln('(************************************************)');
-    writeln;
+        writeln;
+        writeln('Lectura de un partida');
+        writeln;
+        
+        assign(partida,'Partida.txt');
+        reset(partida);
+        
+        readln(partida, ultimoJ);
+        ultimoJ := ultimoJ - 1;
+        
+        writeln;
+        writeln('(************************************************)');
+        writeln('(*             NUMERO DE COMUTADORAS            *)');
+        writeln('(*                   ',ultimoJ, '                  *)');
+        writeln('(************************************************)');
+        writeln;
 
-    For i := 0 To 2 Do
-        leerPalabra(partida, palabra[i], saltoLinea);
-    End;
-    readln(partida);
-    
-    sobre.prj := phaInicio[Indice(palabra[0])];
-    sobre.arma := phaInicio[Indice(palabra[1])];
-    sobre.habt := phaInicio[Indice(palabra[2])];
-    
-    writeln;
-    writeln('(************************************************)');
-    writeln('(*                 HECHOS REALES                *)');
-    writeln('(*     ', sobre.prj,' ', sobre.arma, ' ', sobre.habt, '    *)');
-    writeln('(************************************************)');
-    writeln;
-    
-    For i := 0 To ultimoJ Do
-    Begin
-    
-        jugadores[i].posicion := i;
-        For j := 0 To 2 Do
+        For i := 0 To 2 Do
         Begin
-        leerPalabra(partida, palabra[j], saltoLinea);
+            leerPalabra(partida, palabra[i], saltoLinea);
         End;
+        readln(partida);
+        
+        sobre.prj := phaInicio[Indice(palabra[0])];
+        sobre.arma := phaInicio[Indice(palabra[1])];
+        sobre.habt := phaInicio[Indice(palabra[2])];
+        
+        writeln;
+        writeln('(************************************************)');
+        writeln('(*                 HECHOS REALES                *)');
+        writeln('(*     ', sobre.prj,' ', sobre.arma, ' ', sobre.habt, '    *)');
+        writeln('(************************************************)');
+        writeln;
+        
+        For i := 0 To ultimoJ Do
+        Begin
+        
+            jugadores[i].posicion := i;
+            For j := 0 To 2 Do
+            Begin
+                leerPalabra(partida, palabra[j], saltoLinea);
+            End;
 
-        jugadores[i].peon := phaInicio[Indice(palabra[0])];
-        jugadores[i].vida := palabra[1] = 'activo';
-        jugadores[i].donde := phaInicio[Indice(palabra[2])];
-        
-        
-        writeln;
-        writeln('(************************************************)');
-        writeln('(*      JUGADOR(',i,')   VIDA   UBICACION             *)');
-        writeln('(*         ',jugadores[i].peon, ' ', jugadores[i].vida, ' ', jugadores[i].donde,  '        *)');
-        
-        writeln('(************************************************)');
-        writeln;
-        
-        
-        For j := 0 To 8 Do
-        Begin
-        If habitacion[j].nombre = jugadores[i].donde Then
-        Begin
-            jugadores[i].x := habitacion[j].x;
-            jugadores[i].y := habitacion[j].y;
-        End;
-        End;
-        readln(partida, jugadores[i].conta.cartas, tmp); // tmp == descartadas
-        
-        writeln;
-        writeln('(*    ',jugadores[i].conta.cartas,'   ', tmp, '      *)');
-        writeln;
-        
-        For j := 0 To jugadores[i].conta.cartas - 1 Do
-        Begin
-        leerPalabra(partida, palabra[j], saltoLinea);
-        jugadores[i].mano[j] := phaInicio[Indice(palabra[j])];
-        End;
-        If not saltoLinea Then
-        Begin
-        readln(partida);
-        End;
-        writeln;
-        writeln('(************************************************)');
-        writeln('(*         CARTAS QUE POSEE EL JUGADOR(',i,')          *)');
-        write('(*    ');
-        For j := 0 To jugadores[i].conta.cartas - 1 Do
-        Begin
-        write(jugadores[i].mano[j], ' ');
-        End;
-        writeln('    *)');
-        writeln('(************************************************)');
-        writeln;
-        
-        For j := 0 To tmp - 1 Do
-        Begin
-        leerPalabra(partida, palabra[j], saltoLinea);
-        Case Indice(palabra[j]) Of
-            0..5   :
+            jugadores[i].peon := phaInicio[Indice(palabra[0])];
+            jugadores[i].vida := palabra[1] = 'activo';
+            jugadores[i].donde := phaInicio[Indice(palabra[2])];
+            
+            
+            writeln;
+            writeln('(************************************************)');
+            writeln('(*      JUGADOR(',i,')   VIDA   UBICACION             *)');
+            writeln('(*         ',jugadores[i].peon, ' ', jugadores[i].vida, ' ', jugadores[i].donde,  '        *)');
+            writeln('(************************************************)');
+            writeln;
+            
+            
+            For j := 0 To 8 Do
             Begin
-            jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[Indice(palabra[j])];
-            jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
-            End;
-            6..14  :
+            If habitacion[j].nombre = jugadores[i].donde Then
             Begin
-            jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[Indice(palabra[j])];
-            jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+                jugadores[i].x := habitacion[j].x;
+                jugadores[i].y := habitacion[j].y;
             End;
-            15..20 :
+            End;
+            readln(partida, jugadores[i].conta.cartas, tmp); // tmp == descartadas
+            
+            writeln;
+            writeln('(*    ',jugadores[i].conta.cartas,'   ', tmp, '      *)');
+            writeln;
+            
+            For j := 0 To jugadores[i].conta.cartas - 1 Do
             Begin
-            jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[Indice(palabra[j])];
-            jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+            leerPalabra(partida, palabra[j], saltoLinea);
+            jugadores[i].mano[j] := phaInicio[Indice(palabra[j])];
             End;
-        End;
-        End;
-        
-        writeln;
-        writeln('(*****************************************************)');
-        writeln('(*         CARTAS DESCARTADAS POR EL JUGADOR',i,'         *)');
-        write('(*    ');
-        For j := 0 To tmp - 1 Do
-        Begin
-        write(palabra[j], ' ');
-        End;
-        writeln('    *)');
-        writeln('(*****************************************************)');
-        writeln;
-        
-        If not saltoLinea Then
-        Begin
-        readln(partida);
-        End;
-        
-        co := 0;
-        For j := 0 To 5 Do
-        Begin
-        k := 0;
-        esta := False;
-        While (k < 6) And not esta Do
-        Begin
-            If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+            If not saltoLinea Then
             Begin
-            esta := True;
+            readln(partida);
             End;
-            k := k + 1;
-        End;
-        If not esta Then
-        Begin
-            jugadores[i].lista.prj[co] := phaInicio[j];
-            co := co + 1;
-        End;
-        End;
-        
-        co := 0;
-        For j := 6 To 14 Do
-        Begin
-        k := 0;
-        esta := False;
-        While (k < 9) And not esta Do
-        Begin
-            If (phaInicio[j] = jugadores[i].lista.habt[k]) Then
+            writeln;
+            writeln('(************************************************)');
+            writeln('(*         CARTAS QUE POSEE EL JUGADOR(',i,')          *)');
+            write('(*    ');
+            For j := 0 To jugadores[i].conta.cartas - 1 Do
             Begin
-            esta := True;
+            write(jugadores[i].mano[j], ' ');
             End;
-            k := k + 1;
-        End;
-        If not esta Then
-        Begin
-            jugadores[i].lista.habt[co] := phaInicio[j];
-            co := co + 1;
-        End;
-        End;
-        
-        co := 0;
-        For j := 15 To 20 Do
-        Begin
-        k := 0;
-        esta := False;
-        While (k < 6) And not esta Do
-        Begin
-            If (phaInicio[j] = jugadores[i].lista.arma[k]) Then
+            writeln('    *)');
+            writeln('(************************************************)');
+            writeln;
+            
+            For j := 0 To tmp - 1 Do
             Begin
-            esta := True;
+            leerPalabra(partida, palabra[j], saltoLinea);
+            Case Indice(palabra[j]) Of
+                0..5   :
+                Begin
+                    jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[Indice(palabra[j])];
+                    jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+                End;
+                6..14  :
+                Begin
+                    jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[Indice(palabra[j])];
+                    jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+                End;
+                15..20 :
+                Begin
+                    jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[Indice(palabra[j])];
+                    jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+                End;
             End;
-            k := k + 1;
+            End;
+            
+            writeln;
+            writeln('(*****************************************************)');
+            writeln('(*         CARTAS DESCARTADAS POR EL JUGADOR',i,'         *)');
+            write('(*    ');
+            For j := 0 To tmp - 1 Do
+            Begin
+            write(palabra[j], ' ');
+            End;
+            writeln('    *)');
+            writeln('(*****************************************************)');
+            writeln;
+            
+            If not saltoLinea Then
+            Begin
+            readln(partida);
+            End;
+            
+            co := 0;
+            For j := 0 To 5 Do
+            Begin
+            k := 0;
+            esta := False;
+            While (k < 6) And not esta Do
+            Begin
+                If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+                Begin
+                esta := True;
+                End;
+                k := k + 1;
+            End;
+            If not esta Then
+            Begin
+                jugadores[i].lista.prj[co] := phaInicio[j];
+                co := co + 1;
+            End;
+            End;
+            
+            co := 0;
+            For j := 6 To 14 Do
+            Begin
+            k := 0;
+            esta := False;
+            While (k < 9) And not esta Do
+            Begin
+                If (phaInicio[j] = jugadores[i].lista.habt[k]) Then
+                Begin
+                esta := True;
+                End;
+                k := k + 1;
+            End;
+            If not esta Then
+            Begin
+                jugadores[i].lista.habt[co] := phaInicio[j];
+                co := co + 1;
+            End;
+            End;
+            
+            co := 0;
+            For j := 15 To 20 Do
+            Begin
+            k := 0;
+            esta := False;
+            While (k < 6) And not esta Do
+            Begin
+                If (phaInicio[j] = jugadores[i].lista.arma[k]) Then
+                Begin
+                esta := True;
+                End;
+                k := k + 1;
+            End;
+            If not esta Then
+            Begin
+                jugadores[i].lista.arma[co] := phaInicio[j];
+                co := co + 1;
+            End;
+            End;
+            
         End;
-        If not esta Then
+            
+        leerPalabra(partida, palabra[0], saltoLinea);
+        For i := 0 To ultimoJ Do
         Begin
-            jugadores[i].lista.arma[co] := phaInicio[j];
-            co := co + 1;
-        End;
+            If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
+            Begin
+            turnoActual := i;
+            End;
         End;
         
-    End;
+        close(partida);
         
-    leerPalabra(partida, palabra[0], saltoLinea);
-    For i := 0 To ultimoJ Do
-    Begin
-        If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
-        Begin
-        turnoActual := i;
-        End;
-    End;
-    
-    close(partida);
-    
-    writeln('cerre el archivo! todo bien! :)');
-    
-    For i := 0 to ultimoJ do
-    begin
-        writeln('lista del jugador ', i); 
-        for j := 0 to 5 Do
+        writeln('cerre el archivo! todo bien! :)');
+        
+        For i := 0 to ultimoJ do
         begin
-        writeln(jugadores[i].lista.arma[j]);
+            writeln('lista del jugador ', i); 
+            for j := 0 to 5 Do
+            begin
+            writeln(jugadores[i].lista.arma[j]);
+            end;
+            writeln;
+            for j := 0 to 5 Do
+            begin
+            writeln(jugadores[i].lista.prj[j]);
+            end;
+            writeln;
+            for j := 0 to 8 Do
+            begin
+            writeln(jugadores[i].lista.habt[j]);
+            end;
+            writeln;
         end;
-        writeln;
-        for j := 0 to 5 Do
-        begin
-        writeln(jugadores[i].lista.prj[j]);
-        end;
-        writeln;
-        for j := 0 to 8 Do
-        begin
-        writeln(jugadores[i].lista.habt[j]);
-        end;
-        writeln;
-    end;
-    
-    
-    
-    
+        
+        
+        
+        
     End; //Procedure
     
     
