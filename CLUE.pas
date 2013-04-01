@@ -1873,7 +1873,7 @@ Begin
         If ( carta[muestro].habt = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            If not ( 8 = jugadorTurno.conta.prj ) Then
+            If not ( 8 = jugadorTurno.conta.habt ) Then
             Begin
                 Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
                 jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
