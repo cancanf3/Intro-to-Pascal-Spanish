@@ -676,37 +676,7 @@ Begin
     End;
     
     close(partida); // cierro el archivo
-    leerPalabra(partida, palabra[0], saltoLinea);
-    For i := 0 To ultimoJ Do
-    Begin
-        If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
-        Begin
-            turnoActual := i;
-        End;
-    End;
-
-    close(partida);
-    writeln('cerre el archivo! todo bien! :)');
-    For i := 0 to ultimoJ do
-    begin
-        writeln('lista del jugador ', i); 
-        for j := 0 to 5 Do
-        begin
-            writeln(jugadores[i].lista.arma[j]);
-        end;
-        writeln;
-        for j := 0 to 5 Do
-        begin
-            writeln(jugadores[i].lista.prj[j]);
-        end;
-        writeln;
-        for j := 0 to 8 Do
-        begin
-            writeln(jugadores[i].lista.habt[j]);
-        end;
-        writeln;
-    end;
-
+    
 
 
 
