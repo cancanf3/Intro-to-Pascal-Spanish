@@ -309,6 +309,8 @@ True
 Begin
 Bienvenida;
 Writeln('Desea leer las instrucciones?');
+Writeln('La partida se va a guardar automaticamente', 
+        'en el archivo ./Partida.txt');
 Decision(SioNo);
     If SioNo Then
     Begin
@@ -702,7 +704,6 @@ co := 0;
     sospechaConta := 0;
     SioNo := True; 
     partidaCargada := False;
-    
     Writeln('Desea cargar una partida previa?');
     Decision(Siono);
     If Siono Then
@@ -1617,8 +1618,8 @@ Begin
             Writeln(i + 1,'.- ',carta[i].habt);
         End;
     End;
-    r := 'elige el numero de la carta a mostrar';
-    s := ' te equivocaste, elige otra vez';
+    r := 'Elige el numero de la carta a mostrar';
+    s := ' Te equivocaste, elige otra vez';
     LecturaRobusta(l,r,s,1,k); 
 
     If ( carta[l-1].arma = sospech.arma ) Then
@@ -1700,7 +1701,7 @@ Begin
     Else
     Begin
         Writeln('(************************************************)');
-            Writeln(Jugadores[quien].peon,' Muestra una carta a Jugador'
+            Writeln(Jugadores[quien].peon,'        Muestra una carta a Jugador'
             ,jugadorTurno.posicion+1);
 
         writeln('(************************************************)');
@@ -1815,12 +1816,12 @@ Begin
     (* Computadora elegira arma a sospechar *)
     n := Aleatorio(0,5-jugadorTurno.conta.arma);
     sospech.arma := jugadorTurno.lista.arma[n];
-    Writeln('El jugador',jugadorTurno.posicion+1,
+    Writeln(jugadorTurno.peon,
         ' sospecha que el arma usada en el asesinato fue: ',sospech.arma);
     (* Computadora elegira personaje a sospechar *)
     m := Aleatorio(0,5-jugadorTurno.conta.prj);
     sospech.prj := jugadorTurno.lista.prj[m];   
-    Writeln('El jugador',jugadorTurno.posicion+1,
+    Writeln(jugadorTurno.peon,
         ' sospecha quien mato a Mr.Black fue: ',sospech.prj);
     (* Mover el personaje al lugar de la sospecha *)
     
@@ -2198,7 +2199,7 @@ Begin
 	    (* Se calcula el dado *)
 	    n := Aleatorio(1,6);
 	    Writeln(JugadorTurno.peon,' Saco ',n,' en el dado');
-
+        Writeln(jugadorTurno.peon, ' se encuentra en ',jugadorTurno.donde);
 	    (* Mover al jugador *)
 
 	    Mover(jugadorTurno,n,habitacion);
@@ -2221,7 +2222,7 @@ Begin
 	    Else
 	    Begin
 		    Writeln;
-		    Writeln('El Jugador', jugadorTurno.peon);
+		    Writeln(jugadorTurno.peon);
 		    Writeln('va a realizar una sospecha');
 		    Writeln;
 	    
