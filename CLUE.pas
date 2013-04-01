@@ -12,7 +12,7 @@
  *  Jose Pascarella
  *
  * Ultima Modificacion: 
- *  01 / 04 2013
+ *  01 / 04 / 2013
  *
  *)
 PROGRAM CLUE;
@@ -123,13 +123,13 @@ Begin
         Case YN of
         1:
             Begin
-            SioNo := True;
-            n := 1;
+                SioNo := True;
+                n := 1;
             End;
         2:
             Begin
-            SioNo := False;
-            n := 1;
+                SioNo := False;
+                n := 1;
             End;
         End;
     End
@@ -146,51 +146,51 @@ True
 }
     
 Begin
-Writeln('Este programa es una simulacion del juego de Clue o Sospecha.');
-Writeln();
-Writeln('Usted podra elejir jugar con 2 a 5 computadoras contra las cuales competira por encontrar el Asesino del Senor del Black',
-'el lugar del crimen y el arma con la que se realizo. La mecanica del juego es la siguiente');
+    Writeln('Este programa es una simulacion del juego de Clue o Sospecha.');
+    Writeln();
+    Writeln('Usted podra elejir jugar con 2 a 5 computadoras contra las cuales competira por encontrar el Asesino del Senor del Black',
+    'el lugar del crimen y el arma con la que se realizo. La mecanica del juego es la siguiente');
 
 
 
-Writeln('	Reglas del Juego');
-Writeln('1. El usuario elige una identidad que corresponde a uno de los personajes del juego.  Al resto de los');
-Writeln('	    jugadores (que son de la máquina) se el asigna cualquiera de las identidates restantes');
-Writeln('2. Sin que ninguno de los jugadores vea,  se elige al azar un trio de cartas.  Una carta de personaje,  que será el');
-Writeln('  criminal, otra carta de entre las armas, que será el objeto agresor y otra de entre las habitaciones que será el lugar');
-Writeln(' del crimen. Estas tres tarjetas se guardan ocultas en un sobre. El resto de las tarjetas se juntan, se revuelven y se');
-Writeln('reparten uniformemente entre los jugadores sin que sobren cartas.');
-Writeln('3. Los jugadores pueden hacer una lista de todas las cartas del juego e ir marcando las que les tocaron y que desde');
-Writeln('luego no son las que están en el sobre.');
-Writeln('4. Los jugadores se enumeran según el turno que le corresponde en el juego, siguiendo el sentido de las agujas del');
-Writeln('reloj y dándole el primer turno al usuVario');
-Writeln('	    5. Al inicio del juego, todos los peones que represetan a los personajes escogidos por los jugadores, se ubican en la');
-Writeln('habitación del centro del tablero, desde allí iniciarán el juego.');
-Writeln('6. Se lanza el dado, y según la posición actual y el número arrojado por el dado se escoge entre las habitaciones a la');
-Writeln('que puede llegar, incluyendo la misma habitación actual. No es permitido quedarse en los pasillos, sino que debe');
-Writeln('escogerse siempre una habitación.  Para llegar a una habitación no es imprescindible obtener una puntuación');
-Writeln('exacta.');
-Writeln('7. Una vez ubicado en una habitación, el jugador puede hacer la sospecha. La sospecha incluye el lugar en donde se');
-Writeln('encuentra,  el arma y personaje.  El peón del  personaje que se incluya en la sospecha se traslada al cuarto');
-Writeln('sugerido. El peón movido desde su habitación para que se formule una sospecha no regresa, después, a');
-Writeln('su punto de origen; continúa su juego a partir de la nueva posición sobre el tablero de juego.');
-Writeln('8. El jugador a la izquierda de quien formuló la sospecha, debe refutar la sospecha. Para ello, revisa en');
-Writeln('sus cartas si tiene alguna de las que mencionó el participante.  De ser así, se la enseña sólo al que');
-Writeln('preguntó sin que los otros jugadores puedan verlo, para que éste la elimine de su lista, ya que seguramente no');
-Writeln('será esa la que este dentro del sobre. Si tiene más de una tarjeta de las que se mencionaron en la sospecha, solo');
-Writeln('tiene que enseñar una, la que elija.'); 
-Writeln('9. Si un jugador no puede refutar la sospecha, por no tener ninguna de las cartas, al jugador que se encuentra a la');
-Writeln('izquierda de éste le corresponde entonces refutar la sospecha. Asi sucesivamente hasta que haya un jugador que');
-Writeln('refuta la sospecha o ninguno de los jugadores diferentes al que formulo la sospecha haya podido refutarla.');
-Writeln('10. Si un jugador hace una sospecha y ninguno de los otros jugadores puede refutarla; el jugador puede hacer una');
-Writeln('acusación. De ser así, el jugador comprueba la validez de la misma mirando las cartas del sobre. Si es incorrecta,');
-Writeln('queda eliminado del juego (ya que conoce la solución al mismo). Si es correcta, las cartas se muestran al resto de');
-Writeln('los participantes.');
-Writeln('11. El juego termina cuando un jugador hace una acusación que se comprueba correcta, en este caso ese jugador se');
-Writeln('declara ganador. En caso que el usuario sea eliminado, por haber hecho una falsa acusación, se declara ganador a');
-Writeln('la máquina y termina el juego. Si todos los jugadores, excepto el usuario, son eliminados por falsa acusación, el');
-Writeln('juego termina y el  usuario se declara ganador');
-readln;
+    Writeln('	Reglas del Juego');
+    Writeln('1. El usuario elige una identidad que corresponde a uno de los personajes del juego.  Al resto de los');
+    Writeln('	    jugadores (que son de la máquina) se el asigna cualquiera de las identidates restantes');
+    Writeln('2. Sin que ninguno de los jugadores vea,  se elige al azar un trio de cartas.  Una carta de personaje,  que será el');
+    Writeln('  criminal, otra carta de entre las armas, que será el objeto agresor y otra de entre las habitaciones que será el lugar');
+    Writeln(' del crimen. Estas tres tarjetas se guardan ocultas en un sobre. El resto de las tarjetas se juntan, se revuelven y se');
+    Writeln('reparten uniformemente entre los jugadores sin que sobren cartas.');
+    Writeln('3. Los jugadores pueden hacer una lista de todas las cartas del juego e ir marcando las que les tocaron y que desde');
+    Writeln('luego no son las que están en el sobre.');
+    Writeln('4. Los jugadores se enumeran según el turno que le corresponde en el juego, siguiendo el sentido de las agujas del');
+    Writeln('reloj y dándole el primer turno al usuVario');
+    Writeln('	    5. Al inicio del juego, todos los peones que represetan a los personajes escogidos por los jugadores, se ubican en la');
+    Writeln('habitación del centro del tablero, desde allí iniciarán el juego.');
+    Writeln('6. Se lanza el dado, y según la posición actual y el número arrojado por el dado se escoge entre las habitaciones a la');
+    Writeln('que puede llegar, incluyendo la misma habitación actual. No es permitido quedarse en los pasillos, sino que debe');
+    Writeln('escogerse siempre una habitación.  Para llegar a una habitación no es imprescindible obtener una puntuación');
+    Writeln('exacta.');
+    Writeln('7. Una vez ubicado en una habitación, el jugador puede hacer la sospecha. La sospecha incluye el lugar en donde se');
+    Writeln('encuentra,  el arma y personaje.  El peón del  personaje que se incluya en la sospecha se traslada al cuarto');
+    Writeln('sugerido. El peón movido desde su habitación para que se formule una sospecha no regresa, después, a');
+    Writeln('su punto de origen; continúa su juego a partir de la nueva posición sobre el tablero de juego.');
+    Writeln('8. El jugador a la izquierda de quien formuló la sospecha, debe refutar la sospecha. Para ello, revisa en');
+    Writeln('sus cartas si tiene alguna de las que mencionó el participante.  De ser así, se la enseña sólo al que');
+    Writeln('preguntó sin que los otros jugadores puedan verlo, para que éste la elimine de su lista, ya que seguramente no');
+    Writeln('será esa la que este dentro del sobre. Si tiene más de una tarjeta de las que se mencionaron en la sospecha, solo');
+    Writeln('tiene que enseñar una, la que elija.'); 
+    Writeln('9. Si un jugador no puede refutar la sospecha, por no tener ninguna de las cartas, al jugador que se encuentra a la');
+    Writeln('izquierda de éste le corresponde entonces refutar la sospecha. Asi sucesivamente hasta que haya un jugador que');
+    Writeln('refuta la sospecha o ninguno de los jugadores diferentes al que formulo la sospecha haya podido refutarla.');
+    Writeln('10. Si un jugador hace una sospecha y ninguno de los otros jugadores puede refutarla; el jugador puede hacer una');
+    Writeln('acusación. De ser así, el jugador comprueba la validez de la misma mirando las cartas del sobre. Si es incorrecta,');
+    Writeln('queda eliminado del juego (ya que conoce la solución al mismo). Si es correcta, las cartas se muestran al resto de');
+    Writeln('los participantes.');
+    Writeln('11. El juego termina cuando un jugador hace una acusación que se comprueba correcta, en este caso ese jugador se');
+    Writeln('declara ganador. En caso que el usuario sea eliminado, por haber hecho una falsa acusación, se declara ganador a');
+    Writeln('la máquina y termina el juego. Si todos los jugadores, excepto el usuario, son eliminados por falsa acusación, el');
+    Writeln('juego termina y el  usuario se declara ganador');
+    readln;
 End;
 
 (* Procedimiento que la bienvenida al usuario *)
@@ -222,7 +222,7 @@ Begin
             '           8888   ,d8P  `8b.  ;8.`8888 8 8888    ,88  ');
     Writeln('    `8888888P`    8 888888888888 `Y88888P    8 88888888888',
             '8           `Y88888P`    `Y8888P ,88P` 8 888888888P   ');
-Writeln;
+    Writeln;
     Writeln('Bienvenido a Clue USB!');
     Writeln();
 
@@ -323,11 +323,11 @@ Procedure Introduccion(Var SioNo : boolean);
 True
 }
 Begin
-Bienvenida;
-Writeln('Desea leer las instrucciones?');
-Writeln('La partida se va a guardar automaticamente', 
-        'en el archivo ./Partida.txt');
-Decision(SioNo);
+    Bienvenida;
+    Writeln('Desea leer las instrucciones?');
+    Writeln('La partida se va a guardar automaticamente', 
+            'en el archivo ./Partida.txt');
+    Decision(SioNo);
     If SioNo Then
     Begin
         Instrucciones;
@@ -339,35 +339,35 @@ Decision(SioNo);
         Readln;
     End;
     
-    writeln;
-    writeln('Este es el tablero de juego!');
-    TableroClue;
-    Writeln('Bien! Juguemos!');
-    Write('Presione <ENTER>');
-    readln;
+        writeln;
+        writeln('Este es el tablero de juego!');
+        TableroClue;
+        Writeln('Bien! Juguemos!');
+        Write('Presione <ENTER>');
+        readln;
 End;
     
 Procedure leerPalabra(
-    var partida	:text;
-    var palabra	:string;
+    var partida	   : text;
+    var palabra	   : string;
     var saltoLinea : boolean
-);
+                     );
 Var
     caracter	: char;
 Begin
-palabra := '';
-read(partida,caracter);
-saltoLinea := false;
-While (caracter <> '	') And (caracter <> #10) And (caracter <> ' ') Do 
-Begin
-    palabra := palabra + caracter;
+    palabra := '';
     read(partida,caracter);
-End;
-if (caracter = #10) then
-Begin
-    saltoLinea := True;
-End;
-writeln('Lei  ------>  (', palabra, ')');
+    saltoLinea := false;
+    While (caracter <> '	') And (caracter <> #10) And (caracter <> ' ') Do 
+    Begin
+        palabra := palabra + caracter;
+        read(partida,caracter);
+    End;
+    if (caracter = #10) then
+    Begin
+        saltoLinea := True;
+    End;
+    Writeln('Lei  ------>  (', palabra, ')');
 End;
     
 Function Indice(const aStr : string) : integer;
@@ -384,13 +384,14 @@ phaStr : Array[pha] of string = ('SenioraBlanco', 'SeniorVerde',
 Var
 aPHA : pha;
 Begin
-Indice := -1;
-For aPHA := SenioraBlanco to Tubo do
-Begin
+
+    Indice := -1;
+    For aPHA := SenioraBlanco to Tubo do
+    Begin
     If (aStr = phaStr[aPHA]) then
     Begin
-    Indice := Ord(aPHA);
-    Break;
+        Indice := Ord(aPHA);
+        Break;
     End;
 End;
 End;
@@ -410,39 +411,39 @@ tmp : integer;
 esta : boolean; 
 saltoLinea	: boolean;
 Begin
-writeln;
-writeln('Lectura de un partida');
-writeln;
+    writeln;
+    writeln('Lectura de un partida');
+    writeln;
 
-assign(partida,'Partida.txt');
-reset(partida);
+    assign(partida,'Partida.txt');
+    reset(partida);
 
-readln(partida, ultimoJ);
-ultimoJ := ultimoJ - 1;
+    readln(partida, ultimoJ);
+    ultimoJ := ultimoJ - 1;
 
-writeln;
-writeln('(************************************************)');
-writeln('(*             NUMERO DE COMUTADORAS            *)');
-writeln('(*                   ',ultimoJ, '                  *)');
-writeln('(************************************************)');
-writeln;
+    writeln;
+    writeln('(************************************************)');
+    writeln('(*             NUMERO DE COMUTADORAS            *)');
+    writeln('(*                   ',ultimoJ, '                  *)');
+    writeln('(************************************************)');
+    writeln;
 
-For i := 0 To 2 Do
-Begin
-    leerPalabra(partida, palabra[i], saltoLinea);
-End;
-readln(partida);
+    For i := 0 To 2 Do
+    Begin
+        leerPalabra(partida, palabra[i], saltoLinea);
+    End;
+    readln(partida);
 
-sobre.prj := phaInicio[Indice(palabra[0])];
-sobre.arma := phaInicio[Indice(palabra[1])];
-sobre.habt := phaInicio[Indice(palabra[2])];
+    sobre.prj := phaInicio[Indice(palabra[0])];
+    sobre.arma := phaInicio[Indice(palabra[1])];
+    sobre.habt := phaInicio[Indice(palabra[2])];
 
-writeln;
-writeln('(************************************************)');
-writeln('(*                 HECHOS REALES                *)');
-writeln('(*     ', sobre.prj,' ', sobre.arma, ' ', sobre.habt, '    *)');
-writeln('(************************************************)');
-writeln;
+    writeln;
+    writeln('(************************************************)');
+    writeln('(*                 HECHOS REALES                *)');
+    writeln('(*     ', sobre.prj,' ', sobre.arma, ' ', sobre.habt, '    *)');
+    writeln('(************************************************)');
+    writeln;
 
 For i := 0 To ultimoJ Do
 Begin
@@ -450,7 +451,7 @@ Begin
     jugadores[i].posicion := i;
     For j := 0 To 2 Do
     Begin
-    leerPalabra(partida, palabra[j], saltoLinea);
+        leerPalabra(partida, palabra[j], saltoLinea);
     End;
 
     jugadores[i].peon := phaInicio[Indice(palabra[0])];
@@ -483,12 +484,12 @@ Begin
     
     For j := 0 To jugadores[i].conta.cartas - 1 Do
     Begin
-    leerPalabra(partida, palabra[j], saltoLinea);
-    jugadores[i].mano[j] := phaInicio[Indice(palabra[j])];
+        leerPalabra(partida, palabra[j], saltoLinea);
+        jugadores[i].mano[j] := phaInicio[Indice(palabra[j])];
     End;
     If not saltoLinea Then
     Begin
-    readln(partida);
+        readln(partida);
     End;
     writeln;
     writeln('(************************************************)');
@@ -496,7 +497,7 @@ Begin
     write('(*    ');
     For j := 0 To jugadores[i].conta.cartas - 1 Do
     Begin
-    write(jugadores[i].mano[j], ' ');
+        write(jugadores[i].mano[j], ' ');
     End;
     writeln('    *)');
     writeln('(************************************************)');
@@ -504,22 +505,22 @@ Begin
     
     For j := 0 To tmp - 1 Do
     Begin
-    leerPalabra(partida, palabra[j], saltoLinea);
+        leerPalabra(partida, palabra[j], saltoLinea);
     Case Indice(palabra[j]) Of
         0..5   :
         Begin
-        jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[Indice(palabra[j])];
-        jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+            jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[Indice(palabra[j])];
+            jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
         End;
         6..14  :
         Begin
-        jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[Indice(palabra[j])];
-        jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+            jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[Indice(palabra[j])];
+            jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
         End;
         15..20 :
         Begin
-        jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[Indice(palabra[j])];
-        jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+            jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[Indice(palabra[j])];
+            jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
         End;
     End;
     End;
@@ -530,7 +531,7 @@ Begin
     write('(*    ');
     For j := 0 To tmp - 1 Do
     Begin
-    write(palabra[j], ' ');
+        write(palabra[j], ' ');
     End;
     writeln('    *)');
     writeln('(*****************************************************)');
@@ -538,19 +539,19 @@ Begin
     
     If not saltoLinea Then
     Begin
-    readln(partida);
+        readln(partida);
     End;
     
     co := 0;
     For j := 0 To 5 Do
     Begin
-    k := 0;
-    esta := False;
+        k := 0;
+        esta := False;
     While (k < 6) And not esta Do
     Begin
         If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
         Begin
-        esta := True;
+            esta := True;
         End;
         k := k + 1;
     End;
@@ -564,15 +565,15 @@ Begin
     co := 0;
     For j := 6 To 14 Do
     Begin
-    k := 0;
-    esta := False;
+        k := 0;
+        esta := False;
     While (k < 9) And not esta Do
     Begin
         If (phaInicio[j] = jugadores[i].lista.habt[k]) Then
         Begin
-        esta := True;
+            esta := True;
         End;
-        k := k + 1;
+            k := k + 1;
     End;
     If not esta Then
     Begin
@@ -584,13 +585,13 @@ Begin
     co := 0;
     For j := 15 To 20 Do
     Begin
-    k := 0;
-    esta := False;
+        k := 0;
+        esta := False;
     While (k < 6) And not esta Do
     Begin
         If (phaInicio[j] = jugadores[i].lista.arma[k]) Then
         Begin
-        esta := True;
+            esta := True;
         End;
         k := k + 1;
     End;
@@ -608,7 +609,7 @@ For i := 0 To ultimoJ Do
 Begin
     If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
     Begin
-    turnoActual := i;
+        turnoActual := i;
     End;
 End;
 
@@ -621,17 +622,17 @@ begin
     writeln('lista del jugador ', i); 
     for j := 0 to 5 Do
     begin
-    writeln(jugadores[i].lista.arma[j]);
+        writeln(jugadores[i].lista.arma[j]);
     end;
     writeln;
     for j := 0 to 5 Do
     begin
-    writeln(jugadores[i].lista.prj[j]);
+        writeln(jugadores[i].lista.prj[j]);
     end;
     writeln;
     for j := 0 to 8 Do
     begin
-    writeln(jugadores[i].lista.habt[j]);
+        writeln(jugadores[i].lista.habt[j]);
     end;
     writeln;
 end;
@@ -660,7 +661,7 @@ ultimoJ > 1 /\ ultimoJ < 6
 Begin
     r := 'Ingrese el numero de computadoras contra las que desea jugar (2-5) ';
     s := 'Opcion no valida, elija entre 2 y 5 computadoras: ';
-LecturaRobusta(ultimoJ,r,s,2,5);
+    LecturaRobusta(ultimoJ,r,s,2,5);
 End;
     
     (* Inicializacion de Variables *)
@@ -728,21 +729,21 @@ co := 0;
         partidaCargada := True;
     End
     Else
-    Begin
-    NComputadoras(ultimoJ);
-    For i := 0 to ultimoJ Do // Inicializo a todos los jugadores
-    Begin
-        jugadores[i].conta.arma := 0;
-        jugadores[i].conta.habt := 0;
-        jugadores[i].conta.prj  := 0;
-        jugadores[i].conta.cartas := 0;
-        jugadores[i].x := 2;
-        jugadores[i].y := 2;
-        jugadores[i].usuario := False;
-        jugadores[i].donde := Vestibulo;
-        jugadores[i].posicion := i;
-        jugadores[i].vida := True;
-   End;
+        Begin
+        NComputadoras(ultimoJ);
+        For i := 0 to ultimoJ Do // Inicializo a todos los jugadores
+        Begin
+            jugadores[i].conta.arma := 0;
+            jugadores[i].conta.habt := 0;
+            jugadores[i].conta.prj  := 0;
+            jugadores[i].conta.cartas := 0;
+            jugadores[i].x := 2;
+            jugadores[i].y := 2;
+            jugadores[i].usuario := False;
+            jugadores[i].donde := Vestibulo;
+            jugadores[i].posicion := i;
+            jugadores[i].vida := True;
+        End;
     End;
     (* Descarto a las computadoras que no juegan *)
     For i := ultimoJ + 1 To 5 Do 
@@ -931,7 +932,7 @@ Begin
 
             If jugadores[i].usuario Then
             Begin
-            Writeln(' Te dieron: ',jugadores[i].mano[jugadores[i].conta.cartas]);
+                Writeln(' Te dieron: ',jugadores[i].mano[jugadores[i].conta.cartas]);
             End;
 
             z := ord(jugadores[i].mano[jugadores[i].conta.cartas]);
@@ -939,53 +940,53 @@ Begin
             Case z Of
             0..5   :
             Begin
-            jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[z];
-            jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+                jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := phaInicio[z];
+                jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
             End;
             6..14  :
             Begin
-            jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[z];
-            jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+                jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[z];
+                jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
             End;
             15..20 :
             Begin
-            jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[z];
-            jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+                jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := phaInicio[z];
+                jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
             End;
         End;
 
         aux := 0;
         For j := 0 To 5 Do
         Begin
-        k := 0;
-        esta := False;
-        While (k < 6) And not esta Do
-        Begin
-            If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+            k := 0;
+            esta := False;
+            While (k < 6) And not esta Do
             Begin
-            esta := True;
+                If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+                Begin
+                    esta := True;
+                End;
+                k := k + 1;
             End;
-            k := k + 1;
-        End;
-        If not esta Then
-        Begin
-            jugadores[i].lista.prj[aux] := phaInicio[j];
-            aux := aux + 1;
-        End;
+            If not esta Then
+            Begin
+                jugadores[i].lista.prj[aux] := phaInicio[j];
+                aux := aux + 1;
+            End;
         End;
         
         aux := 0;
         For j := 6 To 14 Do
         Begin
-        k := 0;
-        esta := False;
+            k := 0;
+            esta := False;
         While (k < 9) And not esta Do
         Begin
             If (phaInicio[j] = jugadores[i].lista.habt[k]) Then
             Begin
-            esta := True;
+                esta := True;
             End;
-            k := k + 1;
+                k := k + 1;
         End;
         If not esta Then
         Begin
@@ -1086,20 +1087,20 @@ Case n Of // Case de los numeros del Dado (1..6)
     End;
     2..6 : 
     Begin
-    If jugador.usuario then // Caso Usuario
-    Begin
-        co := 0;
-        Writeln('Habitaciones Alcanzables');
-        For i := 0 To 8 Do
+        If jugador.usuario then // Caso Usuario
         Begin
-        If Distancia(jugador,Habitacion[i]) <= n Then
-        Begin 
-            Habitacion[i].alcanzable := True;
-            Writeln(co + 1,'.- ', Habitacion[i].nombre, ' es alcanzable.'); 
-            eleccion[co] := i;
-            co := co + 1;
-        End;
-        End;
+            co := 0;
+            Writeln('Habitaciones Alcanzables');
+            For i := 0 To 8 Do
+            Begin
+                If Distancia(jugador,Habitacion[i]) <= n Then
+                Begin 
+                    Habitacion[i].alcanzable := True;
+                    Writeln(co + 1,'.- ', Habitacion[i].nombre, ' es alcanzable.'); 
+                    eleccion[co] := i;
+                    co := co + 1;
+                End;
+            End;
         Writeln;
         Writeln('Tienes ',jugador.conta.habt,' Habitaciones Descartadas');
         For i := ( 8 - jugador.conta.habt ) to 7 Do
@@ -1122,11 +1123,11 @@ Case n Of // Case de los numeros del Dado (1..6)
     Begin // Caso computadora
         For i := 0 To 8 Do
         Begin
-        If Distancia(jugador,Habitacion[i]) <= n Then
-        Begin 
-            Writeln(Habitacion[i].nombre, ' es alcanzable');
-            Habitacion[i].alcanzable := True;
-        End;
+            If Distancia(jugador,Habitacion[i]) <= n Then
+            Begin 
+                Writeln(Habitacion[i].nombre, ' es alcanzable');
+                Habitacion[i].alcanzable := True;
+            End;
         End;
     
         i := Aleatorio(0,8);
@@ -1404,10 +1405,10 @@ Begin
     Else
     Begin
         Writeln('<-----------El juego ha Terminado----------->');
-	Writeln('Las cartas en el sobre son: ');
-	Writeln(sobre.prj);
-	Writeln(sobre.arma);
-	Writeln(sobre.habt);
+	    Writeln('Las cartas en el sobre son: ');
+	    Writeln(sobre.prj);
+	    Writeln(sobre.arma);
+	    Writeln(sobre.habt);
         halt;
     End;
 End;
