@@ -1167,8 +1167,8 @@ Begin
             jugadores[i].x := jugador.x;
             jugadores[i].y := jugador.y;
             jugadores[i].donde := jugador.donde;
-            Writeln('Movi al jugador(', i + 1, ') a la posicion del jugador('
-                    , jugador.posicion + 1,'): ', jugadores[i].donde);
+            Writeln('Movi a ',jugadores[i].peon, ' a la posicion de '
+                    , jugador.peon,': ', jugadores[i].donde);
         End;
     End;
 End;
@@ -1721,8 +1721,8 @@ Begin
     Else
     Begin
         Writeln('(************************************************)');
-            Writeln('     ',Jugadores[quien].peon,' Muestra una carta a Jugador'
-            ,jugadorTurno.posicion+1);
+            Writeln('     ',Jugadores[quien].peon,' Muestra una carta a '
+            ,jugadorTurno.peon);
 
         writeln('(************************************************)');
         If ( carta[muestro].arma = sospech.arma ) 
