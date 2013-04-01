@@ -1752,18 +1752,28 @@ Begin
 
     If ( carta[l-1].arma = sospech.arma ) Then
     Begin
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m,0);
-        jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
-    End;
+        If not ( 5 = jugadorTurno.conta.arma ) Then
+        Begin
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m,0);
+            jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+        End;
+           End;
     If ( carta[l-1].prj = sospech.prj ) Then
     Begin 
-        Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n,1);
-        jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+        
+        If not ( 5 = jugadorTurno.conta.prj ) Then
+        Begin
+            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n,1);
+            jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+        End;
     End;
     If ( carta[l-1].habt = sospech.habt ) Then
     Begin 
-        Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-        jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+        If not ( 8 = jugadorTurno.conta.habt ) Then
+        Begin
+            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
+            jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+        End;
     End;
 End;
 
@@ -1804,24 +1814,33 @@ Begin
         If ( sospech.arma = carta[muestro].arma ) Then
         Begin
             Writeln(Jugadores[quien].peon,' te muestra ',carta[muestro].arma);
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
-            jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+            If not ( 5 = jugadorTurno.conta.arma ) Then
+            Begin
+                Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,m-1,0);
+                jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+            End;
 
         End;
 
         If ( sospech.prj = carta[muestro].prj ) Then
         Begin
             Writeln(Jugadores[quien].peon,' te muestra ',carta[muestro].prj);
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
-            jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+            If not ( 5 = jugadorTurno.conta.prj ) Then
+            Begin
+                Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,n-1,1);
+                jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+            End;
         End;
 
         If ( sospech.habt = carta[muestro].habt ) Then
         Begin
             Writeln(Jugadores[quien].peon,' te muestra ',carta[muestro].habt);
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-            jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
-
+            If not ( 8 = jugadorTurno.conta.habt ) Then
+            Begin
+                Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
+                jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+            End;
+            
         End;
 
         writeln('(************************************************)');
@@ -1836,27 +1855,27 @@ Begin
         If ( carta[muestro].arma = sospech.arma ) 
         and ( n <= 5 - jugadorTurno.conta.arma) Then
         Begin
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,n,0);
             If not ( 5 = jugadorTurno.conta.arma ) Then
             Begin
-                jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+                Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,n,0);
+                jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1; 
             End;
         End;
         If ( carta[muestro].prj = sospech.prj ) 
         and ( m <= 5 - jugadorTurno.conta.prj) Then
         Begin                
-            Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,m,1);
             If not ( 5 = jugadorTurno.conta.prj ) Then
             Begin
+                Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,m,1);
                 jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
             End;
         End;
         If ( carta[muestro].habt = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
-            Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
             If not ( 8 = jugadorTurno.conta.prj ) Then
             Begin
+                Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
                 jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
             End;
         End;
