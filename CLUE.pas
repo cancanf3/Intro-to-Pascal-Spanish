@@ -12,7 +12,7 @@
  *  Jose Pascarella
  *
  * Ultima Modificacion: 
- *  01 / 04 2013
+ *  01 / 04 / 2013
  *
  *)
 PROGRAM CLUE;
@@ -123,13 +123,13 @@ Begin
         Case YN of
         1:
             Begin
-            SioNo := True;
-            n := 1;
+                SioNo := True;
+                n := 1;
             End;
         2:
             Begin
-            SioNo := False;
-            n := 1;
+                SioNo := False;
+                n := 1;
             End;
         End;
     End
@@ -264,7 +264,7 @@ Begin
             '           8888   ,d8P  `8b.  ;8.`8888 8 8888    ,88  ');
     Writeln('    `8888888P`    8 888888888888 `Y88888P    8 88888888888',
             '8           `Y88888P`    `Y8888P ,88P` 8 888888888P   ');
-Writeln;
+    Writeln;
     Writeln('Bienvenido a Clue USB!');
     Writeln();
 
@@ -371,6 +371,7 @@ Begin
         'automaticamente en el archivo ./Partida.txt');
     Writeln;
     Writeln('Desea leer las instrucciones?');        
+
     Decision(SioNo);
     If SioNo Then
     Begin
@@ -383,19 +384,20 @@ Begin
         Readln;
     End;
     
-    writeln;
-    writeln('Este es el tablero de juego!');
-    TableroClue;
-    Writeln('Bien! Juguemos!');
-    Write('Presione <ENTER>');
-    readln;
+        writeln;
+        writeln('Este es el tablero de juego!');
+        TableroClue;
+        Writeln('Bien! Juguemos!');
+        Write('Presione <ENTER>');
+        readln;
 End;
     
 Procedure leerPalabra(
-    var partida	:text;
-    var palabra	:string;
+    var partida	   : text;
+    var palabra	   : string;
     var saltoLinea : boolean
                     );
+
 Var
     caracter	: char;
 {Pre:
@@ -414,7 +416,6 @@ Begin
         palabra := palabra + caracter;
         read(partida,caracter);
     End;
-    writeln('lei ---> ', palabra);
     if (caracter = #10) then
     Begin
         saltoLinea := True;
@@ -433,23 +434,22 @@ phaStr : Array[pha] of string = ('SenioraBlanco', 'SeniorVerde',
                 'Cuerda', 'LlaveInglesa', 'Revolver',
                 'Tubo');
 Var
-aPHA : pha;
-{Pre:
-    True
-}
+    aPHA : pha;
+    {Pre:
+        True
+    }
 
-{Post:
-    True 
-}
+    {Post:
+        True 
+    }
 Begin
     Indice := -1;
-    { Inv: aStr = phaInicio[aPHA]  \/  aStr != phaInicio[aPHA]}
-    For aPHA := SenioraBlanco to Tubo do
+    For aPHA := SenioraBlanco To Tubo Do
     Begin
         If (aStr = phaStr[aPHA]) then
         Begin
             Indice := Ord(aPHA);
-        Break;
+            Break;
         End;
     End;
 End;
@@ -517,6 +517,7 @@ Begin
         For j := 0 To 2 Do
         Begin
             leerPalabra(partida, palabra[j], saltoLinea);
+
         End;
 
         jugadores[i].peon := phaInicio[Indice(palabra[0])];
@@ -533,6 +534,9 @@ Begin
             jugadores[i].x := habitacion[j].x;
             jugadores[i].y := habitacion[j].y;
         End;
+            jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := phaInicio[Indice(palabra[j])];
+            jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+
         End;
         readln(partida, jugadores[i].conta.cartas, tmp); // tmp == descartadas
         
@@ -666,14 +670,45 @@ Begin
         If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
         Begin
             turnoActual := i;
+            esta := True;
         End;
     
     End;
     
     close(partida); // cierro el archivo
-    
-    readln;
-    writeln('Se cargo la partida!');
+    leerPalabra(partida, palabra[0], saltoLinea);
+    For i := 0 To ultimoJ Do
+    Begin
+        If jugadores[i].peon = phaInicio[Indice(palabra[0])] Then
+        Begin
+            turnoActual := i;
+        End;
+    End;
+
+    close(partida);
+    writeln('cerre el archivo! todo bien! :)');
+    For i := 0 to ultimoJ do
+    begin
+        writeln('lista del jugador ', i); 
+        for j := 0 to 5 Do
+        begin
+            writeln(jugadores[i].lista.arma[j]);
+        end;
+        writeln;
+        for j := 0 to 5 Do
+        begin
+            writeln(jugadores[i].lista.prj[j]);
+        end;
+        writeln;
+        for j := 0 to 8 Do
+        begin
+            writeln(jugadores[i].lista.habt[j]);
+        end;
+        writeln;
+    end;
+
+
+
 
 End; //Procedure
    
@@ -695,7 +730,7 @@ Begin
     LecturaRobusta(ultimoJ,r,s,2,5);
 End;
     
-    (* Inicializacion de Variables *)
+(* Inicializacion de Variables *)
 Procedure Inicializa (
             Var phaInicio     : cartas;
             var sobre : sbr;
@@ -1016,35 +1051,35 @@ Begin
         aux := 0;
         For j := 0 To 5 Do
         Begin
-        k := 0;
-        esta := False;
-        While (k < 6) And not esta Do
-        Begin
-            If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+            k := 0;
+            esta := False;
+            While (k < 6) And not esta Do
             Begin
-            esta := True;
+                If (phaInicio[j] = jugadores[i].lista.prj[k]) Then
+                Begin
+                    esta := True;
+                End;
+                k := k + 1;
             End;
-            k := k + 1;
-        End;
-        If not esta Then
-        Begin
-            jugadores[i].lista.prj[aux] := phaInicio[j];
-            aux := aux + 1;
-        End;
+            If not esta Then
+            Begin
+                jugadores[i].lista.prj[aux] := phaInicio[j];
+                aux := aux + 1;
+            End;
         End;
         
         aux := 0;
         For j := 6 To 14 Do
         Begin
-        k := 0;
-        esta := False;
+            k := 0;
+            esta := False;
         While (k < 9) And not esta Do
         Begin
             If (phaInicio[j] = jugadores[i].lista.habt[k]) Then
             Begin
-            esta := True;
+                esta := True;
             End;
-            k := k + 1;
+                k := k + 1;
         End;
         If not esta Then
         Begin
@@ -1140,6 +1175,7 @@ Begin
         Begin
             Writeln('Debe permanecer en su posicion: ', jugador.donde);
             Exit;
+
         End;
         2..6 : 
         Begin
@@ -1481,6 +1517,10 @@ Begin
     Else
     Begin
         Writeln('<-----------El juego ha Terminado----------->');
+	    Writeln('Las cartas en el sobre son: ');
+	    Writeln(sobre.prj);
+	    Writeln(sobre.arma);
+	    Writeln(sobre.habt);
         halt;
     End;
 End;
@@ -1789,31 +1829,36 @@ Begin
     Else
     Begin
         Writeln('(************************************************)');
-            Writeln(Jugadores[quien].peon,'        Muestra una carta a Jugador'
-            ,jugadorTurno.posicion+1);
+            Writeln('     ',Jugadores[quien].peon,' Muestra una carta a '
+            ,jugadorTurno.peon);
 
         writeln('(************************************************)');
         If ( carta[muestro].arma = sospech.arma ) 
-        and ( m <= 5 - jugadorTurno.conta.arma) Then
+        and ( n <= 5 - jugadorTurno.conta.arma) Then
         Begin
             Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,n,0);
-            jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
-            Writeln(carta[muestro].arma);
+            If not ( 5 = jugadorTurno.conta.arma ) Then
+            Begin
+                jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+            End;
         End;
         If ( carta[muestro].prj = sospech.prj ) 
-        and ( n <= 5 - jugadorTurno.conta.prj) Then
-        Begin 
+        and ( m <= 5 - jugadorTurno.conta.prj) Then
+        Begin                
             Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,m,1);
-            jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
-            Writeln(carta[muestro].prj);
-            Writeln(jugadorTurno.conta.prj);
+            If not ( 5 = jugadorTurno.conta.prj ) Then
+            Begin
+                jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+            End;
         End;
         If ( carta[muestro].habt = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
             Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-            jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
-            Writeln(carta[muestro].habt);
+            If not ( 8 = jugadorTurno.conta.prj ) Then
+            Begin
+                jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+            End;
         End;
     End;
 End;
@@ -2348,7 +2393,7 @@ Begin
         turno := turno + 1;
         Writeln;
         Writeln('Turno ',turno);
-        Writeln;
+        Writeln(jugadorTurno.conta.arma,jugadorTurno.conta.habt,jugadorTurno.conta.prj);
         Readln; 
     End;
 End;
@@ -2395,7 +2440,7 @@ BEGIN
     Writeln;
     Randomize();
     (* Procedimiento con Instrucciones *)
-    //Introduccion(SioNo);
+    Introduccion(SioNo);
     
     (* Inicializacion de Variables *)
     Inicializa(phaInicio, sobre, turnoActual, partidaCargada, ultimoJ, habitacion,
@@ -2423,7 +2468,7 @@ BEGIN
             Turnos(phaInicio,habitacion,sobre,partida,jugadores[i],jugadores,
                 sospech,acus,ultimoJ,sospechaConta,sospechaLista,SioNo,
                 juegoActivo,sospechaON,turno);
-            //Guardar(jugadores, ultimoJ, sobre, partida);
+            Guardar(jugadores, ultimoJ, sobre, partida);
         i := i + 1;
         End;
         turnoActual := 0;

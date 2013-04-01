@@ -1,8 +1,10 @@
-3
-SeniorVerde	Revolver	Cocina	
-SenioraBlanco	activo	Cocina	6	13	
-ProfesorCiruela	Cuerda	Cuchillo	SalaDeBillar	Invernadero	LlaveInglesa	
-SenioraBlanco	Revolver	Tubo	Candelabro	LlaveInglesa	Cuchillo	SalaDeBaile	Biblioteca	Comedor	Estudio	Vestibulo	Salon	Invernadero	
-CoronelMostaza	activo	Salon	6	11	
-SalaDeBaile	Tubo	SenioraBlanco	SenioritaEscarlata	Vestibulo	CoronelMostaza	
-SenioraCeleste	SenioritaEscarlata	CoronelMostaza	CoronelMostaza	ProfesorCiruela	Revolver	Invernadero	Salon	Biblioteca	Estudio	Vestibulo	
+5
+SenioraCeleste	Revolver	Cocina	
+SenioraBlanco	activo	Biblioteca	4	11	
+Salon	LlaveInglesa	Cuerda	SalaDeBaile	
+SenioraCeleste	SenioritaEscarlata	CoronelMostaza	SenioraBlanco	LlaveInglesa	Cuerda	Estudio	Invernadero	SalaDeBaile	Cocina	SalaDeBaile	
+CoronelMostaza	activo	Cocina	4	10	
+Estudio	Vestibulo	SenioraBlanco	SenioritaEscarlata	
+ProfesorCiruela	CoronelMostaza	SenioritaEscarlata	LlaveInglesa	Candelabro	Vestibulo	SalaDeBaile	SalaDeBillar	Invernadero	Vestibulo	
+SeniorVerde	activo	SalaDeBaile	4	11	
+SalaDeBill
