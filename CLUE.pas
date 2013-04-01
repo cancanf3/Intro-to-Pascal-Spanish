@@ -1122,7 +1122,7 @@ Case n Of // Case de los numeros del Dado (1..6)
         jugador.donde := Habitacion[i].nombre;
         jugador.x := Habitacion[i].x;
         jugador.y := Habitacion[i].y;
-        Writeln('Computadora se movio a: ', jugador.donde);
+        Writeln(jugador.peon,' se movio hacia ', jugador.donde);
     End;
     End;
 End;
@@ -1671,6 +1671,7 @@ Begin
 
     If jugadorTurno.usuario Then
     Begin
+        writeln('(************************************************)');
         If ( sospech.arma = carta[muestro].arma ) Then
         Begin
             Writeln(Jugadores[quien].peon,' te muestra ',carta[muestro].arma);
@@ -1693,12 +1694,16 @@ Begin
             jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
 
         End;
+
+        writeln('(************************************************)');
     End
     Else
     Begin
+        Writeln('(************************************************)');
             Writeln(Jugadores[quien].peon,' Muestra una carta a Jugador'
             ,jugadorTurno.posicion+1);
 
+        writeln('(************************************************)');
         If ( carta[muestro].arma = sospech.arma ) 
         and ( m <= 5 - jugadorTurno.conta.arma) Then
         Begin
@@ -2177,13 +2182,6 @@ Var
 	}	
 Begin
 
-	writeln;
-	writeln('(************************************************)');
-	writeln('             Turno del jugador ', jugadorTurno.posicion + 1,'          ');
-	writeln('               ', jugadorTurno.peon, '               ');
-	writeln('(************************************************)');
-	writeln;
-	
 	
 	
 	
@@ -2191,6 +2189,12 @@ Begin
 	
 	If ( JugadorTurno.vida ) Then
 	Begin
+        writeln;
+        writeln('(************************************************)');
+        writeln('             Turno del jugador ', jugadorTurno.posicion + 1,'          ');
+        writeln('               ', jugadorTurno.peon, '               ');
+        writeln('(************************************************)');
+        writeln;
 	    (* Se calcula el dado *)
 	    n := Aleatorio(1,6);
 	    Writeln(JugadorTurno.peon,' Saco ',n,' en el dado');
@@ -2217,7 +2221,7 @@ Begin
 	    Else
 	    Begin
 		    Writeln;
-		    Writeln('El Jugador', jugadorTurno.posicion + 1);
+		    Writeln('El Jugador', jugadorTurno.peon);
 		    Writeln('va a realizar una sospecha');
 		    Writeln;
 	    
