@@ -1404,6 +1404,10 @@ Begin
     Else
     Begin
         Writeln('<-----------El juego ha Terminado----------->');
+	Writeln('Las cartas en el sobre son: ');
+	Writeln(sobre.prj);
+	Writeln(sobre.arma);
+	Writeln(sobre.habt);
         halt;
     End;
 End;
