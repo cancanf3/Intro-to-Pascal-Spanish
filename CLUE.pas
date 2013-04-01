@@ -1727,26 +1727,31 @@ Begin
 
         writeln('(************************************************)');
         If ( carta[muestro].arma = sospech.arma ) 
-        and ( m <= 5 - jugadorTurno.conta.arma) Then
+        and ( n <= 5 - jugadorTurno.conta.arma) Then
         Begin
             Swap_descarte(jugadorTurno,5-jugadorTurno.conta.arma,n,0);
-            jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
-            Writeln(carta[muestro].arma);
+            If not ( 5 = jugadorTurno.conta.arma ) Then
+            Begin
+                jugadorTurno.conta.arma := jugadorTurno.conta.arma + 1;
+            End;
         End;
         If ( carta[muestro].prj = sospech.prj ) 
-        and ( n <= 5 - jugadorTurno.conta.prj) Then
-        Begin 
+        and ( m <= 5 - jugadorTurno.conta.prj) Then
+        Begin                
             Swap_descarte(jugadorTurno,5-jugadorTurno.conta.prj,m,1);
-            jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
-            Writeln(carta[muestro].prj);
-            Writeln(jugadorTurno.conta.prj);
+            If not ( 5 = jugadorTurno.conta.prj ) Then
+            Begin
+                jugadorTurno.conta.prj := jugadorTurno.conta.prj + 1;
+            End;
         End;
         If ( carta[muestro].habt = sospech.habt ) 
         and ( h <= 8 - jugadorTurno.conta.habt ) Then
         Begin 
             Swap_descarte(jugadorTurno,8-jugadorTurno.conta.habt,h,2);
-            jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
-            Writeln(carta[muestro].habt);
+            If not ( 8 = jugadorTurno.conta.prj ) Then
+            Begin
+                jugadorTurno.conta.habt := jugadorTurno.conta.habt + 1;
+            End;
         End;
     End;
 End;
@@ -2291,7 +2296,7 @@ Begin
         turno := turno + 1;
         Writeln;
         Writeln('Turno ',turno);
-        Writeln;
+        Writeln(jugadorTurno.conta.arma,jugadorTurno.conta.habt,jugadorTurno.conta.prj);
         Readln; 
     End;
 End;
