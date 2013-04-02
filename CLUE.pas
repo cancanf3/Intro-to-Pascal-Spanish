@@ -567,19 +567,28 @@ Begin
                 Begin
                     jugadores[i].lista.prj[5 - jugadores[i].conta.prj] := 
                     phaInicio[Indice(palabra[j])];
-                    jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+                    If not ( 5 = jugadores[i].conta.prj ) Then
+                    Begin
+                        jugadores[i].conta.prj := jugadores[i].conta.prj + 1;
+                    End;
                 End;
                 6..14  :
                 Begin
                     jugadores[i].lista.habt[8 - jugadores[i].conta.habt] := 
                     phaInicio[Indice(palabra[j])];
-                    jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+                    If not ( 8 = jugadores[i].conta.habt ) Then
+                    Begin
+                        jugadores[i].conta.habt := jugadores[i].conta.habt + 1;
+                    End;
                 End;
                 15..20 :
                 Begin
                     jugadores[i].lista.arma[5 - jugadores[i].conta.arma] := 
                     phaInicio[Indice(palabra[j])];
-                    jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+                    If not ( 5 = jugadores[i].conta.arma ) Then
+                    Begin
+                        jugadores[i].conta.arma := jugadores[i].conta.arma + 1;
+                    End;
                 End;
             End;
         End;
